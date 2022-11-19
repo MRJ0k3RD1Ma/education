@@ -42,11 +42,14 @@ class Room extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'branch_id' => 'Branch ID',
-            'name' => 'Name',
+            'branch_id' => 'Filial',
+            'name' => 'Nomi',
         ];
     }
 
+    public function getBranch(){
+        return $this->hasOne(Branch::className(),['id'=>'branch_id']);
+    }
     /**
      * Gets query for [[Groups]].
      *

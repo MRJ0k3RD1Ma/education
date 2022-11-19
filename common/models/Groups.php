@@ -72,19 +72,19 @@ class Groups extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'branch_id' => 'Branch ID',
-            'course_id' => 'Course ID',
-            'status_id' => 'Status ID',
-            'start_date' => 'Start Date',
-            'day_id' => 'Day ID',
-            'time' => 'Time',
-            'type_id' => 'Type ID',
-            'price' => 'Price',
-            'created' => 'Created',
-            'updated' => 'Updated',
-            'creator_id' => 'Creator ID',
-            'room_id' => 'Room ID',
+            'name' => 'Nomi',
+            'branch_id' => 'Filial',
+            'course_id' => 'Kurs nomi',
+            'status_id' => 'Status',
+            'start_date' => 'Kurs boshlangan sana',
+            'day_id' => 'Dars kunlari',
+            'time' => 'Dars vaqti',
+            'type_id' => 'Guruh turi',
+            'price' => 'Guruh narxi',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
+            'creator_id' => 'Yaratuvchi',
+            'room_id' => 'Xona raqami',
         ];
     }
 

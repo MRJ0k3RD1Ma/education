@@ -2,20 +2,16 @@
 
 namespace frontend\modules\manager\controllers;
 
-use common\models\Analytics;
-use common\models\AnalyticsType;
-use common\models\Person;
-use common\models\PersonWish;
-use common\models\search\PersonSearch;
-use common\models\Student;
+use common\models\Room;
+use common\models\search\RoomSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use Yii;
+
 /**
- * PersonController implements the CRUD actions for Person model.
+ * RoomController implements the CRUD actions for Room model.
  */
-class PersonController extends Controller
+class RoomController extends Controller
 {
     /**
      * @inheritDoc
@@ -36,13 +32,13 @@ class PersonController extends Controller
     }
 
     /**
-     * Lists all Person models.
+     * Lists all Room models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new PersonSearch();
+        $searchModel = new RoomSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -52,7 +48,7 @@ class PersonController extends Controller
     }
 
     /**
-     * Displays a single Person model.
+     * Displays a single Room model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -65,33 +61,20 @@ class PersonController extends Controller
     }
 
     /**
-     * Creates a new Person model.
+     * Creates a new Room model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Person();
-        $model->branch_id = Yii::$app->user->identity->branch_id;
-        $wish = new PersonWish();
-        $analitics = AnalyticsType::find()->where(['status'=>1])->all();
+        $model = new Room();
+
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                if($model->checked == 1 and $wish->load($this->request->post())){
-                    $wish->branch_id = Yii::$app->user->identity->branch_id;
-                    $wish->person_id = $model->id;
-                    $wish->save();
+            if ($model->load($this->request->post())) {
+                $model->branch_id = \Yii::$app->user->identity->branch_id;
+                if($model->save()){
+                    return $this->redirect(['view', 'id' => $model->id]);
                 }
-                foreach ($model->analitics as $key => $item){
-                    if($item == 1){
-                        $a = new Analytics();
-                        $a->person_id = $model->id;
-                        $a->type_id = $key;
-                        $a->save();
-                        $a = null;
-                    }
-                }
-                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -99,34 +82,11 @@ class PersonController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'wish'=>$wish,
-            'analitics'=>$analitics
         ]);
     }
 
-    public function actionAdd($id){
-
-        $model = new PersonWish();
-        $model->person_id = $id;
-        $model->branch_id = Yii::$app->user->identity->branch_id;
-        if($model->load($this->request->post())){
-            if($model->save()){
-                return $this->redirect(['view','id'=>$id]);
-            }
-        }
-
-        return $this->render('add',['model'=>$model]);
-
-    }
-
-    public function actionDelwish($person_id,$course_id){
-        if($model = PersonWish::find()->where(['person_id'=>$person_id,'course_id'=>$course_id])->andWhere(['branch_id'=>Yii::$app->user->identity->branch_id])->one()){
-            $model->delete();
-        }
-        return $this->redirect(['view','id'=>$person_id]);
-    }
     /**
-     * Updates an existing Person model.
+     * Updates an existing Room model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -146,7 +106,7 @@ class PersonController extends Controller
     }
 
     /**
-     * Deletes an existing Person model.
+     * Deletes an existing Room model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -160,15 +120,15 @@ class PersonController extends Controller
     }
 
     /**
-     * Finds the Person model based on its primary key value.
+     * Finds the Room model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Person the loaded model
+     * @return Room the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Person::findOne(['id' => $id])) !== null) {
+        if (($model = Room::findOne(['id' => $id,'branch_id'=>\Yii::$app->user->identity->branch_id])) !== null) {
             return $model;
         }
 

@@ -4,12 +4,12 @@ namespace common\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Person;
+use common\models\Room;
 
 /**
- * PersonSearch represents the model behind the search form of `common\models\Person`.
+ * RoomSearch represents the model behind the search form of `common\models\Room`.
  */
-class PersonSearch extends Person
+class RoomSearch extends Room
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class PersonSearch extends Person
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['name', 'pnfl', 'inn', 'birthday', 'phone', 'phone_parent', 'created', 'updated'], 'safe'],
+            [['id', 'branch_id'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class PersonSearch extends Person
      */
     public function search($params)
     {
-        $query = Person::find()->where(['branch_id'=>\Yii::$app->user->identity->branch_id]);
+        $query = Room::find()->where(['branch_id'=>\Yii::$app->user->identity->branch_id]);
 
         // add conditions that should always apply here
 
@@ -59,16 +59,10 @@ class PersonSearch extends Person
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'created' => $this->created,
-            'updated' => $this->updated,
+            'branch_id' => $this->branch_id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'pnfl', $this->pnfl])
-            ->andFilterWhere(['like', 'inn', $this->inn])
-            ->andFilterWhere(['like', 'birthday', $this->birthday])
-            ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'phone_parent', $this->phone_parent]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

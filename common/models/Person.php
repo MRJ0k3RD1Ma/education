@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "person".
  *
  * @property int $id
+ * @property int $branch_id
  * @property string $name
  * @property string|null $pnfl
  * @property string|null $inn
@@ -41,7 +42,7 @@ class Person extends \yii\db\ActiveRecord
             [['pnfl', 'inn', 'birthday', 'phone', 'phone_parent'], 'string', 'max' => 255],
             ['pnfl','string','length'=>14],
             ['inn','string','length'=>9],
-            ['checked','integer'],
+            [['checked','branch_id'],'integer'],
             [['analitics'],'each','rule'=>['integer']],
 
         ];
@@ -63,7 +64,8 @@ class Person extends \yii\db\ActiveRecord
             'created' => 'Yaratildi',
             'updated' => 'O`zgartirildi',
             'checked'=>'Guruhga yozilish',
-            'analitics'=>''
+            'analitics'=>'',
+            'branch_id'=>'Filial'
         ];
     }
 
@@ -76,8 +78,11 @@ class Person extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Student::class, ['person_id' => 'id']);
     }
+    public function getBranch(){
+        return $this->hasOne(Branch::className(),['id'=>'branch_id']);
+    }
 
     public function getCourse(){
-        return $this->hasMany(PersonWish::className(),['person_id'=>'id']);
+        return $this->hasMany(PersonWish::className(),['person_id'=>'id'])->andWhere(['branch_id'=>Yii::$app->user->identity->branch_id]);
     }
 }

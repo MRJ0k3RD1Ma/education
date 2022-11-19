@@ -24,6 +24,21 @@
                 </li>
 
                 <li>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/manager/groups'])?>" class="waves-effect">
+                        <i class="mdi mdi-bag-personal"></i>
+                        <span>Guruhlar</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/manager/room'])?>" class="waves-effect">
+                        <i class="mdi mdi-door"></i>
+                        <span>Xonalar ro`yhati</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/manager/user'])?>" class="waves-effect">
                         <i class="mdi mdi-account-multiple"></i>
                         <span>O'qituvchilar</span>
