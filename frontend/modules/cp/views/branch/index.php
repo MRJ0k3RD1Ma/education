@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title"><?= $this->title ?></h4>
 
             <p>
                 <?= Html::a('Filial qo`shish', ['create'], ['class' => 'btn btn-success']) ?>

@@ -34,7 +34,7 @@ class User extends \yii\db\ActiveRecord  implements \yii\web\IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 2;
     const STATUS_ACTIVE = 1;
-
+    public $branch_name;
 
     /**
      * {@inheritdoc}
@@ -51,7 +51,8 @@ class User extends \yii\db\ActiveRecord  implements \yii\web\IdentityInterface
     {
         return [
             [['branch_id', 'role_id', 'status', 'state', 'type_id'], 'integer'],
-            [['role_id', 'type_id'], 'required'],
+            [['role_id', 'type_id','username'], 'required'],
+            [['password'],'required','on'=>'insert'],
             [['name'], 'string', 'max' => 50],
             [['username'], 'string', 'max' => 255],
             [['password'], 'string', 'max' => 500],
@@ -68,14 +69,15 @@ class User extends \yii\db\ActiveRecord  implements \yii\web\IdentityInterface
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'username' => 'Username',
-            'password' => 'Password',
-            'branch_id' => 'Branch ID',
-            'role_id' => 'Role ID',
+            'name' => 'FIO',
+            'username' => 'Login',
+            'password' => 'Parol',
+            'branch_id' => 'Filial',
+            'role_id' => 'Roli',
             'status' => 'Status',
             'state' => 'State',
-            'type_id' => 'Type ID',
+            'type_id' => 'Turi',
+            'branch_name'=>'Filial'
         ];
     }
 

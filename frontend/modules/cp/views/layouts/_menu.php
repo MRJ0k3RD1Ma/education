@@ -35,8 +35,15 @@
 
                 <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/cp/branch'])?>" class="waves-effect">
-                        <i class="mdi mdi-home-variant-outline"></i>
+                        <i class="mdi mdi-bank"></i>
                         <span>Filiallar</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/cp/user'])?>" class="waves-effect">
+                        <i class="mdi mdi-account-multiple"></i>
+                        <span>Foydalanuvchilar</span>
                     </a>
                 </li>
 

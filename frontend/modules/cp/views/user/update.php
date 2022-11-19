@@ -3,14 +3,14 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var common\models\Branch $model */
+/** @var common\models\User $model */
 
 $this->title = 'O`zgartirish: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Filiallar', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Foydalanuvchilar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'O`zgartirish';
 ?>
-<div class="branch-update">
+<div class="user-update">
 
     <div class="card">
         <div class="card-body">
@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = 'O`zgartirish';
             <?= $this->render('_form', [
                 'model' => $model,
             ]) ?>
+
         </div>
     </div>
 
