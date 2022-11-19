@@ -41,7 +41,8 @@ class Student extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['group_id', 'person_id', 'social_id', 'project_id', 'creator_id'], 'required'],
+//            [['group_id', 'person_id', 'social_id', 'project_id', 'creator_id'], 'required'],
+
             [['group_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'status'], 'integer'],
             [['created', 'updated'], 'safe'],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['creator_id' => 'id']],

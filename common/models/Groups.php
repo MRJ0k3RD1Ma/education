@@ -54,7 +54,7 @@ class Groups extends \yii\db\ActiveRecord
             [['branch_id', 'course_id', 'status_id', 'day_id', 'type_id', 'price', 'creator_id', 'room_id'], 'integer'],
             [['start_date', 'created', 'updated'], 'safe'],
             [['name'], 'string', 'max' => 255],
-            [['time'], 'string', 'max' => 10],
+            [['time'], 'string', 'max' => 20],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branch::class, 'targetAttribute' => ['branch_id' => 'id']],
             [['course_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cource::class, 'targetAttribute' => ['course_id' => 'id']],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['creator_id' => 'id']],

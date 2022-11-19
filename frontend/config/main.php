@@ -15,6 +15,9 @@ return [
         'cp' => [
             'class' => 'frontend\modules\cp\Module',
         ],
+        'manager' => [
+            'class' => 'frontend\modules\manager\Module',
+        ],
     ],
     'components' => [
         'request' => [

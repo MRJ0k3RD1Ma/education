@@ -39,7 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'value'=>function($d){
                                 $url = Yii::$app->urlManager->createUrl(['/cp/branch/view','id'=>$d->id]);
                                 return "<a href='{$url}'>{$d->name}</a>";
-                            }
+                            },
+                            'format'=>'raw'
                         ],
                         'address',
 //                        'target',

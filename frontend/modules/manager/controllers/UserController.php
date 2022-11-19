@@ -1,7 +1,7 @@
 <?php
 
-namespace frontend\modules\cp\controllers;
-
+namespace frontend\modules\manager\controllers;
+use Yii;
 use common\models\User;
 use common\models\search\UserSearch;
 use yii\web\Controller;
@@ -39,7 +39,7 @@ class UserController extends Controller
     public function actionIndex()
     {
         $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = $searchModel->searchTeacher($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -69,9 +69,11 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new User();
-        $model->scenario = 'insert';
+        $model->scenario = 'teacher';
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
+                $model->role_id = 1;
+                $model->branch_id = Yii::$app->user->identity->branch_id;
                 $model->setPassword($model->password);
                 if($model->save()){
                     return $this->redirect(['view', 'id' => $model->id]);
@@ -122,7 +124,10 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->state = 0;
+        $model->status = 0;
+        $model->save();
 
         return $this->redirect(['index']);
     }
@@ -136,7 +141,7 @@ class UserController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne(['id' => $id])) !== null) {
+        if (($model = User::find()->where(['role_id'=>1,'branch_id'=>Yii::$app->user->identity->branch_id])->andWhere(['id'=>$id])->one()) !== null) {
             return $model;
         }
 

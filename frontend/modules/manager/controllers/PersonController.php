@@ -1,17 +1,21 @@
 <?php
 
-namespace frontend\modules\cp\controllers;
+namespace frontend\modules\manager\controllers;
 
-use common\models\User;
-use common\models\search\UserSearch;
+use common\models\Analytics;
+use common\models\AnalyticsType;
+use common\models\Person;
+use common\models\PersonWish;
+use common\models\search\PersonSearch;
+use common\models\Student;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use Yii;
 /**
- * UserController implements the CRUD actions for User model.
+ * PersonController implements the CRUD actions for Person model.
  */
-class UserController extends Controller
+class PersonController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,13 +36,13 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all User models.
+     * Lists all Person models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $searchModel = new UserSearch();
+        $searchModel = new PersonSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
@@ -48,34 +52,45 @@ class UserController extends Controller
     }
 
     /**
-     * Displays a single User model.
+     * Displays a single Person model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new User model.
+     * Creates a new Person model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new User();
-        $model->scenario = 'insert';
+        $model = new Person();
+        $wish = new PersonWish();
+        $analitics = AnalyticsType::find()->where(['status'=>1])->all();
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->setPassword($model->password);
-                if($model->save()){
-                    return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post()) && $model->save()) {
+                if($model->checked == 1 and $wish->load($this->request->post())){
+                    $wish->branch_id = Yii::$app->user->identity->branch_id;
+                    $wish->person_id = $model->id;
+                    $wish->save();
                 }
+                foreach ($model->analitics as $key => $item){
+                    if($item == 1){
+                        $a = new Analytics();
+                        $a->person_id = $model->id;
+                        $a->type_id = $key;
+                        $a->save();
+                        $a = null;
+                    }
+                }
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
@@ -83,11 +98,34 @@ class UserController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'wish'=>$wish,
+            'analitics'=>$analitics
         ]);
     }
 
+    public function actionAdd($id){
+
+        $model = new PersonWish();
+        $model->person_id = $id;
+        $model->branch_id = Yii::$app->user->identity->branch_id;
+        if($model->load($this->request->post())){
+            if($model->save()){
+                return $this->redirect(['view','id'=>$id]);
+            }
+        }
+
+        return $this->render('add',['model'=>$model]);
+
+    }
+
+    public function actionDelwish($person_id,$course_id){
+        if($model = PersonWish::find()->where(['person_id'=>$person_id,'course_id'=>$course_id])->andWhere(['branch_id'=>Yii::$app->user->identity->branch_id])->one()){
+            $model->delete();
+        }
+        return $this->redirect(['view','id'=>$person_id]);
+    }
     /**
-     * Updates an existing User model.
+     * Updates an existing Person model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -96,25 +134,18 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $pass = $model->password;
-        if ($this->request->isPost && $model->load($this->request->post())) {
-            if($model->password){
-                $model->setPassword($model->password);
-            }else{
-                $model->password = $pass;
-            }
-            if($model->save()){
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
-        $model->password = "";
+
         return $this->render('update', [
             'model' => $model,
         ]);
     }
 
     /**
-     * Deletes an existing User model.
+     * Deletes an existing Person model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -128,15 +159,15 @@ class UserController extends Controller
     }
 
     /**
-     * Finds the User model based on its primary key value.
+     * Finds the Person model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return User the loaded model
+     * @return Person the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne(['id' => $id])) !== null) {
+        if (($model = Person::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

@@ -21,6 +21,7 @@ use Yii;
  */
 class Person extends \yii\db\ActiveRecord
 {
+    public $checked,$analitics;
     /**
      * {@inheritdoc}
      */
@@ -38,6 +39,11 @@ class Person extends \yii\db\ActiveRecord
             [['created', 'updated'], 'safe'],
             [['name'], 'string', 'max' => 50],
             [['pnfl', 'inn', 'birthday', 'phone', 'phone_parent'], 'string', 'max' => 255],
+            ['pnfl','string','length'=>14],
+            ['inn','string','length'=>9],
+            ['checked','integer'],
+            [['analitics'],'each','rule'=>['integer']],
+
         ];
     }
 
@@ -48,14 +54,16 @@ class Person extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'pnfl' => 'Pnfl',
-            'inn' => 'Inn',
-            'birthday' => 'Birthday',
-            'phone' => 'Phone',
-            'phone_parent' => 'Phone Parent',
-            'created' => 'Created',
-            'updated' => 'Updated',
+            'name' => 'FIO',
+            'pnfl' => 'JSHSHIR(PNFL)',
+            'inn' => 'STIR(INN)',
+            'birthday' => 'Tug`ilgan kuni',
+            'phone' => 'Telefon',
+            'phone_parent' => 'Ota-onasining telefoni',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
+            'checked'=>'Guruhga yozilish',
+            'analitics'=>''
         ];
     }
 
@@ -67,5 +75,9 @@ class Person extends \yii\db\ActiveRecord
     public function getStudents()
     {
         return $this->hasMany(Student::class, ['person_id' => 'id']);
+    }
+
+    public function getCourse(){
+        return $this->hasMany(PersonWish::className(),['person_id'=>'id']);
     }
 }

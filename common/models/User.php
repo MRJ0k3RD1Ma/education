@@ -51,8 +51,9 @@ class User extends \yii\db\ActiveRecord  implements \yii\web\IdentityInterface
     {
         return [
             [['branch_id', 'role_id', 'status', 'state', 'type_id'], 'integer'],
-            [['role_id', 'type_id','username'], 'required'],
-            [['password'],'required','on'=>'insert'],
+            [['type_id','username'], 'required'],
+            [['role_id','password'],'required','on'=>'insert'],
+            [['password'],'required','on'=>'teacher'],
             [['name'], 'string', 'max' => 50],
             [['username'], 'string', 'max' => 255],
             [['password'], 'string', 'max' => 500],
