@@ -33,6 +33,13 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/cp/branch'])?>" class="waves-effect">
+                        <i class="mdi mdi-home-variant-outline"></i>
+                        <span>Filiallar</span>
+                    </a>
+                </li>
+
 
             </ul>
         </div>

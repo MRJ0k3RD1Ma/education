@@ -53,14 +53,14 @@ class Branch extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'address' => 'Address',
-            'target' => 'Target',
-            'location' => 'Location',
-            'phone' => 'Phone',
-            'code' => 'Code',
-            'created' => 'Created',
-            'updated' => 'Updated',
+            'name' => 'Nomi',
+            'address' => 'Manzil',
+            'target' => 'Mo`ljal',
+            'location' => 'Lokatsiya',
+            'phone' => 'Telefon',
+            'code' => 'Kod',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
             'status' => 'Status',
         ];
     }
