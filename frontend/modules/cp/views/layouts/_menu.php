@@ -32,7 +32,24 @@
                         <li><a href="#">Boxed Layout</a></li>
                     </ul>
                 </li>
-
+                <li>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/cp/cource'])?>" class="waves-effect">
+                        <i class="mdi mdi-account-multiple"></i>
+                        <span>Kurslar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/cp/project'])?>" class="waves-effect">
+                        <i class="mdi mdi-account-multiple"></i>
+                        <span>Loyihalar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/cp/user'])?>" class="waves-effect">
+                        <i class="mdi mdi-account-multiple"></i>
+                        <span>Foydalanuvchilar</span>
+                    </a>
+                </li>
                 <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/cp/branch'])?>" class="waves-effect">
                         <i class="mdi mdi-bank"></i>
@@ -40,12 +57,7 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="<?= Yii::$app->urlManager->createUrl(['/cp/user'])?>" class="waves-effect">
-                        <i class="mdi mdi-account-multiple"></i>
-                        <span>Foydalanuvchilar</span>
-                    </a>
-                </li>
+
 
 
             </ul>
