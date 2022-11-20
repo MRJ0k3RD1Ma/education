@@ -47,7 +47,7 @@ class Pay extends \yii\db\ActiveRecord
             [['student_id', 'payment_id', 'price', 'pay_date', 'branch_id', 'user_id'], 'required'],
             [['student_id', 'payment_id', 'price', 'branch_id', 'user_id', 'status_id', 'consept_id'], 'integer'],
             [['pay_date', 'created', 'updated'], 'safe'],
-            [['ads'], 'string'],
+            [['ads','code'], 'string'],
             [['check_file'], 'string', 'max' => 255],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branch::class, 'targetAttribute' => ['branch_id' => 'id']],
             [['consept_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['consept_id' => 'id']],

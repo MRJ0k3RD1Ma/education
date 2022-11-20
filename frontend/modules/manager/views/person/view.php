@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
             var url = this.value;
             
 //            $('#deletewish').modal('show');
-            $('#deletewish').modal('show').find('.modal-body').load(url);
+            $('#deletewish').modal('show').find('#deletewish .modal-body').load(url);
         })
     ")
 ?>

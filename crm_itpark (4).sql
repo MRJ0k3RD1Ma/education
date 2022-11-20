@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Ноя 19 2022 г., 16:52
+-- Время создания: Ноя 20 2022 г., 15:42
 -- Версия сервера: 10.4.24-MariaDB
 -- Версия PHP: 8.1.6
 
@@ -48,7 +48,11 @@ INSERT INTO `analytics` (`person_id`, `type_id`, `created`) VALUES
 (4, 2, '2022-11-19 19:24:34'),
 (5, 1, '2022-11-19 19:37:53'),
 (5, 2, '2022-11-19 19:37:53'),
-(5, 3, '2022-11-19 19:37:53');
+(5, 3, '2022-11-19 19:37:53'),
+(6, 1, '2022-11-20 16:50:59'),
+(6, 2, '2022-11-20 16:50:59'),
+(7, 1, '2022-11-20 18:27:57'),
+(8, 3, '2022-11-20 19:29:52');
 
 -- --------------------------------------------------------
 
@@ -157,15 +161,17 @@ CREATE TABLE `groups` (
   `created` datetime DEFAULT current_timestamp(),
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `creator_id` int(11) NOT NULL,
-  `room_id` int(11) DEFAULT NULL
+  `room_id` int(11) DEFAULT NULL,
+  `duration` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Дамп данных таблицы `groups`
 --
 
-INSERT INTO `groups` (`id`, `name`, `branch_id`, `course_id`, `status_id`, `start_date`, `day_id`, `time`, `type_id`, `price`, `created`, `updated`, `creator_id`, `room_id`) VALUES
-(1, 'Komp sav 1', 1, 2, 1, NULL, 1, '09:00 - 11:00', 1, 123123, '2022-11-19 20:48:13', '2022-11-19 20:50:57', 2, 1);
+INSERT INTO `groups` (`id`, `name`, `branch_id`, `course_id`, `status_id`, `start_date`, `day_id`, `time`, `type_id`, `price`, `created`, `updated`, `creator_id`, `room_id`, `duration`) VALUES
+(1, 'Komp sav 1', 1, 1, 2, '2022-11-20', 1, '09:00 - 11:00', 1, 200000, '2022-11-19 20:48:13', '2022-11-20 19:31:02', 2, 1, 3),
+(2, 'sdfg', 1, 1, 1, NULL, 1, '09:00 - 11:00', 1, 200000, '2022-11-20 18:40:19', '2022-11-20 18:40:19', 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -248,6 +254,7 @@ INSERT INTO `group_type` (`id`, `name`) VALUES
 
 CREATE TABLE `pay` (
   `id` bigint(20) NOT NULL,
+  `code` varchar(255) NOT NULL,
   `student_id` bigint(20) NOT NULL,
   `payment_id` int(11) NOT NULL,
   `price` int(11) NOT NULL,
@@ -331,7 +338,73 @@ INSERT INTO `person` (`id`, `name`, `pnfl`, `inn`, `birthday`, `phone`, `phone_p
 (2, 'test', NULL, NULL, '2022-11-19', '-', '-', '2022-11-19 19:15:33', '2022-11-19 20:23:01', 1),
 (3, 'sdasdasd', NULL, NULL, '2022-11-25', '-', '-', '2022-11-19 19:16:02', '2022-11-19 20:23:02', 1),
 (4, 'asdasdasdasdasd', NULL, NULL, '2022-11-09', 'asd', 'asd', '2022-11-19 19:24:34', '2022-11-19 20:23:04', 1),
-(5, 'sdfsdf', NULL, NULL, '2022-11-10', '34', '234', '2022-11-19 19:37:53', '2022-11-19 20:23:05', 1);
+(5, 'sdfsdf', NULL, NULL, '2022-11-10', '34', '234', '2022-11-19 19:37:53', '2022-11-19 20:23:05', 1),
+(6, '546456', NULL, NULL, '2022-11-26', '345', '345', '2022-11-20 16:50:59', '2022-11-20 16:50:59', 1),
+(7, 'fsdfsdf', NULL, NULL, '2022-11-18', 'sdf', 'sdf', '2022-11-20 18:27:57', '2022-11-20 18:27:57', 1),
+(8, '234ssd', NULL, NULL, '2022-11-20', 'sdf', 'sdf', '2022-11-20 19:29:52', '2022-11-20 19:29:52', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `person_pay`
+--
+
+CREATE TABLE `person_pay` (
+  `person_id` bigint(20) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  `pay_date` date DEFAULT NULL,
+  `status_id` int(11) DEFAULT 1,
+  `price` int(11) DEFAULT NULL,
+  `code` varchar(255) DEFAULT NULL,
+  `created` datetime DEFAULT current_timestamp(),
+  `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `person_pay`
+--
+
+INSERT INTO `person_pay` (`person_id`, `group_id`, `id`, `pay_date`, `status_id`, `price`, `code`, `created`, `updated`) VALUES
+(1, 1, 0, '2022-11-24', 1, 200000, '22/100-4', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(1, 1, 1, '2022-12-24', 1, 200000, '22/100-4', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(1, 1, 2, '2023-01-24', 1, 200000, '22/100-4', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(3, 1, 0, '2022-11-24', 1, 200000, '22/100-6', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(3, 1, 1, '2022-12-24', 1, 200000, '22/100-6', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(3, 1, 2, '2023-01-24', 1, 200000, '22/100-6', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(4, 1, 0, '2022-11-24', 1, 200000, '22/100-1', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(4, 1, 1, '2022-12-24', 1, 200000, '22/100-1', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(4, 1, 2, '2023-01-24', 1, 200000, '22/100-1', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(6, 1, 0, '2022-11-24', 1, 200000, '22/100-2', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(6, 1, 1, '2022-12-24', 1, 200000, '22/100-2', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(6, 1, 2, '2023-01-24', 1, 200000, '22/100-2', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(7, 1, 0, '2022-11-24', 1, 200000, '22/100-3', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(7, 1, 1, '2022-12-24', 1, 200000, '22/100-3', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(7, 1, 2, '2023-01-24', 1, 200000, '22/100-3', '2022-11-20 19:31:02', '2022-11-20 19:31:02'),
+(8, 1, 0, '2022-11-24', 1, 200000, '22/100-7', '2022-11-20 19:29:57', '2022-11-20 19:31:02'),
+(8, 1, 1, '2022-12-24', 1, 200000, '22/100-7', '2022-11-20 19:29:57', '2022-11-20 19:31:02'),
+(8, 1, 2, '2023-01-24', 1, 200000, '22/100-7', '2022-11-20 19:29:57', '2022-11-20 19:31:02');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `person_pay_status`
+--
+
+CREATE TABLE `person_pay_status` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `class` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `person_pay_status`
+--
+
+INSERT INTO `person_pay_status` (`id`, `name`, `class`) VALUES
+(1, 'To\'lanmagan', ''),
+(2, 'To\'langan', ''),
+(3, 'O\'qimagan', '');
 
 -- --------------------------------------------------------
 
@@ -376,10 +449,33 @@ CREATE TABLE `person_wish` (
 --
 
 INSERT INTO `person_wish` (`person_id`, `course_id`, `day_id`, `time`, `created`, `branch_id`) VALUES
-(4, 1, 1, '', '2022-11-19 19:24:34', 1),
-(4, 2, 1, '', '2022-11-19 19:36:56', 1),
-(5, 1, 1, '09:00 - 11:00', '2022-11-19 19:46:17', 1),
-(5, 2, 1, '09:00 - 11:00', '2022-11-19 19:46:21', 1);
+(4, 2, 1, '', '2022-11-19 19:36:56', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `person_wish_history`
+--
+
+CREATE TABLE `person_wish_history` (
+  `id` bigint(20) NOT NULL,
+  `person_id` bigint(20) DEFAULT NULL,
+  `course_id` int(11) DEFAULT NULL,
+  `day_id` int(11) DEFAULT NULL,
+  `time` varchar(255) DEFAULT NULL,
+  `branch_id` int(11) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `updated` datetime DEFAULT current_timestamp(),
+  `ads` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `person_wish_history`
+--
+
+INSERT INTO `person_wish_history` (`id`, `person_id`, `course_id`, `day_id`, `time`, `branch_id`, `created`, `updated`, `ads`) VALUES
+(1, 5, 1, NULL, '09:00 - 11:00', 1, '2022-11-19 07:46:17', '2022-11-20 16:10:25', 'Bilmasam nachundir o\'qimijak'),
+(2, 5, 2, 1, '09:00 - 11:00', 1, '2022-11-19 07:46:21', '2022-11-20 16:10:57', 'sdf');
 
 -- --------------------------------------------------------
 
@@ -427,6 +523,8 @@ INSERT INTO `room` (`id`, `branch_id`, `name`) VALUES
 
 CREATE TABLE `student` (
   `id` bigint(20) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `code_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL,
   `person_id` bigint(20) NOT NULL,
   `social_id` int(11) NOT NULL,
@@ -434,8 +532,22 @@ CREATE TABLE `student` (
   `created` datetime DEFAULT current_timestamp(),
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `creator_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
   `status` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `student`
+--
+
+INSERT INTO `student` (`id`, `code`, `code_id`, `group_id`, `person_id`, `social_id`, `project_id`, `created`, `updated`, `creator_id`, `branch_id`, `status`) VALUES
+(1, '22/100-1', 1, 1, 4, 1, 1, '2022-11-20 17:05:11', '2022-11-20 18:36:27', 2, 1, 1),
+(2, '22/100-2', 2, 1, 6, 1, 1, '2022-11-20 17:13:17', '2022-11-20 18:36:29', 2, 1, 1),
+(3, '22/100-3', 3, 1, 7, 1, 1, '2022-11-20 18:29:10', '2022-11-20 18:36:31', 2, 1, 1),
+(4, '22/100-4', 4, 1, 1, 1, 1, '2022-11-20 18:40:10', '2022-11-20 18:40:10', 2, 1, 1),
+(5, '22/100-5', 5, 2, 2, 1, 1, '2022-11-20 18:40:31', '2022-11-20 18:40:31', 2, 1, 1),
+(6, '22/100-6', 6, 1, 3, 1, 1, '2022-11-20 19:28:45', '2022-11-20 19:28:45', 2, 1, 1),
+(7, '22/100-7', 7, 1, 8, 1, 1, '2022-11-20 19:29:57', '2022-11-20 19:29:57', 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -617,6 +729,20 @@ ALTER TABLE `person`
   ADD KEY `FK_person_branch_id` (`branch_id`);
 
 --
+-- Индексы таблицы `person_pay`
+--
+ALTER TABLE `person_pay`
+  ADD PRIMARY KEY (`person_id`,`group_id`,`id`),
+  ADD KEY `FK_person_pay_group_id` (`group_id`),
+  ADD KEY `FK_person_pay_status_id` (`status_id`);
+
+--
+-- Индексы таблицы `person_pay_status`
+--
+ALTER TABLE `person_pay_status`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `person_social`
 --
 ALTER TABLE `person_social`
@@ -630,6 +756,16 @@ ALTER TABLE `person_wish`
   ADD KEY `FK_person_wish_course_id` (`course_id`),
   ADD KEY `FK_person_wish_day_id` (`day_id`),
   ADD KEY `FK_person_wish_branch_id` (`branch_id`);
+
+--
+-- Индексы таблицы `person_wish_history`
+--
+ALTER TABLE `person_wish_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_person_wish_history_person_id` (`person_id`),
+  ADD KEY `FK_person_wish_history_course_id` (`course_id`),
+  ADD KEY `FK_person_wish_history_day_id` (`day_id`),
+  ADD KEY `FK_person_wish_history_branch_id` (`branch_id`);
 
 --
 -- Индексы таблицы `project`
@@ -652,7 +788,8 @@ ALTER TABLE `student`
   ADD KEY `FK_student_person_id` (`person_id`),
   ADD KEY `FK_student_social_id` (`social_id`),
   ADD KEY `FK_student_project_id` (`project_id`),
-  ADD KEY `FK_student_creator_id` (`creator_id`);
+  ADD KEY `FK_student_creator_id` (`creator_id`),
+  ADD KEY `FK_student_branch_id` (`branch_id`);
 
 --
 -- Индексы таблицы `user`
@@ -683,7 +820,7 @@ ALTER TABLE `user_type`
 -- AUTO_INCREMENT для таблицы `analytics_type`
 --
 ALTER TABLE `analytics_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `branch`
@@ -701,7 +838,7 @@ ALTER TABLE `cource`
 -- AUTO_INCREMENT для таблицы `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `group_day`
@@ -743,13 +880,25 @@ ALTER TABLE `pay_status`
 -- AUTO_INCREMENT для таблицы `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT для таблицы `person_pay_status`
+--
+ALTER TABLE `person_pay_status`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `person_social`
 --
 ALTER TABLE `person_social`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `person_wish_history`
+--
+ALTER TABLE `person_wish_history`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `project`
@@ -767,7 +916,7 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT для таблицы `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `user`
@@ -843,6 +992,14 @@ ALTER TABLE `person`
   ADD CONSTRAINT `FK_person_branch_id` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Ограничения внешнего ключа таблицы `person_pay`
+--
+ALTER TABLE `person_pay`
+  ADD CONSTRAINT `FK_person_pay_group_id` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_person_pay_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_person_pay_status_id` FOREIGN KEY (`status_id`) REFERENCES `person_pay_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Ограничения внешнего ключа таблицы `person_wish`
 --
 ALTER TABLE `person_wish`
@@ -852,9 +1009,19 @@ ALTER TABLE `person_wish`
   ADD CONSTRAINT `FK_person_wish_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Ограничения внешнего ключа таблицы `person_wish_history`
+--
+ALTER TABLE `person_wish_history`
+  ADD CONSTRAINT `FK_person_wish_history_branch_id` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_person_wish_history_course_id` FOREIGN KEY (`course_id`) REFERENCES `cource` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_person_wish_history_day_id` FOREIGN KEY (`day_id`) REFERENCES `group_day` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_person_wish_history_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Ограничения внешнего ключа таблицы `student`
 --
 ALTER TABLE `student`
+  ADD CONSTRAINT `FK_student_branch_id` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_student_creator_id` FOREIGN KEY (`creator_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_student_group_id` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_student_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,

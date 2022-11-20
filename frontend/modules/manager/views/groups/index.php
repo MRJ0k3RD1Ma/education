@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Groups;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -30,26 +31,70 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
-                    'id',
-                    'name',
-                    'branch_id',
-                    'course_id',
-                    'status_id',
+//                    'id',
+//                    'name',
+                    [
+                        'label'=>'Guruh nomi',
+                        'attribute'=>'name',
+                        'value'=>function($d){
+                            $url = Yii::$app->urlManager->createUrl(['/manager/groups/view','id'=>$d->id]);
+                            return "<a href='{$url}'>{$d->name}<a/>";
+                        },
+                        'format'=>'raw'
+                    ],
+                    [
+                        'attribute'=>'course_id',
+                        'value'=>function($d){
+                            return $d->course->name;
+                        },
+                        'filter'=> ArrayHelper::map(\common\models\Cource::find()->all(),'id','name')
+                    ],
+                    [
+                        'attribute'=>'type_id',
+                        'value'=>function($d){
+                            return $d->type->name;
+                        },
+                        'filter'=> ArrayHelper::map(\common\models\GroupType::find()->all(),'id','name')
+                    ],
+                    [
+                        'attribute'=>'day_id',
+                        'value'=>function($d){
+                            return $d->day->name;
+                        },
+                        'filter'=> ArrayHelper::map(\common\models\GroupDay::find()->all(),'id','name')
+                    ],
+
+                    'time',
+                    'price',
+                    'start_date',
+                    [
+                        'attribute'=>'room_id',
+                        'value'=>function($d){
+                            return $d->room->name;
+                        },
+                        'filter'=> ArrayHelper::map(\common\models\Room::find()->all(),'id','name')
+                    ],
+                    [
+                        'attribute'=>'status_id',
+                        'value'=>function($d){
+                            return $d->status->name;
+                        },
+                        'filter'=> ArrayHelper::map(\common\models\GroupStatus::find()->all(),'id','name')
+                    ],
+//                    'room_id',
+//                    'type_id',
+//                    'branch_id',
+//                    'course_id',
+//                    'status_id',
                     //'start_date',
                     //'day_id',
                     //'time',
                     //'type_id',
                     //'price',
-                    //'created',
+                    'created',
                     //'updated',
                     //'creator_id',
                     //'room_id',
-                    [
-                        'class' => ActionColumn::className(),
-                        'urlCreator' => function ($action, Groups $model, $key, $index, $column) {
-                            return Url::toRoute([$action, 'id' => $model->id]);
-                        }
-                    ],
                 ],
             ]); ?>
         </div>

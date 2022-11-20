@@ -24,6 +24,13 @@
                 </li>
 
                 <li>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/manager/pay'])?>" class="waves-effect">
+                        <i class="mdi mdi-account-multiple"></i>
+                        <span>To'lovlar</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/manager/groups'])?>" class="waves-effect">
                         <i class="mdi mdi-bag-personal"></i>
                         <span>Guruhlar</span>

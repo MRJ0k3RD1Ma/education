@@ -51,7 +51,7 @@ class Groups extends \yii\db\ActiveRecord
     {
         return [
             [['branch_id', 'course_id', 'type_id', 'creator_id'], 'required'],
-            [['branch_id', 'course_id', 'status_id', 'day_id', 'type_id', 'price', 'creator_id', 'room_id'], 'integer'],
+            [['branch_id', 'course_id', 'status_id', 'day_id', 'type_id', 'price', 'creator_id', 'room_id','duration'], 'integer'],
             [['start_date', 'created', 'updated'], 'safe'],
             [['name'], 'string', 'max' => 255],
             [['time'], 'string', 'max' => 20],
@@ -98,6 +98,9 @@ class Groups extends \yii\db\ActiveRecord
         return $this->hasMany(Attendance::class, ['group_id' => 'id']);
     }
 
+    public function getWish(){
+        return PersonWish::find()->where(['branch_id'=>Yii::$app->user->identity->branch_id,'course_id'=>$this->course_id,'day_id'=>$this->day_id])->all();
+    }
     /**
      * Gets query for [[Branch]].
      *

@@ -43,8 +43,8 @@ class Student extends \yii\db\ActiveRecord
         return [
 //            [['group_id', 'person_id', 'social_id', 'project_id', 'creator_id'], 'required'],
 
-            [['group_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'status'], 'integer'],
-            [['created', 'updated'], 'safe'],
+            [['group_id','code_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'status'], 'integer'],
+            [['created', 'updated','code'], 'safe'],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['creator_id' => 'id']],
             [['group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Groups::class, 'targetAttribute' => ['group_id' => 'id']],
             [['person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::class, 'targetAttribute' => ['person_id' => 'id']],
@@ -60,13 +60,13 @@ class Student extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'group_id' => 'Group ID',
-            'person_id' => 'Person ID',
-            'social_id' => 'Social ID',
-            'project_id' => 'Project ID',
-            'created' => 'Created',
-            'updated' => 'Updated',
-            'creator_id' => 'Creator ID',
+            'group_id' => 'Guruh nomi',
+            'person_id' => 'O`quvchi',
+            'social_id' => 'Ijtimoiy mavqei',
+            'project_id' => 'Loyiha nomi',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
+            'creator_id' => 'Yaratuvchi',
             'status' => 'Status',
         ];
     }
