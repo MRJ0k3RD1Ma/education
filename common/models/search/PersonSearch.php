@@ -40,7 +40,7 @@ class PersonSearch extends Person
      */
     public function search($params)
     {
-        $query = Person::find()->where(['branch_id'=>\Yii::$app->user->identity->branch_id]);
+        $query = Person::find()->where(['branch_id'=>\Yii::$app->user->identity->branch_id])->orderBy(['id'=>SORT_DESC]);
 
         // add conditions that should always apply here
 

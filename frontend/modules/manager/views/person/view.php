@@ -62,7 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <td><?= $item->day->name ?></td>
                                     <td><?= $item->time ?></td>
                                     <td><?= date('d.m.Y',strtotime($item->created)) ?></td>
-                                    <td><a data-method="post" data-confirm="Siz rostdan ham ushbu kursni o`chirmoqchimisiz?" href="<?= Yii::$app->urlManager->createUrl(['/manager/person/delwish','person_id'=>$item->person_id,'course_id'=>$item->course_id]) ?>" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+                                    <td><button value="<?= Yii::$app->urlManager->createUrl(['/manager/person/delwish','person_id'=>$item->person_id,'course_id'=>$item->course_id]) ?>"
+                                                class="btn btn-danger deletewish"><span class="fa fa-trash"></span></button></td>
                                 </tr>
                             <?php endforeach;?>
                             </tbody>
@@ -74,3 +75,29 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+
+
+<div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"  id="deletewish" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Kursni o'chirish</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<?php
+    $this->registerJs("
+        $('.deletewish').click(function(){
+            var url = this.value;
+            
+//            $('#deletewish').modal('show');
+            $('#deletewish').modal('show').find('.modal-body').load(url);
+        })
+    ")
+?>

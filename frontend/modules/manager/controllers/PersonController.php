@@ -6,6 +6,7 @@ use common\models\Analytics;
 use common\models\AnalyticsType;
 use common\models\Person;
 use common\models\PersonWish;
+use common\models\PersonWishHistory;
 use common\models\search\PersonSearch;
 use common\models\Student;
 use yii\web\Controller;
@@ -120,8 +121,21 @@ class PersonController extends Controller
     }
 
     public function actionDelwish($person_id,$course_id){
+        $wish = new PersonWishHistory();
         if($model = PersonWish::find()->where(['person_id'=>$person_id,'course_id'=>$course_id])->andWhere(['branch_id'=>Yii::$app->user->identity->branch_id])->one()){
-            $model->delete();
+            if($wish->load($this->request->post())){
+                $wish->person_id = $person_id;
+                $wish->course_id = $course_id;
+                $wish->branch_id = Yii::$app->user->identity->branch_id;
+                $wish->time = $model->time;
+                $wish->created = date('Y-m-d h:i:s',strtotime($model->created));
+                $wish->day_id = $model->day_id;
+                if($wish->save()){
+                    $model->delete();
+                }
+            }else{
+                return $this->renderAjax('_deletewish',['wish'=>$wish]);
+            }
         }
         return $this->redirect(['view','id'=>$person_id]);
     }
