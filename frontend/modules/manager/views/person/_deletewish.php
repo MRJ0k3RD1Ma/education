@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 
         <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($wish, 'ads')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($wish, 'ads')->textInput(['maxlength' => true])->label('Sababini ko`rsating') ?>
 
         <br>
         <div class="form-group">

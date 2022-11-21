@@ -71,6 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -95,9 +96,8 @@ $this->params['breadcrumbs'][] = $this->title;
     $this->registerJs("
         $('.deletewish').click(function(){
             var url = this.value;
-            
-//            $('#deletewish').modal('show');
-            $('#deletewish').modal('show').find('#deletewish .modal-body').load(url);
+          
+            $('#deletewish').modal('show').find('.modal-body').load(url);
         })
     ")
 ?>

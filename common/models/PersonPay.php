@@ -54,15 +54,15 @@ class PersonPay extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'person_id' => 'Person ID',
-            'group_id' => 'Group ID',
-            'id' => 'ID',
-            'pay_date' => 'Pay Date',
-            'status_id' => 'Status ID',
-            'price' => 'Price',
-            'code' => 'Code',
-            'created' => 'Created',
-            'updated' => 'Updated',
+            'person_id' => 'FIO',
+            'group_id' => 'Guruh nomi',
+            'id' => 'Oylik to`lov',
+            'pay_date' => 'To`lovning oxirgi sanasi',
+            'status_id' => 'Status',
+            'price' => 'To`lov summasi',
+            'code' => 'Kod',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
         ];
     }
 
