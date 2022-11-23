@@ -153,8 +153,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <?php $n=0; foreach ($model->students as $item): $n++?>
                                 <tr>
-                                    <td><?= $item->code; ?></td>
-                                    <td><a href="<?= Yii::$app->urlManager->createUrl(['/manager/person/view','id'=>$item->person_id])?>"><?= $item->person->name ?></a></td>
+                                    <td><button class="btn btn-link paying" value="<?= Yii::$app->urlManager->createUrl(['/manager/groups/paying','id'=>$item->id])?>"><?= $item->code; ?></button></td>
+                                    <td><a target="_blank" href="<?= Yii::$app->urlManager->createUrl(['/manager/person/view','id'=>$item->person_id])?>"><?= $item->person->name ?></a></td>
                                     <td><?= $item->person->phone?></td>
                                     <td><?= $item->person->phone_parent?></td>
                                     <td><?= $item->social->name ?></td>
@@ -168,8 +168,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                         $time = date("Y-m-d", strtotime($time."+5 days"));
                                         $time = date("Y-m-d", strtotime($time."+1 month"));
                                         if($pay = \common\models\StudentPay::find()->where(['student_id'=>$item->id])
-                                            ->andWhere(['<','pay_date',$time])->orderBy(['pay_date'=>SORT_DESC])->one()){echo "To`lovlar mavjud emas";}
-                                        ?>
+                                            ->andWhere(['<','pay_date',$time])->orderBy(['pay_date'=>SORT_DESC])->one()){echo $pay->status->name;}else{
+                                            ?>
+                                            <a href="<?= Yii::$app->urlManager->createUrl(['/manager/groups/payregenerate','id'=>$item->id])?>">To`lovni qayta generatsiya qilish</a>
+                                                <?php }?>
 
                                     <?php }?>
                                     </td>
@@ -216,17 +218,40 @@ $this->params['breadcrumbs'][] = $this->title;
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    <div class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" id="paying" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">To'lovni qabul qilish</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body paying-modal">
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
 <?php
 
 $this->registerJs("
+
     $('.add').click(function(){
         var url = this.value;
         $('#add').modal('show').find('.add.modal-body').load(url); 
     });
+    
+    
     $('.start').click(function(){
         var url = this.value;
         $('#start').modal('show').find('.start.modal-body').load(url); 
     });
+    
+    
+     $('.paying').click(function(){
+        var url = this.value;
+        $('#paying').modal('show').find('.paying-modal.modal-body').load(url); 
+    });
+    
 ")
 ?>

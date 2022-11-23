@@ -8,6 +8,8 @@ use Yii;
  * This is the model class for table "student".
  *
  * @property int $id
+ * @property string $code
+ * @property int $code_id
  * @property int $group_id
  * @property int $person_id
  * @property int $social_id
@@ -15,15 +17,17 @@ use Yii;
  * @property string|null $created
  * @property string|null $updated
  * @property int $creator_id
+ * @property int $branch_id
  * @property int|null $status
  *
  * @property Attendance[] $attendances
+ * @property Branch $branch
  * @property User $creator
  * @property Groups $group
- * @property Pay[] $pays
  * @property Person $person
  * @property Project $project
  * @property PersonSocial $social
+ * @property StudentPay[] $studentPays
  */
 class Student extends \yii\db\ActiveRecord
 {
@@ -41,10 +45,11 @@ class Student extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-//            [['group_id', 'person_id', 'social_id', 'project_id', 'creator_id'], 'required'],
-
-            [['group_id','code_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'status'], 'integer'],
-            [['created', 'updated','code'], 'safe'],
+            [['code', 'code_id', 'group_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'branch_id'], 'required'],
+            [['code_id', 'group_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'branch_id', 'status'], 'integer'],
+            [['created', 'updated'], 'safe'],
+            [['code'], 'string', 'max' => 255],
+            [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branch::class, 'targetAttribute' => ['branch_id' => 'id']],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['creator_id' => 'id']],
             [['group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Groups::class, 'targetAttribute' => ['group_id' => 'id']],
             [['person_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::class, 'targetAttribute' => ['person_id' => 'id']],
@@ -59,6 +64,9 @@ class Student extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'code' => 'Kod',
+            'code_id' => 'Kod',
+            'branch_id' => 'Filial',
             'id' => 'ID',
             'group_id' => 'Guruh nomi',
             'person_id' => 'O`quvchi',
@@ -82,6 +90,16 @@ class Student extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Branch]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBranch()
+    {
+        return $this->hasOne(Branch::class, ['id' => 'branch_id']);
+    }
+
+    /**
      * Gets query for [[Creator]].
      *
      * @return \yii\db\ActiveQuery
@@ -99,16 +117,6 @@ class Student extends \yii\db\ActiveRecord
     public function getGroup()
     {
         return $this->hasOne(Groups::class, ['id' => 'group_id']);
-    }
-
-    /**
-     * Gets query for [[Pays]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPays()
-    {
-        return $this->hasMany(Pay::class, ['student_id' => 'id']);
     }
 
     /**
@@ -139,5 +147,15 @@ class Student extends \yii\db\ActiveRecord
     public function getSocial()
     {
         return $this->hasOne(PersonSocial::class, ['id' => 'social_id']);
+    }
+
+    /**
+     * Gets query for [[StudentPays]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStudentPays()
+    {
+        return $this->hasMany(StudentPay::class, ['student_id' => 'id']);
     }
 }
