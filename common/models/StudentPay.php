@@ -47,9 +47,11 @@ class StudentPay extends \yii\db\ActiveRecord
     {
         return [
             [['student_id', 'id', 'code'], 'required'],
+            [['paid_date','payment_id','check_file'],'required','on'=>'paying'],
             [['student_id', 'id', 'price', 'payment_id', 'branch_id', 'user_id', 'consept_id', 'status_id'], 'integer'],
             [['pay_date', 'paid_date', 'created', 'updated'], 'safe'],
             [['ads'], 'string'],
+            [['check_file'], 'file','extensions'=>'pdf'],
             [['code', 'check_file'], 'string', 'max' => 255],
             [['student_id', 'id'], 'unique', 'targetAttribute' => ['student_id', 'id']],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branch::class, 'targetAttribute' => ['branch_id' => 'id']],
@@ -67,21 +69,21 @@ class StudentPay extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'student_id' => 'Student ID',
+            'student_id' => 'O`quvchi',
             'id' => 'ID',
-            'code' => 'Code',
-            'pay_date' => 'Pay Date',
-            'price' => 'Price',
-            'paid_date' => 'Paid Date',
-            'payment_id' => 'Payment ID',
-            'branch_id' => 'Branch ID',
-            'user_id' => 'User ID',
-            'consept_id' => 'Consept ID',
-            'check_file' => 'Check File',
-            'ads' => 'Ads',
-            'status_id' => 'Status ID',
-            'created' => 'Created',
-            'updated' => 'Updated',
+            'code' => 'Kod',
+            'pay_date' => 'To`lashi kerak',
+            'price' => 'Miqdori',
+            'paid_date' => 'To`lov sanasi',
+            'payment_id' => 'To`lov turi',
+            'branch_id' => 'Filial',
+            'user_id' => 'Qabul qildi',
+            'consept_id' => 'Tasdiqladi',
+            'check_file' => 'Chek',
+            'ads' => 'Izoh',
+            'status_id' => 'Status',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
         ];
     }
 

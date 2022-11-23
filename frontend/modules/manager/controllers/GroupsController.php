@@ -14,6 +14,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * GroupsController implements the CRUD actions for Groups model.
@@ -61,6 +62,32 @@ class GroupsController extends Controller
             return $this->renderAjax('paying',['pay'=>$pay,'student'=>$student]);
         }else{
             return "Bunday talaba topilmadi";
+        }
+    }
+
+    public function actionPaysend($id,$student_id){
+        if($model = StudentPay::findOne(['id'=>$id,'student_id'=>$student_id,'branch_id'=>Yii::$app->user->identity->branch_id])){
+            $code = $model->code;
+            $price = $model->price;
+            $model->scenario = "paying";
+            if($model->load($this->request->post())){
+                $model->code = $code;
+                $model->price = $price;
+                $model->user_id = Yii::$app->user->id;
+                if($model->check_file = UploadedFile::getInstance($model,'check_file')){
+                    $name = microtime(true).'.'.$model->check_file->extension;
+                    $model->check_file->saveAs(Yii::$app->basePath.'/web/uploads/check/'.$name);
+                    $model->check_file = $name;
+                }
+                $model->status_id = 2;
+                if($model->save()){
+                    return $this->redirect(['view','id'=>$model->student->group_id]);
+                }
+            }
+            return $this->render('_paysend',['model'=>$model,'student'=>$model->student]);
+
+        }else{
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 

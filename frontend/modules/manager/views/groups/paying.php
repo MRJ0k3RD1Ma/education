@@ -20,6 +20,7 @@
                     <th>Miqdori</th>
                     <th>Holati</th>
                     <th>To'lov</th>
+                    <th>Izoh</th>
                 </tr>
            </thead>
            <tbody>
@@ -32,11 +33,12 @@
                 <td><?= $item->status->name ?></td>
                 <td>
                     <?php if($item->status_id == 1 or $item->status_id == 5){ ?>
-                        <a href="<?= Yii::$app->urlManager->createUrl(['/manager/groups/paysend','student_id'=>$student->id,'id'=>$item->id])?>" target="_blank">To'lov kiritish</a>
+                        <a href="<?= Yii::$app->urlManager->createUrl(['/manager/groups/paysend','student_id'=>$student->id,'id'=>$item->id])?>">To'lov kiritish</a>
                     <?php }else{?>
-                        <?= $item->paid_date ?>
+                        <a href="/uploads/check/<?= $item->check_file?>"><?= $item->paid_date ?></a>
                     <?php } ?>
                 </td>
+                <td><?= @$item->ads?></td>
             </tr>
             <?php endforeach;?>
            </tbody>
