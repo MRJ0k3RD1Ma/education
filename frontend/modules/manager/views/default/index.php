@@ -42,7 +42,7 @@
                                         <div class="d-flex text-muted">
                                         <div class="flex-shrink-0  me-3 align-self-center">
                                                 <div class="avatar-sm">
-                                                    <div class="avatar-title bg-light rounded-circle text-primary font-size-20">
+                                                    <div class="avatar-title bg-light rounded-circle text-secondary font-size-20">
                                                         <i class="ri-group-line"></i>
                                                     </div>
                                                 </div>
@@ -51,7 +51,7 @@
                                                 <div id="radialchart-1" class="apex-charts" dir="ltr"></div>
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden">
-                                                <h5 class="mb-3">2.2k</h5>
+                                                <h5 class="mb-3">2.2</h5>
                                                 <p class="text-truncate mb-0"> Yangi ro'yxatha olinganlar</p>
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@
                                         <div class="flex-shrink-0  me-3 align-self-center">
                                                 <div class="avatar-sm">
                                                     <div class="avatar-title bg-light rounded-circle text-primary font-size-20">
-                                                        <i class="ri-group-line"></i>
+                                                        <i class="ri-checkbox-circle-line"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -78,7 +78,7 @@
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <h5 class="mb-3">50</h5>
-                                                <p class="text-truncate mb-0">Yangi guruhlar</p>
+                                                <p class="text-truncate mb-0">Tasdiqlangan to`lovlar</p>
                                             </div>
                                         </div>
                                     </div>
@@ -94,8 +94,8 @@
                                         <div class="d-flex text-muted">
                                         <div class="flex-shrink-0  me-3 align-self-center">
                                                 <div class="avatar-sm">
-                                                    <div class="avatar-title bg-light rounded-circle text-primary font-size-20">
-                                                        <i class="ri-group-line"></i>
+                                                    <div class="avatar-title bg-light rounded-circle text-warning font-size-20">
+                                                        <i class="ri-alert-line"></i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -104,7 +104,7 @@
                                             </div>
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <h5 class="mb-3">24.03 %</h5>
-                                                <p class="text-truncate mb-0"> Tasdiqlanganmagan to'lov</p>
+                                                <p class="text-truncate mb-0"> Tasdiqlanganmagan to'lovlar</p>
                                             </div>
                                         </div>                                        
                                     </div>
@@ -120,15 +120,15 @@
                                         <div class="d-flex text-muted">
                                             <div class="flex-shrink-0  me-3 align-self-center">
                                                 <div class="avatar-sm">
-                                                    <div class="avatar-title bg-light rounded-circle text-primary font-size-20">
-                                                        <i class="ri-group-line"></i>
+                                                    <div class="avatar-title bg-light rounded-circle text-danger font-size-20">
+                                                        <i class="ri-exchange-dollar-line"></i>
                                                     </div>
                                                 </div>
                                             </div>
                                             
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <h5 class="mb-3">435</h5>
-                                                <p class="text-truncate mb-0"> Jami to'lovlar (Noyabr</p>
+                                                <p class="text-truncate mb-0"> Kutilayotgan to'lovlar (Noyabr)</p>
                                             </div>
                                         </div>
                                     </div>
