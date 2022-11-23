@@ -4,7 +4,6 @@ namespace frontend\modules\manager\controllers;
 
 use common\models\Groups;
 use common\models\Person;
-use common\models\PersonPay;
 use common\models\PersonWish;
 use common\models\PersonWishHistory;
 use common\models\search\GroupsSearch;
