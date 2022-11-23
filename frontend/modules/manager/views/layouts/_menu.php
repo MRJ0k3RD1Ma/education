@@ -24,7 +24,7 @@
                 </li>
 
                 <li>
-                    <a href="<?= Yii::$app->urlManager->createUrl(['/manager/person'])?>" class="waves-effect">
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/manager/student'])?>" class="waves-effect">
                         <i class="mdi mdi-account-multiple"></i>
                         <span>Hozrda o`qiyotganlar</span>
                     </a>

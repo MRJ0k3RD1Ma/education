@@ -67,6 +67,7 @@ class Pay extends \yii\db\ActiveRecord
             'id' => 'ID',
             'student_id' => 'O`quvchi',
             'payment_id' => 'To`lov turi',
+            'code' => 'Kod',
             'price' => 'Summa',
             'pay_date' => 'Sana',
             'branch_id' => 'Filial',
