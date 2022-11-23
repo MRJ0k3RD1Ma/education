@@ -160,19 +160,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <td><?= $item->social->name ?></td>
                                     <td><?= $item->project->name ?></td>
                                     <td><?= $item->created ?></td>
+                                    <td>
                                     <?php if($model->status_id == 1){?>
-                                        <td>Kurs boshlanmagan</td>
+                                        Kurs boshlanmagan
                                     <?php }else{
                                         $time = strtotime("Y-m-d");
                                         $time = date("Y-m-d", strtotime($time."+5 days"));
                                         $time = date("Y-m-d", strtotime($time."+1 month"));
-                                        $pay = \common\models\PersonPay::find()->where(['person_id'=>$item->person_id,'group_id'=>$model->id])
-                                            ->andWhere(['<','pay_date',$time])->orderBy(['pay_date'=>SORT_DESC])->one();
-                                        $class = $pay->status->class;
-                                        $text = $pay->status->name;
+                                        if($pay = \common\models\StudentPay::find()->where(['student_id'=>$item->id])
+                                            ->andWhere(['<','pay_date',$time])->orderBy(['pay_date'=>SORT_DESC])->one()){echo "To`lovlar mavjud emas";}
                                         ?>
-                                        <td class="<?= $class?>"><?= $text?></td>
+
                                     <?php }?>
+                                    </td>
                                     <?php if($model->status_id != 1){?><td><?= Yii::$app->params['status_student'][$item->status] ?></td><?php }?>
                                 </tr>
                             <?php endforeach;?>

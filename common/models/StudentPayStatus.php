@@ -5,21 +5,22 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "pay_status".
+ * This is the model class for table "student_pay_status".
  *
  * @property int $id
  * @property string|null $name
+ * @property string $class
  *
- * @property Pay[] $pays
+ * @property StudentPay[] $studentPays
  */
-class PayStatus extends \yii\db\ActiveRecord
+class StudentPayStatus extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'pay_status';
+        return 'student_pay_status';
     }
 
     /**
@@ -28,7 +29,9 @@ class PayStatus extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['class'], 'required'],
             [['name'], 'string', 'max' => 50],
+            [['class'], 'string', 'max' => 255],
         ];
     }
 
@@ -40,16 +43,17 @@ class PayStatus extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'class' => 'Class',
         ];
     }
 
     /**
-     * Gets query for [[Pays]].
+     * Gets query for [[StudentPays]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getPays()
+    public function getStudentPays()
     {
-        return $this->hasMany(Pay::class, ['status_id' => 'id']);
+        return $this->hasMany(StudentPay::class, ['status_id' => 'id']);
     }
 }

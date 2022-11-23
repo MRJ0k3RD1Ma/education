@@ -18,8 +18,9 @@ return [
         '18:00 - 20:00' => '18:00 - 20:00',
     ],
     'status_student'=>[
+        0=>'O`qish boshlanishini kutyapti',
         1=>'O`qiyapti',
-        0=>'O`qishni to`xtatgan',
-        2=>'O`qishdan chetlatilgan',
+        2=>'O`qishni to`xtatgan',
+        3=>'O`qishdan chetlatilgan',
     ]
 ];
