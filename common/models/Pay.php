@@ -65,18 +65,18 @@ class Pay extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'student_id' => 'Student ID',
-            'payment_id' => 'Payment ID',
-            'price' => 'Price',
-            'pay_date' => 'Pay Date',
-            'branch_id' => 'Branch ID',
-            'user_id' => 'User ID',
-            'created' => 'Created',
-            'updated' => 'Updated',
-            'status_id' => 'Status ID',
-            'consept_id' => 'Consept ID',
-            'check_file' => 'Check File',
-            'ads' => 'Ads',
+            'student_id' => 'O`quvchi',
+            'payment_id' => 'To`lov turi',
+            'price' => 'Summa',
+            'pay_date' => 'Sana',
+            'branch_id' => 'Filial',
+            'user_id' => 'Yaratdi',
+            'created' => 'Yaratilgan',
+            'updated' => 'Tasdiqlangan',
+            'status_id' => 'Status',
+            'consept_id' => 'Tasdiqladi',
+            'check_file' => 'Chek',
+            'ads' => 'Izoh',
         ];
     }
 

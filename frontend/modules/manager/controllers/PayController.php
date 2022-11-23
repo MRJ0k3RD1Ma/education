@@ -33,41 +33,13 @@ class PayController extends Controller
         );
     }
 
-    /**
-     * Lists all Pay models.
-     *
-     * @return string
-     */
+
     public function actionIndex()
-    {
-        $searchModel = new PersonPaySearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-
-    public function actionPaying($id,$person_id,$group_id){
-        if($model = PersonPay::findOne(['id'=>$id,'person_id'=>$person_id,'group_id'=>$group_id])){
-
-
-            return $this->renderAjax("_paying",[
-                'model'=>$model
-            ]);
-        }else{
-            return "Bunday to`lov topilmadi";
-        }
-    }
-
-    public function actionHistory()
     {
         $searchModel = new PaySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
-        return $this->render('history', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

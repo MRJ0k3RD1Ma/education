@@ -40,7 +40,7 @@ class PaySearch extends Pay
      */
     public function search($params)
     {
-        $query = Pay::find();
+        $query = Pay::find()->where(['branch_id'=>\Yii::$app->user->identity->branch_id]);
 
         // add conditions that should always apply here
 

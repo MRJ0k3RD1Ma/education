@@ -1,100 +1,81 @@
 <?php
 
-use common\models\PersonPay;
+use common\models\Pay;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var common\models\search\PersonPaySearch $searchModel */
+/** @var common\models\search\PaySearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Person Pays';
+$this->title = 'To`lovlar tarixi';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="person-pay-index">
-
+<div class="pay-index">
 
     <div class="card">
         <div class="card-body">
-            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
             <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
-
+//            'id',
+                    'code',
+//            'student_id',
                     [
-                        'attribute'=>'code',
+                        'attribute'=>'student_id',
                         'value'=>function($d){
-                            $url = Yii::$app->urlManager->createUrl(['/manager/pay/paying','person_id'=>$d->person_id,'group_id'=>$d->group_id,'id'=>$d->id]);
-                            return "<button class='btn btn-link paying' value='{$url}'>{$d->code}</button>";
+                            return $d->student->person->name;
                         },
-                        'format'=>'raw'
+                        'filter'=>false,
                     ],
+//            'payment_id',
                     [
-                        'attribute'=>'person_id',
+                        'attribute'=>'payment_id',
                         'value'=>function($d){
-                            return $d->person->name;
+                            return $d->payment->name;
                         },
-                        'filter'=>false
+                        'filter'=>\yii\helpers\ArrayHelper::map(\common\models\Payment::find()->all(),'id','name')
                     ],
-                    [
-                        'attribute'=>'group_id',
-                        'value'=>function($d){
-                            return $d->group->name;
-                        },
-                        'filter'=>\yii\helpers\ArrayHelper::map(\common\models\Groups::find()->all(),'id','name')
-                    ],
-                    'id',
-                    'pay_date',
-//            'status_id',
-
                     'price',
+                    'pay_date',
+                    //'branch_id',
+                    //'user_id',
+                    //'created',
+                    //'updated',
+//            'status_id',
                     [
                         'attribute'=>'status_id',
                         'value'=>function($d){
                             return $d->status->name;
                         },
-                        'filter'=>\yii\helpers\ArrayHelper::map(\common\models\PersonPayStatus::find()->all(),'id','name')
+                        'filter'=>\yii\helpers\ArrayHelper::map(\common\models\PayStatus::find()->all(),'id','name'),
                     ],
-                    //'code',
-                    //'created',
-                    //'updated',
+                    //'consept_id',
+                    //'check_file',
+                    [
+                        'attribute'=>'check_file',
+                        'format'=>'raw',
+                        'value'=>function($d){
+                            if($d->check_file){
+                                $res = "<a href='/uploads/check/{$d->check_file}'>Yuklab olish</a>";
+                            }else{
+                                $res = null;
+                            }
+                            return $res;
+                        },
+                        'filter'=>false
+                    ],
+                    'ads:ntext',
+                    'created'
                 ],
             ]); ?>
         </div>
     </div>
 
 
-
 </div>
-
-
-
-    <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"  id="paying" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">To`lov qabul qilish</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-<?php
-$this->registerJs("
-        $('.paying').click(function(){
-            var url = this.value;
-          
-            $('#paying').modal('show').find('.modal-body').load(url);
-        })
-    ")
-?>

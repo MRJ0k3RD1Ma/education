@@ -5,13 +5,11 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var common\models\Pay $model */
 
-$this->title = 'Create Pay';
-$this->params['breadcrumbs'][] = ['label' => 'Pays', 'url' => ['index']];
+$this->title = 'To`lov qo`shish';
+$this->params['breadcrumbs'][] = ['label' => 'To`lovlar tarixi', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="pay-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
