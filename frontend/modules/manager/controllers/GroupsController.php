@@ -4,15 +4,16 @@ namespace frontend\modules\manager\controllers;
 
 use common\models\Groups;
 use common\models\Person;
-use common\models\PersonPay;
 use common\models\PersonWish;
 use common\models\PersonWishHistory;
 use common\models\search\GroupsSearch;
 use common\models\Student;
+use common\models\StudentPay;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * GroupsController implements the CRUD actions for Groups model.
@@ -51,6 +52,42 @@ class GroupsController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+
+    public function actionPaying($id,$i = 0){
+        if($student = Student::findOne(['id'=>$id,'branch_id'=>Yii::$app->user->identity->branch_id])){
+            $pay = StudentPay::find()->where(['student_id'=>$id])->orderBy(['id'=>SORT_ASC])->all();
+            return $this->renderAjax('paying',['pay'=>$pay,'student'=>$student]);
+        }else{
+            return "Bunday talaba topilmadi";
+        }
+    }
+
+    public function actionPaysend($id,$student_id){
+        if($model = StudentPay::findOne(['id'=>$id,'student_id'=>$student_id,'branch_id'=>Yii::$app->user->identity->branch_id])){
+            $code = $model->code;
+            $price = $model->price;
+            $model->scenario = "paying";
+            if($model->load($this->request->post())){
+                $model->code = $code;
+                $model->price = $price;
+                $model->user_id = Yii::$app->user->id;
+                if($model->check_file = UploadedFile::getInstance($model,'check_file')){
+                    $name = microtime(true).'.'.$model->check_file->extension;
+                    $model->check_file->saveAs(Yii::$app->basePath.'/web/uploads/check/'.$name);
+                    $model->check_file = $name;
+                }
+                $model->status_id = 2;
+                if($model->save()){
+                    return $this->redirect(['view','id'=>$model->student->group_id]);
+                }
+            }
+            return $this->render('_paysend',['model'=>$model,'student'=>$model->student]);
+
+        }else{
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     /**
@@ -126,7 +163,7 @@ class GroupsController extends Controller
         $model = new Student();
         $model->person_id = $person_id;
         $model->group_id = $id;
-        $model->status = 1;
+        $model->status = 0;
         if($wish = PersonWish::findOne(['person_id'=>$person_id,'course_id'=>$course_id,'branch_id'=>Yii::$app->user->identity->branch_id])
         and $group = Groups::findOne(['id'=>$id,'course_id'=>$course_id,'branch_id'=>Yii::$app->user->identity->branch_id])){
             if($model->load($this->request->post())){
@@ -138,12 +175,12 @@ class GroupsController extends Controller
                 if($model->save()){
                     // pay generate
                     for($i=0; $i<$wish->course->duration; $i++){
-                        $pay = new PersonPay();
-                        $pay->person_id = $model->person_id;
+                        $pay = new StudentPay();
+                        $pay->student_id = $model->id;
                         $pay->status_id = 1;
-                        $pay->group_id = $model->group_id;
                         $pay->code = $model->code;
                         $pay->price = $model->group->price;
+                        $pay->branch_id = Yii::$app->user->identity->branch_id;
                         $pay->id = $i;
                         $pay->save();
                     }
@@ -160,6 +197,8 @@ class GroupsController extends Controller
         }
     }
 
+
+
     public function actionStart($id){
         if($model = Groups::findOne(['id'=>$id,'branch_id'=>Yii::$app->user->identity->branch_id])){
 
@@ -168,7 +207,7 @@ class GroupsController extends Controller
                 if($model->save()){
                     $student = Student::find()->where(['group_id'=>$model->id])->all();
                     $date = [];
-                    $time = strtotime("Y-m-d");
+                    $time = $model->start_date;
                     $time = date("Y-m-d", strtotime($time."+4 days"));
                     for($i=0; $i<$model->duration; $i++){
                         $final = date("Y-m-d", strtotime($time."+{$i} month"));
@@ -176,23 +215,25 @@ class GroupsController extends Controller
                     }
 
                     foreach ($student as $item){
-                        $pay = PersonPay::find()->where(['person_id'=>$item->person_id,'group_id'=>$model->id])->all();
+                        $pay = StudentPay::find()->where(['student_id'=>$item->id])->all();
                         foreach ($pay as $i){
                             $i->pay_date = null;
                             $i->save();
                         }
+                        $item->status = 1;
+                        $item->save(false);
                         for($i=0; $i<$model->duration; $i++){
-                            if($pay = PersonPay::find()->where(['person_id'=>$item->person_id,'group_id'=>$model->id])->andWhere(['id'=>$i])->one()){
+                            if($pay = StudentPay::find()->where(['student_id'=>$item->id])->andWhere(['id'=>$i])->one()){
                                 $pay->pay_date = $date[$i];
                                 $pay->save();
                             }else{
-                                $pay = new PersonPay();
-                                $pay->id = $i;
-                                $pay->person_id = $item->person_id;
+                                $pay = new StudentPay();
+                                $pay->student_id = $item->id;
                                 $pay->status_id = 1;
-                                $pay->group_id = $model->id;
                                 $pay->code = $item->code;
-                                $pay->price = $model->price;
+                                $pay->price =  $model->price;
+                                $pay->branch_id = Yii::$app->user->identity->branch_id;
+                                $pay->id = $i;
                                 $pay->pay_date = $date[$i];
                                 $pay->save();
                             }

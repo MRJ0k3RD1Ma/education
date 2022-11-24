@@ -18,6 +18,9 @@ return [
         'manager' => [
             'class' => 'frontend\modules\manager\Module',
         ],
+        'bux' => [
+            'class' => 'frontend\modules\bux\Module',
+        ],
     ],
     'components' => [
         'request' => [

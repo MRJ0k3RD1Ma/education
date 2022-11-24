@@ -40,7 +40,7 @@ class StudentSearch extends Student
      */
     public function search($params)
     {
-        $query = Student::find()->where(['branch_id'=>\Yii::$app->user->identity->branch_id])->andWhere(['']);
+        $query = Student::find()->where(['branch_id'=>\Yii::$app->user->identity->branch_id])->andWhere(['status'=>1]);
 
         // add conditions that should always apply here
 
