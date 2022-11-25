@@ -129,6 +129,7 @@
                                             <div class="flex-grow-1 overflow-hidden">
                                                 <h5 class="mb-3">435</h5>
                                                 <p class="text-truncate mb-0"> Kutilayotgan to'lovlar (Noyabr)</p>
+                                                
                                             </div>
                                         </div>
                                     </div>
