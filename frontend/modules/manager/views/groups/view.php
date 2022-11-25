@@ -145,7 +145,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <th>Ijtimoiy mavqei</th>
                                 <th>Loyiha nomi</th>
                                 <th>Yaratildi</th>
-                                <th>To`lov holati</th>
                                 <?php if($model->status_id != 1){?><th>Status</th><?php }?>
                             </tr>
                             </thead>
@@ -160,21 +159,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <td><?= $item->social->name ?></td>
                                     <td><?= $item->project->name ?></td>
                                     <td><?= $item->created ?></td>
-                                    <td>
-                                    <?php if($model->status_id == 1){?>
-                                        Kurs boshlanmagan
-                                    <?php }else{
-                                        $time = strtotime("Y-m-d");
-                                        $time = date("Y-m-d", strtotime($time."+5 days"));
-                                        $time = date("Y-m-d", strtotime($time."+1 month"));
-                                        if($pay = \common\models\StudentPay::find()->where(['student_id'=>$item->id])
-                                            ->andWhere(['<','pay_date',$time])->orderBy(['pay_date'=>SORT_DESC])->one()){echo $pay->status->name;}else{
-                                            ?>
-                                            <a href="<?= Yii::$app->urlManager->createUrl(['/manager/groups/payregenerate','id'=>$item->id])?>">To`lovni qayta generatsiya qilish</a>
-                                                <?php }?>
 
-                                    <?php }?>
-                                    </td>
                                     <?php if($model->status_id != 1){?><td><?= Yii::$app->params['status_student'][$item->status] ?></td><?php }?>
                                 </tr>
                             <?php endforeach;?>
