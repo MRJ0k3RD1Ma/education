@@ -152,8 +152,7 @@ use frontend\components\General;
         <div class="card" style="margin-left: 15px;">
 
             <div class="card-body">
-                <h4 class="card-title">Statistika 2023</h4>
-                </p>
+                <h4 class="card-title">Statistika <?= date('Y')?></h4>
 
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -166,20 +165,23 @@ use frontend\components\General;
                             </tr>
                         </thead>
                         <tbody>
+                            <?php  foreach ($type as $item):?>
                             <tr>
-                                <td>Kompyuter savodhonligi</td>
-                                <td>8</td>
-                                <td>16</td>
+                                <td><?= $item->name ?></td>
+                                <td><?= $item->cnt ?></td>
+                                <td><?= $item->cnt_finish?></td>
+                            </tr>
+                            <?php endforeach;?>
+
+                            <tr>
+                                <td>Loyihalar</td>
+                                <td><?= $project?></td>
+                                <td><?= $project_finish?></td>
                             </tr>
                             <tr>
-                                <td>Jacob</td>
-                                <td>8</td>
-                                <td>16</td>
-                            </tr>
-                            <tr>
-                                <td>Larry</td>
-                                <td>8</td>
-                                <td>16</td>
+                                <td>Ijtimoiy status</td>
+                                <td><?= $social?></td>
+                                <td><?= $social_finish?></td>
                             </tr>
                         </tbody>
                     </table>
