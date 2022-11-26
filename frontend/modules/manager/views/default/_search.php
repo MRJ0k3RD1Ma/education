@@ -10,29 +10,44 @@ use yii\widgets\ActiveForm;
 
 <div class="student-search">
 
-    <?php $form = ActiveForm::begin([
-        'method' => 'get',
-    ]); ?>
+
     <div class="row">
-        <div class="col-md-4">
-            <?= $form->field($model, 'code') ?>
-
+        <div class="col-md-6">
+            <h4><?= $this->title?></h4>
         </div>
-        <div class="col-md-4">
-            <?php echo $form->field($model, 'status_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\StudentPayStatus::find()->all(),'id','name'),['prompt'=>'']) ?>
+        <div class="col-md-6" style="text-align: right">
 
-        </div>
-        <div class="col-md-4">
-            <div class="form-group" style="margin-top:29px;">
-                <?= Html::submitButton('Qidirish', ['class' => 'btn btn-primary']) ?>
-                <a href="#" class="btn btn-info" style="float: right"><span class="fa fa-file-excel"></span> Export</a>
-            </div>
+            <a href="#" class="btn btn-info"><span class="fa fa-file-excel"></span> Export</a>
+
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span class="fa fa-search"></span> Qidiruv</button>
         </div>
     </div>
 
     <br>
 
 
-    <?php ActiveForm::end(); ?>
 
+</div>
+<!-- right offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+     aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Qidiruv</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <?php $form = ActiveForm::begin([
+            'method' => 'get',
+        ]); ?>
+        <?= $form->field($model, 'code') ?>
+
+        <?php echo $form->field($model, 'status_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\StudentPayStatus::find()->all(),'id','name'),['prompt'=>'']) ?>
+
+        <br>
+        <?= Html::submitButton('Qidirish', ['class' => 'btn btn-primary']) ?>
+        <?php ActiveForm::end(); ?>
+
+    </div>
 </div>

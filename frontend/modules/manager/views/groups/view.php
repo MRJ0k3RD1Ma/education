@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="card">
         <div class="card-body">
 
+            <?php if($model->status_id != 3){?>
             <p>
                 <?= Html::a('O`zgartirish', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                 <?= Html::a('O`chirish', ['delete', 'id' => $model->id], [
@@ -31,13 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     <a href="<?= Yii::$app->urlManager->createUrl(['/manager/groups/stop','id'=>$model->id])?>" data-method="post" class="btn btn-info" data-confirm="Siz rostdan ham ushbu guruh o`qishni tugatganligini tasdiqlaysizmi?">Guruh o`qishini tugatdi</a>
                 <?php }?>
             </p>
-
+            <?php }?>
             <div class="row">
                 <div class="col-md-<?= $model->status_id == 1?'6':'12'?>">
                     <?= DetailView::widget([
                         'model' => $model,
                         'attributes' => [
-                            'id',
+//                            'id',
                             [
                                 'label'=>'Guruh nomi',
                                 'attribute'=>'name',

@@ -12,8 +12,8 @@
 .main_main {
     width: 100%;
     border-radius: 4px;
-    background: #32dd7f;
-    height: 90px;
+    background: #0bb197;
+    height: 80px;
     margin: 10px 0;
 }
 .main1 {
@@ -46,7 +46,7 @@
     font-size: 20px;
     line-height: 22px;
     letter-spacing: 0.01em;
-    color: #f2f2f2;
+    color: #ffffff;
     display: flex;
     align-items: center;
     padding-right: 40px;

@@ -22,6 +22,7 @@ return [
             'class' => 'frontend\modules\bux\Module',
         ],
     ],
+    'language'=>'uz',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',

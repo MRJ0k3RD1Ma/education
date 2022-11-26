@@ -32,6 +32,7 @@ class GroupsController extends Controller
                     'class' => VerbFilter::className(),
                     'actions' => [
                         'delete' => ['POST'],
+                        'stop' => ['POST'],
                     ],
                 ],
             ]
@@ -55,37 +56,39 @@ class GroupsController extends Controller
     }
 
 
-    public function actionPaying($id,$i = 0){
-        if($student = Student::findOne(['id'=>$id,'branch_id'=>Yii::$app->user->identity->branch_id])){
-            $pay = StudentPay::find()->where(['student_id'=>$id])->orderBy(['id'=>SORT_ASC])->all();
-            return $this->renderAjax('paying',['pay'=>$pay,'student'=>$student]);
-        }else{
+    public function actionPaying($id, $i = 0)
+    {
+        if ($student = Student::findOne(['id' => $id, 'branch_id' => Yii::$app->user->identity->branch_id])) {
+            $pay = StudentPay::find()->where(['student_id' => $id])->orderBy(['id' => SORT_ASC])->all();
+            return $this->renderAjax('paying', ['pay' => $pay, 'student' => $student]);
+        } else {
             return "Bunday talaba topilmadi";
         }
     }
 
-    public function actionPaysend($id,$student_id){
-        if($model = StudentPay::findOne(['id'=>$id,'student_id'=>$student_id,'branch_id'=>Yii::$app->user->identity->branch_id])){
+    public function actionPaysend($id, $student_id)
+    {
+        if ($model = StudentPay::findOne(['id' => $id, 'student_id' => $student_id, 'branch_id' => Yii::$app->user->identity->branch_id])) {
             $code = $model->code;
             $price = $model->price;
             $model->scenario = "paying";
-            if($model->load($this->request->post())){
+            if ($model->load($this->request->post())) {
                 $model->code = $code;
                 $model->price = $price;
                 $model->user_id = Yii::$app->user->id;
-                if($model->check_file = UploadedFile::getInstance($model,'check_file')){
-                    $name = microtime(true).'.'.$model->check_file->extension;
-                    $model->check_file->saveAs(Yii::$app->basePath.'/web/uploads/check/'.$name);
+                if ($model->check_file = UploadedFile::getInstance($model, 'check_file')) {
+                    $name = microtime(true) . '.' . $model->check_file->extension;
+                    $model->check_file->saveAs(Yii::$app->basePath . '/web/uploads/check/' . $name);
                     $model->check_file = $name;
                 }
                 $model->status_id = 2;
-                if($model->save()){
-                    return $this->redirect(['view','id'=>$model->student->group_id]);
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->student->group_id]);
                 }
             }
-            return $this->render('_paysend',['model'=>$model,'student'=>$model->student]);
+            return $this->render('_paysend', ['model' => $model, 'student' => $model->student]);
 
-        }else{
+        } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
@@ -119,7 +122,7 @@ class GroupsController extends Controller
                 $model->branch_id = Yii::$app->user->identity->branch_id;
                 $model->price = $model->course->price;
                 $model->duration = $model->course->duration;
-                if($model->save()){
+                if ($model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             }
@@ -146,10 +149,10 @@ class GroupsController extends Controller
         if ($this->request->isPost && $model->load($this->request->post())) {
             $model->price = $model->course->price;
             $model->duration = $model->course->duration;
-            if($model->status_id == 1 && $model->save()){
+            if ($model->status_id == 1 && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
-            }else{
-                Yii::$app->session->setFlash('error','Kurs boshlangandan keyin kurs ma`lumotlarini o`zgartirish mumkin emas!');
+            } else {
+                Yii::$app->session->setFlash('error', 'Kurs boshlangandan keyin kurs ma`lumotlarini o`zgartirish mumkin emas!');
             }
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -159,22 +162,23 @@ class GroupsController extends Controller
         ]);
     }
 
-    public function actionAdd($id,$person_id,$course_id){
+    public function actionAdd($id, $person_id, $course_id)
+    {
         $model = new Student();
         $model->person_id = $person_id;
         $model->group_id = $id;
         $model->status = 0;
-        if($wish = PersonWish::findOne(['person_id'=>$person_id,'course_id'=>$course_id,'branch_id'=>Yii::$app->user->identity->branch_id])
-        and $group = Groups::findOne(['id'=>$id,'course_id'=>$course_id,'branch_id'=>Yii::$app->user->identity->branch_id])){
-            if($model->load($this->request->post())){
-                $model->code_id = Student::find()->where(['branch_id'=>Yii::$app->user->identity->branch_id])->andFilterWhere(['like','created',date('Y')])->max('code_id');
-                $model->code_id ++;
-                $model->code = substr(date('Y'),2,2).'/'.Yii::$app->user->identity->branch->code.'-'.$model->code_id;
+        if ($wish = PersonWish::findOne(['person_id' => $person_id, 'course_id' => $course_id, 'branch_id' => Yii::$app->user->identity->branch_id])
+            and $group = Groups::findOne(['id' => $id, 'course_id' => $course_id, 'branch_id' => Yii::$app->user->identity->branch_id])) {
+            if ($model->load($this->request->post())) {
+                $model->code_id = Student::find()->where(['branch_id' => Yii::$app->user->identity->branch_id])->andFilterWhere(['like', 'created', date('Y')])->max('code_id');
+                $model->code_id++;
+                $model->code = substr(date('Y'), 2, 2) . '/' . Yii::$app->user->identity->branch->code . '-' . $model->code_id;
                 $model->branch_id = Yii::$app->user->identity->branch_id;
                 $model->creator_id = Yii::$app->user->id;
-                if($model->save()){
+                if ($model->save()) {
                     // pay generate
-                    for($i=0; $i<$wish->course->duration; $i++){
+                    for ($i = 0; $i < $wish->course->duration; $i++) {
                         $pay = new StudentPay();
                         $pay->student_id = $model->id;
                         $pay->status_id = 1;
@@ -187,51 +191,68 @@ class GroupsController extends Controller
 
                     $wish->delete();
                 }
-                return $this->redirect(['view','id'=>$id]);
+                return $this->redirect(['view', 'id' => $id]);
             }
-            return $this->renderAjax('_add',[
-                'model'=>$model
+            return $this->renderAjax('_add', [
+                'model' => $model
             ]);
-        }else{
+        } else {
             return "Bunday o`quvchi topilmadi";
         }
     }
 
 
+    public function actionStop($id)
+    {
+        if ($model = Groups::findOne(['id' => $id, 'branch_id' => Yii::$app->user->identity->branch_id])) {
+            $model->status_id = 3;
+            if($model->save()){
+                $student = Student::find()->where(['group_id' => $model->id])->andWhere(['status'=>1])->all();
+                foreach ($student as $item){
+                    $item->status = 3;
+                    $item->save(false);
+                }
+            }
+            return $this->redirect(['view','id'=>$id]);
+        }else{
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 
-    public function actionStart($id){
-        if($model = Groups::findOne(['id'=>$id,'branch_id'=>Yii::$app->user->identity->branch_id])){
+    public function actionStart($id)
+    {
+        if ($model = Groups::findOne(['id' => $id, 'branch_id' => Yii::$app->user->identity->branch_id])) {
 
-            if($model->load($this->request->post())){
+            if ($model->load($this->request->post())) {
                 $model->status_id = 2;
-                if($model->save()){
-                    $student = Student::find()->where(['group_id'=>$model->id])->all();
+                if ($model->save()) {
+                    $student = Student::find()->where(['group_id' => $model->id])->all();
                     $date = [];
                     $time = $model->start_date;
-                    $time = date("Y-m-d", strtotime($time."+4 days"));
-                    for($i=0; $i<$model->duration; $i++){
-                        $final = date("Y-m-d", strtotime($time."+{$i} month"));
+                    $time = date("Y-m-d", strtotime($time . "+4 days"));
+                    for ($i = 0; $i < $model->duration; $i++) {
+                        $final = date("Y-m-d", strtotime($time . "+{$i} month"));
                         $date[$i] = $final;
                     }
 
-                    foreach ($student as $item){
-                        $pay = StudentPay::find()->where(['student_id'=>$item->id])->all();
-                        foreach ($pay as $i){
+                    foreach ($student as $item) {
+                        $pay = StudentPay::find()->where(['student_id' => $item->id])->all();
+                        foreach ($pay as $i) {
                             $i->pay_date = null;
                             $i->save();
                         }
                         $item->status = 1;
                         $item->save(false);
-                        for($i=0; $i<$model->duration; $i++){
-                            if($pay = StudentPay::find()->where(['student_id'=>$item->id])->andWhere(['id'=>$i])->one()){
+                        for ($i = 0; $i < $model->duration; $i++) {
+                            if ($pay = StudentPay::find()->where(['student_id' => $item->id])->andWhere(['id' => $i])->one()) {
                                 $pay->pay_date = $date[$i];
                                 $pay->save();
-                            }else{
+                            } else {
                                 $pay = new StudentPay();
                                 $pay->student_id = $item->id;
                                 $pay->status_id = 1;
                                 $pay->code = $item->code;
-                                $pay->price =  $model->price;
+                                $pay->price = $model->price;
                                 $pay->branch_id = Yii::$app->user->identity->branch_id;
                                 $pay->id = $i;
                                 $pay->pay_date = $date[$i];
@@ -239,12 +260,12 @@ class GroupsController extends Controller
                             }
                         }
                     }
-                    return $this->redirect(['view','id'=>$id]);
+                    return $this->redirect(['view', 'id' => $id]);
                 }
             }
 
-            return $this->renderAjax('_start',['model'=>$model]);
-        }else{
+            return $this->renderAjax('_start', ['model' => $model]);
+        } else {
             return "Bunday guruh topilmadi";
         }
     }
@@ -272,7 +293,7 @@ class GroupsController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Groups::findOne(['id' => $id,'branch_id'=> Yii::$app->user->identity->branch_id])) !== null) {
+        if (($model = Groups::findOne(['id' => $id, 'branch_id' => Yii::$app->user->identity->branch_id])) !== null) {
             return $model;
         }
 
