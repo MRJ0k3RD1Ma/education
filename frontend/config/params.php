@@ -21,7 +21,8 @@ return [
         0=>'O`qish boshlanishini kutyapti',
         1=>'O`qiyapti',
         2=>'O`qishni to`xtatgan',
-        3=>'O`qishdan chetlatilgan',
+        3=>'O`qishni to`liq tugatgan',
+        4=>'Sertifikat olgan',
     ],
     'date'=>[
         1=>'Yanvar',

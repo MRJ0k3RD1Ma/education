@@ -2,8 +2,11 @@
 
 namespace frontend\modules\manager\controllers;
 
+use common\models\GroupType;
 use common\models\Person;
+use common\models\Project;
 use common\models\search\StudentPaySearch;
+use common\models\Student;
 use common\models\StudentPay;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -59,13 +62,26 @@ class DefaultController extends Controller
         }
         $kutilyotgan = substr($kutilyotgan,0,strlen($kutilyotgan)-1);
 
+        $type = GroupType::find()->
+        select(['group_type.*','(SELECT COUNT(student.id) FROM student WHERE student.status=1 and  student.group_id IN (SELECT id FROM `groups` WHERE group_type.id=`groups`.type_id)) AS cnt',
+            '(SELECT COUNT(student.id) FROM student WHERE (student.status=3 or student.status=4) and  student.group_id IN (SELECT id FROM `groups` WHERE group_type.id=`groups`.type_id)) AS cnt_finish'
+            ])->all();
+        $project = Student::find()->where(['<>','project_id',1])->andWhere(['status'=>1])->count('id');
+        $project_finish = Student::find()->where(['<>','project_id',1])->andWhere('status = 3 or status=4')->count('id');
 
+        $social = Student::find()->where(['<>','social_id',1])->andWhere(['status'=>1])->count('id');
+        $social_finish = Student::find()->where(['<>','social_id',1])->andWhere('status = 3 or status=4')->count('id');
         return $this->render('index',[
             'monthly_person'=>$monthly_person,
             'monthly_price'=>$monthly_price,
             'monthly_price_5'=>$monthly_price_5,
             'tasdiqlangan'=>$tasdiqlangan,
-            'kutilyotgan'=>$kutilyotgan
+            'kutilyotgan'=>$kutilyotgan,
+            'type'=>$type,
+            'project'=>$project,
+            'project_finish'=>$project_finish,
+            'social'=>$social,
+            'social_finish'=>$social_finish,
         ]);
     }
 

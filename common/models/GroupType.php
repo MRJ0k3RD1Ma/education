@@ -14,6 +14,7 @@ use Yii;
  */
 class GroupType extends \yii\db\ActiveRecord
 {
+    public $cnt,$cnt_finish;
     /**
      * {@inheritdoc}
      */
@@ -39,7 +40,9 @@ class GroupType extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Nomi',
+            'cnt' => 'Soni',
+            'cnt_finish' => 'Soni',
         ];
     }
 
