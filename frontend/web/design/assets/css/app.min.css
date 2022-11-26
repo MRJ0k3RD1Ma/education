@@ -9,3 +9,139 @@
 .footer{
     position: fixed !important;
 }
+.main_main {
+    width: 100%;
+    border-radius: 4px;
+    background: #32dd7f;
+    height: 90px;
+    margin: 10px 0;
+}
+.main1 {
+    background: #f7685b;
+}
+.main2 {
+    background: #ffb946;
+}
+.main3 {
+    background: #f0f0f0;
+}
+.main_main:hover{
+    transform: scale(1.02);
+}
+.mains {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-top:10px;
+}
+.main3 .h1_main, .main3 .h2_main, .main3 .span_main, .main3 .span2,
+.main3 .p2,.main3 .p_main, .main3
+{
+    color:#000;
+}
+.h1_main {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: 0.01em;
+    color: #f2f2f2;
+    display: flex;
+    align-items: center;
+    padding-right: 40px;
+}
+.h2_main {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: 0.01em;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    padding-right: 40px;
+}
+.svg_main {
+    padding: 0 5px;
+}
+.span_main {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    /* identical to box height */
+    letter-spacing: 0.01em;
+    color: #f2f2f2;
+    opacity: 0.9;
+}
+.span2 {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    /* identical to box height */
+    letter-spacing: 0.01em;
+    color: #000000;
+    opacity: 0.9;
+}
+.p_main {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    padding-right: 40px;
+    letter-spacing: 0.01em;
+    margin: 0;
+}
+.p2 {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    padding-right: 40px;
+    color: #000000;
+
+    letter-spacing: 0.01em;
+    margin: 0;
+}
+.btn_main {
+    background: #219653;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    width: 130px;
+    border: 0;
+    padding: 8px;
+    color: #ffffff;
+}
+
+.main1 .btn_main {
+    background: #fe4635 !important;
+}
+.main2 .btn_main {
+    background: #F2994A !important;
+
+}
+.main3 .btn_main {
+    background: #109CF1 !important;
+}
+
+.btn_main:hover {
+    background-color: #29ac61;
+    cursor: pointer;
+}
+.btn1:hover {
+    background-color: #cf4e42;
+    cursor: pointer;
+}
+.btn2:hover {
+    background: #f5a056;
+    cursor: pointer;
+}
+.btn3:hover {
+    background: #038be0;
+    cursor: pointer;
+}
