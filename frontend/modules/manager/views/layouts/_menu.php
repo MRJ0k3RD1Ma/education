@@ -11,21 +11,21 @@
 
                 <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/cp/'])?>" class="waves-effect">
-                        <i class="mdi mdi-home-variant-outline"></i>
+                    <i class="fa fa-home" aria-hidden="true"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
 
                 <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/manager/person'])?>" class="waves-effect">
-                        <i class="mdi mdi-account-multiple"></i>
+                    <i class="fa fa-list-alt" aria-hidden="true"></i>
                         <span>Registratura</span>
                     </a>
                 </li>
 
                 <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/manager/student'])?>" class="waves-effect">
-                        <i class="mdi mdi-account-multiple"></i>
+                    <i class="fa fa-users" aria-hidden="true"></i>
                         <span>O`quvchilar</span>
                     </a>
                 </li>
@@ -39,7 +39,7 @@
 
                 <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/manager/groups'])?>" class="waves-effect">
-                        <i class="mdi mdi-bag-personal"></i>
+                        <i class="mdi mdi-bag-personal fs-3"></i>
                         <span>Guruhlar</span>
                     </a>
                 </li>
@@ -47,14 +47,14 @@
 
                 <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/manager/room'])?>" class="waves-effect">
-                        <i class="mdi mdi-door"></i>
+                        <i class="mdi mdi-door fs-3"></i>
                         <span>Xonalar ro`yhati</span>
                     </a>
                 </li>
 
                 <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/manager/user'])?>" class="waves-effect">
-                        <i class="mdi mdi-account-multiple"></i>
+                        <i class="mdi mdi-account-multiple fs-3"></i>
                         <span>O'qituvchilar</span>
                     </a>
                 </li>
