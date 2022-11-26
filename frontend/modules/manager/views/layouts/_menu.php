@@ -31,9 +31,9 @@
                 </li>
 
                 <li>
-                    <a href="<?= Yii::$app->urlManager->createUrl(['/manager/pay'])?>" class="waves-effect">
-                    <i class="mdi mdi-currency-usd  fs-3 " ></i>
-                    <span>To'lovlar</span>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/manager/default/pay'])?>" class="waves-effect">
+                        <i class="mdi mdi-account-multiple"></i>
+                        <span>To'lovlar</span>
                     </a>
                 </li>
 
