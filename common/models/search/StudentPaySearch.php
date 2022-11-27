@@ -11,13 +11,14 @@ use common\models\StudentPay;
  */
 class StudentPaySearch extends StudentPay
 {
+    public $course,$group;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['student_id', 'id', 'price', 'payment_id', 'branch_id', 'user_id', 'consept_id', 'status_id'], 'integer'],
+            [['student_id', 'id', 'price', 'payment_id', 'branch_id', 'user_id','group', 'consept_id','course', 'status_id'], 'integer'],
             [['code', 'pay_date', 'paid_date', 'check_file', 'ads', 'created', 'updated'], 'safe'],
         ];
     }
@@ -81,7 +82,7 @@ class StudentPaySearch extends StudentPay
 
     public function searchBux($params)
     {
-        $query = StudentPay::find()->where('status_id in (2,3,5)');
+        $query = StudentPay::find()->where('status_id in (2,3,5)')->orderBy(['status'=>SORT_ASC]);
 
         // add conditions that should always apply here
 
@@ -122,8 +123,11 @@ class StudentPaySearch extends StudentPay
 
     public function searchManager($params)
     {
-        $query = StudentPay::find()->andWhere(['branch_id'=>\Yii::$app->user->identity->branch_id])
-        ->orderBy(['pay_date'=>SORT_ASC]);
+        $query = StudentPay::find()->andWhere(['student_pay.branch_id'=>\Yii::$app->user->identity->branch_id])
+            ->innerJoin('student','student_pay.student_id = student.id')
+            ->innerJoin('groups','student.group_id = groups.id')
+
+        ->orderBy(['student_pay.pay_date'=>SORT_ASC]);
 
         // add conditions that should always apply here
 
@@ -140,27 +144,29 @@ class StudentPaySearch extends StudentPay
         }
 
         if(!$this->status_id){
-            $query->andWhere('status_id not in (2,3,4)');
+            $query->andWhere('student_pay.status_id not in (2,3,4)');
         }
         // grid filtering conditions
         $query->andFilterWhere([
-            'student_id' => $this->student_id,
-            'id' => $this->id,
-            'pay_date' => $this->pay_date,
-            'price' => $this->price,
-            'paid_date' => $this->paid_date,
-            'payment_id' => $this->payment_id,
-            'branch_id' => $this->branch_id,
-            'user_id' => $this->user_id,
-            'consept_id' => $this->consept_id,
-            'status_id' => $this->status_id,
-            'created' => $this->created,
-            'updated' => $this->updated,
+            'student_pay.student_id' => $this->student_id,
+            'student_pay.id' => $this->id,
+            'student_pay.pay_date' => $this->pay_date,
+            'student_pay.price' => $this->price,
+            'student_pay.paid_date' => $this->paid_date,
+            'student_pay.payment_id' => $this->payment_id,
+            'student_pay.branch_id' => $this->branch_id,
+            'student_pay.user_id' => $this->user_id,
+            'student_pay.consept_id' => $this->consept_id,
+            'student_pay.status_id' => $this->status_id,
+            'student_pay.created' => $this->created,
+            'student_pay.updated' => $this->updated,
+            'groups.course_id' => $this->course,
+            'groups.id' => $this->group,
         ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'check_file', $this->check_file])
-            ->andFilterWhere(['like', 'ads', $this->ads]);
+        $query->andFilterWhere(['like', 'student_pay.code', $this->code])
+            ->andFilterWhere(['like', 'student_pay.check_file', $this->check_file])
+            ->andFilterWhere(['like', 'student_pay.ads', $this->ads]);
 
         return $dataProvider;
     }

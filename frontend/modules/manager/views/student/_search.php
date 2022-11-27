@@ -48,7 +48,7 @@ use yii\widgets\ActiveForm;
             <?php // echo $form->field($model, 'branch_id') ?>
 
             <?php  echo $form->field($model, 'status')->dropDownList(Yii::$app->params['status_student'],['prompt'=>'']) ?>
-
+            <br>
             <div class="form-group">
                 <?= Html::submitButton('Qidirish', ['class' => 'btn btn-primary']) ?>
             </div>

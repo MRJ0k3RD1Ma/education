@@ -44,7 +44,7 @@ class StudentSearch extends Student
         $query = Student::find()->select('student.*')
             ->innerJoin('person','person.id = student.person_id')
             ->where(['student.branch_id'=>\Yii::$app->user->identity->branch_id])
-            //->andWhere(['student.status'=>1])
+            ->andWhere(['<>','student.status',1])
         ;
 
         // add conditions that should always apply here

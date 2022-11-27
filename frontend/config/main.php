@@ -21,6 +21,9 @@ return [
         'bux' => [
             'class' => 'frontend\modules\bux\Module',
         ],
+        'bmanager' => [
+            'class' => 'frontend\modules\bmanager\Module',
+        ],
     ],
     'language'=>'uz',
     'components' => [

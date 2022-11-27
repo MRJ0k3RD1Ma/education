@@ -45,6 +45,9 @@ use yii\widgets\ActiveForm;
 
         <?php echo $form->field($model, 'status_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\StudentPayStatus::find()->all(),'id','name'),['prompt'=>'']) ?>
 
+        <?php echo $form->field($model, 'course')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Cource::find()->all(),'id','name'),['prompt'=>''])->label('Kurs nomi') ?>
+        <?php echo $form->field($model, 'group')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Groups::find()->where(['course_id'=>$model->course])->all(),'id','name'),['prompt'=>''])->label('Kurs nomi') ?>
+
         <br>
         <?= Html::submitButton('Qidirish', ['class' => 'btn btn-primary']) ?>
         <?php ActiveForm::end(); ?>
