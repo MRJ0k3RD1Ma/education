@@ -40,7 +40,8 @@ class GroupsSearch extends Groups
      */
     public function search($params)
     {
-        $query = Groups::find()->where(['branch_id'=>\Yii::$app->user->identity->branch_id])->orderBy(['id'=>SORT_DESC]);
+        $query = Groups::find()->where(['branch_id'=>\Yii::$app->user->identity->branch_id])
+            ->orderBy(['status_id'=>SORT_ASC,'id'=>SORT_DESC]);
 
         // add conditions that should always apply here
 

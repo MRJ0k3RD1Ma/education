@@ -122,6 +122,10 @@ class GroupsController extends Controller
                 $model->branch_id = Yii::$app->user->identity->branch_id;
                 $model->price = $model->course->price;
                 $model->duration = $model->course->duration;
+                $code = Groups::find()->where(['branch_id'=>Yii::$app->user->identity->branch_id])->andFilterWhere(['like','created',date('Y')])->max('code_id');
+                $code=$code+1;
+                $model->code_id = $code;
+                $model->name = Yii::$app->user->identity->branch->code.'/'.date('Y').'-'.$code;
                 if ($model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
                 }

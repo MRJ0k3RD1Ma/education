@@ -10,34 +10,50 @@ use yii\widgets\ActiveForm;
 
 <div class="person-search">
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <!-- right offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+         aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel">Qidiruv</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
 
-    <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'pnfl') ?>
 
-    <?= $form->field($model, 'inn') ?>
+            <?php $form = ActiveForm::begin([
+                'action' => ['index'],
+                'method' => 'get',
+            ]); ?>
 
-    <?= $form->field($model, 'birthday') ?>
+            <?php  $form->field($model, 'id') ?>
 
-    <?php // echo $form->field($model, 'phone') ?>
+            <?= $form->field($model, 'name') ?>
 
-    <?php // echo $form->field($model, 'phone_parent') ?>
+            <?php  $form->field($model, 'pnfl') ?>
 
-    <?php // echo $form->field($model, 'created') ?>
+            <?php $form->field($model, 'inn') ?>
 
-    <?php // echo $form->field($model, 'updated') ?>
+            <?= $form->field($model, 'birthday')->textInput(['type'=>'date']) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+            <?php // echo $form->field($model, 'phone') ?>
+
+            <?php // echo $form->field($model, 'phone_parent') ?>
+
+            <?php // echo $form->field($model, 'created') ?>
+
+            <?php // echo $form->field($model, 'updated') ?>
+            <br>
+            <div class="form-group">
+                <?= Html::submitButton('Qidirish', ['class' => 'btn btn-primary']) ?>
+            </div>
+
+            <?php ActiveForm::end(); ?>
+
+        </div>
     </div>
 
-    <?php ActiveForm::end(); ?>
 
 </div>

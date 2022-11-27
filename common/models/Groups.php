@@ -21,6 +21,7 @@ use Yii;
  * @property string|null $updated
  * @property int $creator_id
  * @property int|null $room_id
+ * @property int|null $code_id
  *
  * @property Attendance[] $attendances
  * @property Branch $branch
@@ -85,6 +86,7 @@ class Groups extends \yii\db\ActiveRecord
             'updated' => 'O`zgartirildi',
             'creator_id' => 'Yaratuvchi',
             'room_id' => 'Xona raqami',
+            'code_id' => 'Kod',
         ];
     }
 
