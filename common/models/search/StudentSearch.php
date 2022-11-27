@@ -11,6 +11,7 @@ use common\models\Student;
  */
 class StudentSearch extends Student
 {
+    public $per;
     /**
      * {@inheritdoc}
      */
@@ -18,7 +19,7 @@ class StudentSearch extends Student
     {
         return [
             [['id', 'code_id', 'group_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'branch_id', 'status'], 'integer'],
-            [['code', 'created', 'updated'], 'safe'],
+            [['code', 'created','per', 'updated'], 'safe'],
         ];
     }
 
@@ -40,7 +41,11 @@ class StudentSearch extends Student
      */
     public function search($params)
     {
-        $query = Student::find()->where(['branch_id'=>\Yii::$app->user->identity->branch_id])->andWhere(['status'=>1]);
+        $query = Student::find()->select('student.*')
+            ->innerJoin('person','person.id = student.person_id')
+            ->where(['student.branch_id'=>\Yii::$app->user->identity->branch_id])
+            //->andWhere(['student.status'=>1])
+        ;
 
         // add conditions that should always apply here
 
@@ -55,23 +60,23 @@ class StudentSearch extends Student
             // $query->where('0=1');
             return $dataProvider;
         }
-
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'code_id' => $this->code_id,
-            'group_id' => $this->group_id,
-            'person_id' => $this->person_id,
-            'social_id' => $this->social_id,
-            'project_id' => $this->project_id,
-            'created' => $this->created,
-            'updated' => $this->updated,
-            'creator_id' => $this->creator_id,
-            'branch_id' => $this->branch_id,
-            'status' => $this->status,
+            'student.id' => $this->id,
+            'student.code_id' => $this->code_id,
+            'student.group_id' => $this->group_id,
+            'student.person_id' => $this->person_id,
+            'student.social_id' => $this->social_id,
+            'student.project_id' => $this->project_id,
+            'student.created' => $this->created,
+            'student.updated' => $this->updated,
+            'student.creator_id' => $this->creator_id,
+            'student.branch_id' => $this->branch_id,
+            'student.status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code]);
+        $query->andFilterWhere(['like', 'student.code', $this->code])
+        ->andFilterWhere(['like','person.name',$this->per]);
 
         return $dataProvider;
     }

@@ -10,44 +10,54 @@ use yii\widgets\ActiveForm;
 
 <div class="groups-search">
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
+    <!-- right offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+         aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel">Qidiruv</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
 
-    <?= $form->field($model, 'id') ?>
+            <?php $form = ActiveForm::begin([
+                'action' => ['index'],
+                'method' => 'get',
+            ]); ?>
 
-    <?= $form->field($model, 'name') ?>
+            <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'branch_id') ?>
+            <?= $form->field($model, 'course_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Cource::find()->all(),'id','name'),['prompt'=>'']) ?>
 
-    <?= $form->field($model, 'course_id') ?>
+            <?= $form->field($model, 'status_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\GroupStatus::find()->all(),'id','name'),['prompt'=>'']) ?>
 
-    <?= $form->field($model, 'status_id') ?>
+            <?php echo $form->field($model, 'start_date')->textInput(['type'=>'date']) ?>
 
-    <?php // echo $form->field($model, 'start_date') ?>
+            <?php  echo $form->field($model, 'day_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\GroupDay::find()->all(),'id','name'),['prompt'=>'']) ?>
 
-    <?php // echo $form->field($model, 'day_id') ?>
+            <?php // echo $form->field($model, 'time') ?>
 
-    <?php // echo $form->field($model, 'time') ?>
+            <?php  echo $form->field($model, 'type_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\GroupType::find()->all(),'id','name'),['prompt'=>'']) ?>
 
-    <?php // echo $form->field($model, 'type_id') ?>
+            <?php //  echo $form->field($model, 'price') ?>
 
-    <?php // echo $form->field($model, 'price') ?>
+            <?php // echo $form->field($model, 'created') ?>
 
-    <?php // echo $form->field($model, 'created') ?>
+            <?php // echo $form->field($model, 'updated') ?>
 
-    <?php // echo $form->field($model, 'updated') ?>
+            <?php // echo $form->field($model, 'creator_id') ?>
 
-    <?php // echo $form->field($model, 'creator_id') ?>
+            <?php // echo $form->field($model, 'room_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Room::find()->all(),'id','name')) ?>
+            <br>
 
-    <?php // echo $form->field($model, 'room_id') ?>
+            <div class="form-group">
+                <?= Html::submitButton('Qidirish', ['class' => 'btn btn-primary']) ?>
+            </div>
 
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+            <?php ActiveForm::end(); ?>
+
+        </div>
     </div>
 
-    <?php ActiveForm::end(); ?>
 
 </div>

@@ -10,22 +10,31 @@ use yii\widgets\ActiveForm;
 
 <div class="room-search">
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
+    <!-- right offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+         aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel">Qidiruv</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
 
-    <?= $form->field($model, 'id') ?>
+            <?php $form = ActiveForm::begin([
+                'action' => ['index'],
+                'method' => 'get',
+            ]); ?>
 
-    <?= $form->field($model, 'branch_id') ?>
+            <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'name') ?>
+            <br>
+            <div class="form-group">
+                <?= Html::submitButton('Qidirish', ['class' => 'btn btn-primary']) ?>
+            </div>
 
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+            <?php ActiveForm::end(); ?>
+        </div>
     </div>
 
-    <?php ActiveForm::end(); ?>
 
 </div>

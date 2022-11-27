@@ -10,40 +10,53 @@ use yii\widgets\ActiveForm;
 
 <div class="student-search">
 
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-    ]); ?>
+    <!-- right offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+         aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel">Qidiruv</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
 
-    <?= $form->field($model, 'id') ?>
+            <?php $form = ActiveForm::begin([
+                'action' => ['index'],
+                'method' => 'get',
+            ]); ?>
 
-    <?= $form->field($model, 'code') ?>
+            <?php $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'code_id') ?>
+            <?= $form->field($model, 'code') ?>
 
-    <?= $form->field($model, 'group_id') ?>
+            <?php $form->field($model, 'code_id') ?>
 
-    <?= $form->field($model, 'person_id') ?>
+            <?= $form->field($model, 'group_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Groups::find()->all(),'id','name'),['prompt'=>'']) ?>
 
-    <?php // echo $form->field($model, 'social_id') ?>
+            <?= $form->field($model, 'per')->label('FIO') ?>
 
-    <?php // echo $form->field($model, 'project_id') ?>
+            <?php echo $form->field($model, 'social_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\PersonSocial::find()->all(),'id','name'),['prompt'=>'']) ?>
 
-    <?php // echo $form->field($model, 'created') ?>
+            <?php  echo $form->field($model, 'project_id')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\Project::find()->all(),'id','name'),['prompt'=>'']) ?>
 
-    <?php // echo $form->field($model, 'updated') ?>
+            <?php // echo $form->field($model, 'created') ?>
 
-    <?php // echo $form->field($model, 'creator_id') ?>
+            <?php // echo $form->field($model, 'updated') ?>
 
-    <?php // echo $form->field($model, 'branch_id') ?>
+            <?php // echo $form->field($model, 'creator_id') ?>
 
-    <?php // echo $form->field($model, 'status') ?>
+            <?php // echo $form->field($model, 'branch_id') ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+            <?php  echo $form->field($model, 'status')->dropDownList(Yii::$app->params['status_student'],['prompt'=>'']) ?>
+
+            <div class="form-group">
+                <?= Html::submitButton('Qidirish', ['class' => 'btn btn-primary']) ?>
+            </div>
+
+            <?php ActiveForm::end(); ?>
+
+        </div>
     </div>
 
-    <?php ActiveForm::end(); ?>
 
 </div>
