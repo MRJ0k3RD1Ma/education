@@ -47,6 +47,18 @@ class StudentController extends Controller
         ]);
     }
 
+    public function actionDone()
+    {
+        $searchModel = new StudentSearch();
+        $dataProvider = $searchModel->searchDone($this->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
     /**
      * Displays a single Student model.
      * @param int $id ID

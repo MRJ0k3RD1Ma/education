@@ -24,11 +24,16 @@
                 </li>
 
                 <li>
-                    <a href="<?= Yii::$app->urlManager->createUrl(['/manager/student'])?>" class="waves-effect">
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                        <span>O`quvchilar</span>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-gradient"></i>
+                        <span>O'quvchilar</span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="<?= Yii::$app->urlManager->createUrl(['/manager/student'])?>">O`quvchilar</a></li>
+                        <li><a href="<?= Yii::$app->urlManager->createUrl(['/manager/student/done'])?>">O`qishni tugatganlar</a></li>
+                    </ul>
                 </li>
+
 
                 <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/manager/default/pay'])?>" class="waves-effect">

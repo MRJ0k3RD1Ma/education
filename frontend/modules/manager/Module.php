@@ -23,7 +23,7 @@ class Module extends \yii\base\Module
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function($rule, $action){
-                            if(Yii::$app->user->identity->role_id == 5){
+                            if(Yii::$app->user->identity->role_id == 2){
                                 return true;
                             }
                             header('Location: '.Yii::$app->urlManager->createUrl([Yii::$app->user->identity->role->url]));
