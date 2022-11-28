@@ -195,7 +195,6 @@ use frontend\components\General;
 </div>
 
 
-<?php if(false){?>
 <div class="row">
     <div class="card" style="margin-left: 15px;">
         <div class="card-body">
@@ -273,7 +272,7 @@ use frontend\components\General;
         </div>
     </div>
 </div>
-<?php }?>
+
 <?php
     $date = Yii::$app->params['date'];
     $dates = '[';
