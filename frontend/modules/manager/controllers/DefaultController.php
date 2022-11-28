@@ -129,4 +129,29 @@ class DefaultController extends Controller
         ]);
     }
 
+
+
+    public function actionStat($year = null){
+        $branch_id = Yii::$app->user->identity->branch_id;
+        if(!$year){
+            $year = date('Y');
+        }
+
+        $type = [];
+
+        for($i=1; $i<=12; $i++){
+            $type[$i] = GroupType::find()->
+            select(['group_type.*',
+                '(SELECT COUNT(student.id) FROM student WHERE student.status=1 and student.group_id IN (SELECT id FROM `groups` WHERE group_type.id=`groups`.type_id)) AS cnt',
+                '(SELECT COUNT(student.id) FROM student WHERE (student.status=3 or student.status=4) and  student.group_id IN (SELECT id FROM `groups` WHERE group_type.id=`groups`.type_id)) AS cnt_finish'
+            ])->all();
+        }
+
+
+        return $this->render('stat',[
+            'year'=>$year
+        ]);
+
+    }
+
 }

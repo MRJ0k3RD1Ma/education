@@ -41,6 +41,7 @@ AppAsset::register($this);
 
         <div class="page-content">
             <div class="container-fluid">
+                <?php if(Yii::$app->controller->action->id != 'stat'){?>
 
                 <!-- start page title -->
                 <div class="row">
@@ -60,6 +61,8 @@ AppAsset::register($this);
                         </div>
                     </div>
                 </div>
+                <?php }?>
+
                 <!-- end page title -->
                 <?= $content?>
 
