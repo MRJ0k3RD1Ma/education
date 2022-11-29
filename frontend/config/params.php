@@ -37,5 +37,9 @@ return [
         10=>'Oktyabr',
         11=>'Noyabr',
         12=>'Dekabr',
+    ],
+    'duration_type'=>[
+        1=>'Hafta',
+        2=>'Oy'
     ]
 ];
