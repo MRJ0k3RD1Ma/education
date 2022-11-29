@@ -180,6 +180,12 @@ class GroupsController extends Controller
                 $model->code = substr(date('Y'), 2, 2) . '/' . Yii::$app->user->identity->branch->code . '-' . $model->code_id;
                 $model->branch_id = Yii::$app->user->identity->branch_id;
                 $model->creator_id = Yii::$app->user->id;
+                if($model->group->type_id == 2){
+                    $model->student_social_id = 4;
+                    $model->social_id = 1;
+                }else{
+                    $model->type_id = 1;
+                }
                 if ($model->save()) {
                     // pay generate
                     for ($i = 0; $i < $wish->course->duration; $i++) {
@@ -214,6 +220,7 @@ class GroupsController extends Controller
                 $student = Student::find()->where(['group_id' => $model->id])->andWhere(['status'=>1])->all();
                 foreach ($student as $item){
                     $item->status = 3;
+                    $item->end_date = date('Y-m-d');
                     $item->save(false);
                 }
             }

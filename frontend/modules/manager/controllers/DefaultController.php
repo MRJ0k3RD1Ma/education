@@ -4,10 +4,12 @@ namespace frontend\modules\manager\controllers;
 
 use common\models\GroupType;
 use common\models\Person;
+use common\models\PersonSocial;
 use common\models\Project;
 use common\models\search\StudentPaySearch;
 use common\models\Student;
 use common\models\StudentPay;
+use common\models\StudentType;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -62,26 +64,65 @@ class DefaultController extends Controller
         }
         $kutilyotgan = substr($kutilyotgan,0,strlen($kutilyotgan)-1);
 
-        $type = GroupType::find()->
-        select(['group_type.*','(SELECT COUNT(student.id) FROM student WHERE student.status=1 and  student.group_id IN (SELECT id FROM `groups` WHERE group_type.id=`groups`.type_id)) AS cnt',
-            '(SELECT COUNT(student.id) FROM student WHERE (student.status=3 or student.status=4) and  student.group_id IN (SELECT id FROM `groups` WHERE group_type.id=`groups`.type_id)) AS cnt_finish'
-            ])->all();
-        $project = Student::find()->where(['<>','project_id',1])->andWhere(['status'=>1])->count('id');
-        $project_finish = Student::find()->where(['<>','project_id',1])->andWhere('status = 3 or status=4')->count('id');
 
-        $social = Student::find()->where(['<>','social_id',1])->andWhere(['status'=>1])->count('id');
-        $social_finish = Student::find()->where(['<>','social_id',1])->andWhere('status = 3 or status=4')->count('id');
+        $project = Student::find()->where(['<>','project_id',1])->andWhere(['status'=>1])->andFilterWhere(['like','created',date('Y')])->count('id');
+        $project_finish = Student::find()->where(['<>','project_id',1])->andWhere('status = 3 or status=4')->andFilterWhere(['like','created',date('Y')])->count('id');
+
+        $social = Student::find()->where(['<>','social_id',1])->andWhere(['status'=>1])->andFilterWhere(['like','created',date('Y')])->count('id');
+        $social_finish = Student::find()->where(['<>','social_id',1])->andWhere('status = 3 or status=4')->andFilterWhere(['like','created',date('Y')])->count('id');
+
+        $students = [];
+        for($i=1; $i<=12; $i++){
+            $t = $i;
+            if($t<10){$t = '0'.$i;}
+            $students[$i] = Student::find()->where(['>=','status','3'])->andFilterWhere(['like','end_date',date('Y-').$t])->count('id');
+        }
+
+        $student_type = [];
+        $student_types = StudentType::find()->all();
+        foreach ($student_types as $item){
+            for($i=1; $i<=12; $i++){
+                $t = $i;
+                if($t<10){$t = '0'.$i;}
+                $student_type[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['type_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->count('id');
+            }
+        }
+        $projects = Project::find()->all();
+        $project_cnt = [];
+        foreach ($projects as $item){
+            for($i=1; $i<=12; $i++){
+                $t = $i;
+                if($t<10){$t = '0'.$i;}
+                $project_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['project_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->count('id');
+            }
+        }
+
+        $socials = PersonSocial::find()->all();
+        $social_cnt = [];
+        foreach ($socials as $item){
+            for($i=1; $i<=12; $i++){
+                $t = $i;
+                if($t<10){$t = '0'.$i;}
+                $social_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['social_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->count('id');
+            }
+        }
         return $this->render('index',[
             'monthly_person'=>$monthly_person,
             'monthly_price'=>$monthly_price,
             'monthly_price_5'=>$monthly_price_5,
             'tasdiqlangan'=>$tasdiqlangan,
             'kutilyotgan'=>$kutilyotgan,
-            'type'=>$type,
+            'students'=>$students,
             'project'=>$project,
             'project_finish'=>$project_finish,
             'social'=>$social,
             'social_finish'=>$social_finish,
+            'student_types'=>$student_types,
+            'student_type'=>$student_type,
+            'projects'=>$projects,
+            'project_cnt'=>$project_cnt,
+            'socials'=>$socials,
+            'social_cnt'=>$social_cnt,
         ]);
     }
 

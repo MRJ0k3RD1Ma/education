@@ -165,13 +165,7 @@ use frontend\components\General;
                             </tr>
                         </thead>
                         <tbody>
-                            <?php  foreach ($type as $item):?>
-                            <tr>
-                                <td><?= $item->name ?></td>
-                                <td><?= $item->cnt ?></td>
-                                <td><?= $item->cnt_finish?></td>
-                            </tr>
-                            <?php endforeach;?>
+
 
                             <tr>
                                 <td>Loyihalar</td>
@@ -198,19 +192,19 @@ use frontend\components\General;
 <div class="row">
     <div class="card" style="margin-left: 15px;">
         <div class="card-body">
-            <h4 class="card-title">Statistika  oylar kesimida.</h4>
-            </p>
+            <h4 class="card-title"><?= date('Y')?> yil statistikasi(oylar kesimida).</h4>
+
 
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
-
                             <th>Nomi</th>
                             <th>Yanvar</th>
                             <th>Fevral</th>
                             <th>Mart</th>
                             <th>Aprel</th>
+                            <th>May</th>
                             <th>Iyun</th>
                             <th>Iyul</th>
                             <th>Ovgust</th>
@@ -218,52 +212,47 @@ use frontend\components\General;
                             <th>Oktabr</th>
                             <th>Noyabar</th>
                             <th>Dekabr</th>
-                            </tr>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Kompyuter savodhonligi</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>8</td>
-                            <td>16</td>
+                            <th>Jami</th>
+                            <?php foreach ($students as $item): ?>
+                                <th><?= $item ?></th>
+                            <?php endforeach; ?>
                         </tr>
+                        <tr><th colspan="13">Shundan budjet va budjetdan tashqari tashkilot hodimlari kesimida:</th></tr>
+                        <?php foreach ($student_types as $item):?>
+                            <tr>
+                                <th><?= $item->name ?></th>
+                                <?php foreach ($student_type[$item->id] as $i):?>
+                                    <td><?= $i?></td>
+                                <?php endforeach;?>
+                            </tr>
+                        <?php endforeach;?>
+                        <tr><th colspan="13">Shundan Loyihalar kesimida:</th></tr>
+                        <?php foreach ($projects as $item):?>
+                            <tr>
+                                <th><?= $item->name ?></th>
+                                <?php foreach ($project_cnt[$item->id] as $i):?>
+                                    <td><?= $i?></td>
+                                <?php endforeach;?>
+                            </tr>
+                        <?php endforeach;?>
+
+                        <tr><th colspan="13">Shundan ijtimoiy statuslar kesimida:</th></tr>
+                        <?php foreach ($socials as $item):?>
+                            <tr>
+                                <th><?= $item->name ?></th>
+                                <?php foreach ($social_cnt[$item->id] as $i):?>
+                                    <td><?= $i?></td>
+                                <?php endforeach;?>
+                            </tr>
+                        <?php endforeach;?>
+                        <tr><th colspan="13">Shundan yosh kesimida kesimida:</th></tr>
                         <tr>
-                            <td>Jacob</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>8</td>
-                            <td>16</td>
-                        </tr>
-                        <tr>
-                            <td>Larry</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>Larry</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>Larry</td>
-                            <td>8</td>
-                            <td>16</td>
-                            <td>Larry</td>
-                            <td>8</td>
-                            <td>16</td>
+                            <th>12 yoshgacha</th>
+
                         </tr>
                     </tbody>
                 </table>

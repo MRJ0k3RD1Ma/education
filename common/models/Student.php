@@ -16,11 +16,13 @@ use Yii;
  * @property int $social_id
  * @property int $project_id
  * @property string|null $created
+ * @property string|null $end_date
  * @property string|null $updated
  * @property int $creator_id
  * @property int $branch_id
  * @property int|null $status
  * @property int|null $type_id
+ * @property int|null $student_social_id
  *
  * @property Attendance[] $attendances
  * @property Branch $branch
@@ -48,8 +50,8 @@ class Student extends \yii\db\ActiveRecord
     {
         return [
             [['code', 'code_id', 'group_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'branch_id'], 'required'],
-            [['code_id', 'group_id', 'person_id', 'social_id','type_id', 'project_id', 'creator_id', 'branch_id', 'status'], 'integer'],
-            [['created', 'updated'], 'safe'],
+            [['code_id', 'group_id', 'person_id', 'social_id','type_id', 'project_id', 'creator_id', 'branch_id', 'status','student_social_id'], 'integer'],
+            [['created', 'updated','end_date'], 'safe'],
             [['code'], 'string', 'max' => 255],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branch::class, 'targetAttribute' => ['branch_id' => 'id']],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['creator_id' => 'id']],
@@ -70,14 +72,17 @@ class Student extends \yii\db\ActiveRecord
             'code_id' => 'Kod',
             'branch_id' => 'Filial',
             'id' => 'ID',
+            'type_id' => 'Tashkilot turi',
             'group_id' => 'Guruh nomi',
             'person_id' => 'O`quvchi',
-            'social_id' => 'Ijtimoiy mavqei',
+            'social_id' => 'Mahsus ijtimoiy status',
             'project_id' => 'Loyiha nomi',
             'created' => 'Yaratildi',
             'updated' => 'O`zgartirildi',
             'creator_id' => 'Yaratuvchi',
+            'end_date' => 'Tugatgan sanasi',
             'status' => 'Status',
+            'student_social_id' => 'Ijtimoiy status',
         ];
     }
 
@@ -91,6 +96,10 @@ class Student extends \yii\db\ActiveRecord
         return $this->hasMany(Attendance::class, ['student_id' => 'id']);
     }
 
+    public function getStudentSocial(){
+        return $this->hasOne(StudentSocial::className(),['id'=>'student_social_id']);
+    }
+
     /**
      * Gets query for [[Branch]].
      *
@@ -102,7 +111,7 @@ class Student extends \yii\db\ActiveRecord
     }
 
     public function getType(){
-        return $this->hasOne(StudentType::className(),['id'=>'type_id']);
+        return $this->hasOne(WorkType::className(),['id'=>'type_id']);
     }
 
     /**

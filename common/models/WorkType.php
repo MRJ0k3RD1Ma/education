@@ -1,25 +1,25 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
- * This is the model class for table "student_type".
+ * This is the model class for table "work_type".
  *
  * @property int $id
- * @property string|null $name
+ * @property string $name
  *
  * @property Student[] $students
  */
-class StudentType extends \yii\db\ActiveRecord
+class WorkType extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'student_type';
+        return 'work_type';
     }
 
     /**
