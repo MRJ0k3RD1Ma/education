@@ -29,6 +29,8 @@ use yii\widgets\ActiveForm;
 
     <?php } ?>
 
+    <?= $form->field($model, 'gender')->dropDownList([0=>'Ayol',1=>'Erkak'],['prompt'=>'Jinsini tanlang']) ?>
+
     <?= $form->field($model, 'birthday')->textInput(['maxlength' => true,'type'=>'date']) ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>

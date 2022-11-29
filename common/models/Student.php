@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use app\models\StudentType;
 use Yii;
 
 /**
@@ -19,6 +20,7 @@ use Yii;
  * @property int $creator_id
  * @property int $branch_id
  * @property int|null $status
+ * @property int|null $type_id
  *
  * @property Attendance[] $attendances
  * @property Branch $branch
@@ -46,7 +48,7 @@ class Student extends \yii\db\ActiveRecord
     {
         return [
             [['code', 'code_id', 'group_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'branch_id'], 'required'],
-            [['code_id', 'group_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'branch_id', 'status'], 'integer'],
+            [['code_id', 'group_id', 'person_id', 'social_id','type_id', 'project_id', 'creator_id', 'branch_id', 'status'], 'integer'],
             [['created', 'updated'], 'safe'],
             [['code'], 'string', 'max' => 255],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branch::class, 'targetAttribute' => ['branch_id' => 'id']],
@@ -97,6 +99,10 @@ class Student extends \yii\db\ActiveRecord
     public function getBranch()
     {
         return $this->hasOne(Branch::class, ['id' => 'branch_id']);
+    }
+
+    public function getType(){
+        return $this->hasOne(StudentType::className(),['id'=>'type_id']);
     }
 
     /**

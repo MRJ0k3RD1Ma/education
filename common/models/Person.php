@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int $branch_id
+ * @property int $gender
  * @property string $name
  * @property string|null $pnfl
  * @property string|null $inn
@@ -42,7 +43,7 @@ class Person extends \yii\db\ActiveRecord
             [['pnfl', 'inn', 'birthday', 'phone', 'phone_parent'], 'string', 'max' => 255],
             ['pnfl','string','length'=>14],
             ['inn','string','length'=>9],
-            [['checked','branch_id'],'integer'],
+            [['checked','branch_id','gender'],'integer'],
             [['analitics'],'each','rule'=>['integer']],
 
         ];
@@ -65,6 +66,7 @@ class Person extends \yii\db\ActiveRecord
             'updated' => 'O`zgartirildi',
             'checked'=>'Guruhga yozilish',
             'analitics'=>'',
+            'gender'=>'Jinsi',
             'branch_id'=>'Filial'
         ];
     }
@@ -84,5 +86,9 @@ class Person extends \yii\db\ActiveRecord
 
     public function getCourse(){
         return $this->hasMany(PersonWish::className(),['person_id'=>'id'])->andWhere(['branch_id'=>Yii::$app->user->identity->branch_id]);
+    }
+
+    public function getGendertxt(){
+        return $this->gender == 1 ? 'Erkak' : 'Ayol';
     }
 }
