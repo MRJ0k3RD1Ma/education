@@ -23,8 +23,14 @@ class DefaultController extends Controller
      * Renders the index view for the module
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($type = 0)
     {
+        if($type == 0){
+            $order = "student.id";
+        }else{
+            $order = 'student.person_id';
+        }
+
         $branch_id = Yii::$app->user->identity->branch_id;
         $monthly_person = Person::find()->where(['branch_id'=>$branch_id])->andFilterWhere(['like','created',date('Y-m')])->count('id');
 
@@ -75,7 +81,7 @@ class DefaultController extends Controller
         for($i=1; $i<=12; $i++){
             $t = $i;
             if($t<10){$t = '0'.$i;}
-            $students[$i] = Student::find()->where(['>=','status','3'])->andFilterWhere(['like','end_date',date('Y-').$t])->count('id');
+            $students[$i] = Student::find()->where(['>=','status','3'])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
         }
 
         $student_type = [];
@@ -84,7 +90,7 @@ class DefaultController extends Controller
             for($i=1; $i<=12; $i++){
                 $t = $i;
                 if($t<10){$t = '0'.$i;}
-                $student_type[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['type_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->count('id');
+                $student_type[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['type_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
             }
         }
         $projects = Project::find()->all();
@@ -93,7 +99,7 @@ class DefaultController extends Controller
             for($i=1; $i<=12; $i++){
                 $t = $i;
                 if($t<10){$t = '0'.$i;}
-                $project_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['project_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->count('id');
+                $project_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['project_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
             }
         }
 
@@ -103,9 +109,38 @@ class DefaultController extends Controller
             for($i=1; $i<=12; $i++){
                 $t = $i;
                 if($t<10){$t = '0'.$i;}
-                $social_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['social_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->count('id');
+                $social_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['social_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
             }
         }
+
+        $old_to_12 = [];
+        for($i=1; $i<=12; $i++){
+            $t = $i;
+            if($t<10){$t = '0'.$i;}
+            $old_to_12[$i] = Student::find()->where(['>=','student.status','3'])
+                ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)<12')
+                ->andFilterWhere(['like','student.end_date',date('Y-').$t])->groupBy($order)->count('*');
+        }
+
+        $old_12_30 = [];
+        for($i=1; $i<=12; $i++){
+            $t = $i;
+            if($t<10){$t = '0'.$i;}
+            $old_12_30[$i] = Student::find()->where(['>=','student.status','3'])
+                ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=12 and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)<30')
+                ->andFilterWhere(['like','student.end_date',date('Y-').$t])->groupBy($order)->count('*');
+        }
+
+        $old_30_to = [];
+        for($i=1; $i<=12; $i++){
+            $t = $i;
+            if($t<10){$t = '0'.$i;}
+            $old_30_to[$i] = Student::find()->where(['>=','student.status','3'])
+                ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=30')
+                ->andFilterWhere(['like','student.end_date',date('Y-').$t])->groupBy($order)->count('*');
+        }
+
+
         return $this->render('index',[
             'monthly_person'=>$monthly_person,
             'monthly_price'=>$monthly_price,
@@ -123,6 +158,10 @@ class DefaultController extends Controller
             'project_cnt'=>$project_cnt,
             'socials'=>$socials,
             'social_cnt'=>$social_cnt,
+            'old_to_12'=>$old_to_12,
+            'old_12_30'=>$old_12_30,
+            'old_30_to'=>$old_30_to,
+            'type'=>$type
         ]);
     }
 

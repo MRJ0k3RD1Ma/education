@@ -190,14 +190,30 @@ use frontend\components\General;
 
 
 <div class="row">
-    <div class="card" style="margin-left: 15px;">
-        <div class="card-body">
-            <h4 class="card-title"><?= date('Y')?> yil statistikasi(oylar kesimida).</h4>
+    <div class="col-md-12">
 
+        <div class="card">
 
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered">
-                    <thead>
+            <div class="card-body">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="card-title"><?= date('Y')?> yil statistikasi(oylar kesimida).</h3>
+                        </div>
+                        <div class="col-md-4" style="text-align: right">
+                            <label for="type">Statistika turi:</label>
+                        </div>
+                        <div class="col-md-2">
+                            <select name="type" id="type" class="form-control">
+                                <option value="0" <?= $type == 0 ? 'selected' : ''?>>Bitiruvchilar</option>
+                                <option value="1" <?= $type == 1 ? 'selected' : ''?>>Qamrov</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
                         <tr>
                             <th>Nomi</th>
                             <th>Yanvar</th>
@@ -213,8 +229,8 @@ use frontend\components\General;
                             <th>Noyabar</th>
                             <th>Dekabr</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <tr>
                             <th>Jami</th>
                             <?php foreach ($students as $item): ?>
@@ -252,12 +268,33 @@ use frontend\components\General;
                         <tr><th colspan="13">Shundan yosh kesimida kesimida:</th></tr>
                         <tr>
                             <th>12 yoshgacha</th>
+                            <?php foreach ($old_to_12 as $item):?>
 
+                                <td><?= $item ?></td>
+
+                            <?php endforeach;?>
                         </tr>
-                    </tbody>
-                </table>
-            </div>
+                        <tr>
+                            <th>12 yoshdan 30 yoshgacha</th>
+                            <?php foreach ($old_12_30 as $item):?>
 
+                                <td><?= $item ?></td>
+
+                            <?php endforeach;?>
+                        </tr>
+                        <tr>
+                            <th>30 yoshdan yuqori</th>
+                            <?php foreach ($old_30_to as $item):?>
+
+                                <td><?= $item ?></td>
+
+                            <?php endforeach;?>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
@@ -269,7 +306,7 @@ use frontend\components\General;
         $dates .= '"' . $item . '",';
     }
 
-
+    $url = Yii::$app->urlManager->createUrl(['/manager/default/index']);
     $dates = substr($dates, 0, strlen($dates) - 1);
     $dates .= ']';
 
@@ -308,6 +345,11 @@ use frontend\components\General;
 },
     chart = new ApexCharts(document.querySelector(\"#mixed-chart\"), options);
     chart.render();
+    
+    $('#type').change(function(){
+        var val = this.value;
+        window.location.href='{$url}?type='+val;
+    })
     ")
 
         ?>

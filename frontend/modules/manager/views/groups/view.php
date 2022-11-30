@@ -160,8 +160,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <td><?= $item->social->name ?></td>
                                     <td><?= $item->project->name ?></td>
                                     <td><?= $item->created ?></td>
-
-                                    <?php if($model->status_id != 1){?><td><?= Yii::$app->params['status_student'][$item->status] ?></td><?php }?>
+                                    <?php if($model->status_id != 1){ if($item->status == 3){ ?>
+                                            <td><?= Yii::$app->params['status_student'][$item->status] ?></td>
+                                        <?php }else{ ?>
+                                        <td><?= Yii::$app->params['status_student'][$item->status] ?></td>
+                                    <?php } }?>
                                 </tr>
                             <?php endforeach;?>
                             </tbody>
