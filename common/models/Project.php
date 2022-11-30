@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property string $name
  * @property int|null $status
+ * @property int|null $persent
  *
  * @property Student[] $students
  */
@@ -29,7 +30,7 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status'], 'integer'],
+            [['status','persent'], 'integer'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -43,6 +44,7 @@ class Project extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Nomi',
             'status' => 'Status',
+            'persent' => 'Foiz',
         ];
     }
 

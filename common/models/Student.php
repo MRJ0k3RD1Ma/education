@@ -14,6 +14,7 @@ use Yii;
  * @property int $group_id
  * @property int $person_id
  * @property int $social_id
+ * @property int $is_full_paid
  * @property int $project_id
  * @property string|null $created
  * @property string|null $end_date
@@ -50,7 +51,7 @@ class Student extends \yii\db\ActiveRecord
     {
         return [
             [['code', 'code_id', 'group_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'branch_id'], 'required'],
-            [['code_id', 'group_id', 'person_id', 'social_id','type_id', 'project_id', 'creator_id', 'branch_id', 'status','student_social_id'], 'integer'],
+            [['code_id', 'group_id', 'person_id', 'social_id','type_id', 'project_id', 'creator_id','is_full_paid', 'branch_id', 'status','student_social_id'], 'integer'],
             [['created', 'updated','end_date'], 'safe'],
             [['code'], 'string', 'max' => 255],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branch::class, 'targetAttribute' => ['branch_id' => 'id']],
@@ -82,6 +83,7 @@ class Student extends \yii\db\ActiveRecord
             'creator_id' => 'Yaratuvchi',
             'end_date' => 'Tugatgan sanasi',
             'status' => 'Status',
+            'is_full_paid' => 'Status',
             'student_social_id' => 'Ijtimoiy status',
         ];
     }
