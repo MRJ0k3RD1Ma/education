@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'type_id')->dropDownList(ArrayHelper::map(\common\models\GroupType::find()->all(),'id','name')) ?>
 
-    <?= $form->field($model, 'room_id')->dropDownList(ArrayHelper::map(\common\models\Room::find()->all(),'id','name')) ?>
+    <?= $form->field($model, 'room_id')->dropDownList(ArrayHelper::map(\common\models\Room::find()->where(['branch_id'=>Yii::$app->user->identity->branch_id])->all(),'id','name')) ?>
 
     <br>
     <div class="form-group">
