@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Ноя 23 2022 г., 18:02
+-- Время создания: Дек 02 2022 г., 16:17
 -- Версия сервера: 10.4.24-MariaDB
 -- Версия PHP: 8.1.6
 
@@ -32,6 +32,15 @@ CREATE TABLE `analytics` (
   `type_id` int(11) NOT NULL,
   `created` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `analytics`
+--
+
+INSERT INTO `analytics` (`person_id`, `type_id`, `created`) VALUES
+(9, 3, '2022-12-01 15:26:08'),
+(10, 3, '2022-12-02 18:47:29'),
+(10, 4, '2022-12-02 18:47:29');
 
 -- --------------------------------------------------------
 
@@ -93,8 +102,10 @@ CREATE TABLE `branch` (
 --
 
 INSERT INTO `branch` (`id`, `name`, `address`, `target`, `location`, `phone`, `code`, `created`, `updated`, `status`) VALUES
-(1, 'Urganch shahar Raqamli texnologiyalari markazi', '-', '-', NULL, '-', 100, '2022-11-19 15:55:35', '2022-11-19 15:55:35', 1),
-(2, 'Xonqa tuman Raqamli texnologiyalari o\'quv markazi', '-', '-', NULL, '-', 101, '2022-11-19 19:54:35', '2022-11-19 19:54:35', 1);
+(3, 'Xiva shaxar RTOM', 'Xiva shaxar', 'Xiva shaxar', NULL, '+998998075138', 100, '2022-12-01 15:15:57', '2022-12-01 15:15:57', 1),
+(4, 'Xonqa tuman RTOM', 'Xonqa tuman', 'Xonqa tuman', NULL, '+998902070869', 102, '2022-12-01 15:37:46', '2022-12-01 15:37:46', 1),
+(5, 'Bog`ot tuman RTOM', 'Bog`ot tuman', 'Bog`ot tuman', NULL, '+998919121101', 103, '2022-12-01 15:38:25', '2022-12-01 15:38:25', 1),
+(6, 'Yangiariq tuman RTOM', 'Yangiariq', 'Yangiariq', NULL, '+998976073535', 104, '2022-12-01 15:39:07', '2022-12-01 15:39:07', 1);
 
 -- --------------------------------------------------------
 
@@ -109,16 +120,18 @@ CREATE TABLE `cource` (
   `price` int(11) NOT NULL,
   `duration` int(11) NOT NULL DEFAULT 1,
   `created` datetime DEFAULT current_timestamp(),
-  `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `lesson_time` int(11) DEFAULT 2,
+  `duration_type` int(11) DEFAULT 2
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Дамп данных таблицы `cource`
 --
 
-INSERT INTO `cource` (`id`, `name`, `status`, `price`, `duration`, `created`, `updated`) VALUES
-(1, 'Kompyuter savodxonligi', 1, 200000, 3, '2022-11-19 19:11:09', '2022-11-19 19:11:09'),
-(2, 'test', 1, 123123, 1, '2022-11-19 19:36:49', '2022-11-19 19:36:49');
+INSERT INTO `cource` (`id`, `name`, `status`, `price`, `duration`, `created`, `updated`, `lesson_time`, `duration_type`) VALUES
+(3, 'Kompyuter savodxonligi', 1, 200000, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 2, 2),
+(4, 'Frotend Dasturlash', 1, 50000, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -141,16 +154,22 @@ CREATE TABLE `groups` (
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `creator_id` int(11) NOT NULL,
   `room_id` int(11) DEFAULT NULL,
-  `duration` int(11) DEFAULT 1
+  `duration` int(11) DEFAULT 1,
+  `duration_type` int(11) DEFAULT 2,
+  `lesson_time` int(11) DEFAULT 2,
+  `end_date` date DEFAULT NULL,
+  `why_before` text DEFAULT NULL,
+  `state` int(11) DEFAULT 0,
+  `consept_id` int(11) DEFAULT NULL,
+  `code_id` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Дамп данных таблицы `groups`
 --
 
-INSERT INTO `groups` (`id`, `name`, `branch_id`, `course_id`, `status_id`, `start_date`, `day_id`, `time`, `type_id`, `price`, `created`, `updated`, `creator_id`, `room_id`, `duration`) VALUES
-(1, 'Komp sav 1', 1, 1, 2, '2022-11-18', 1, '09:00 - 11:00', 1, 200000, '2022-11-19 20:48:13', '2022-11-23 19:47:41', 2, 1, 3),
-(2, 'sdfg', 1, 1, 1, NULL, 1, '09:00 - 11:00', 1, 200000, '2022-11-20 18:40:19', '2022-11-20 18:40:19', 2, 1, 1);
+INSERT INTO `groups` (`id`, `name`, `branch_id`, `course_id`, `status_id`, `start_date`, `day_id`, `time`, `type_id`, `price`, `created`, `updated`, `creator_id`, `room_id`, `duration`, `duration_type`, `lesson_time`, `end_date`, `why_before`, `state`, `consept_id`, `code_id`) VALUES
+(4, '100/2022-1', 3, 3, 3, '2022-12-02', 1, '09:00 - 11:00', 1, 25000, '2022-12-02 18:46:53', '2022-12-02 19:19:27', 6, 2, 1, 2, 2, NULL, NULL, 0, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -223,7 +242,7 @@ CREATE TABLE `group_type` (
 
 INSERT INTO `group_type` (`id`, `name`) VALUES
 (1, 'Oddiy'),
-(2, 'Davlat xizmatchilari uchun');
+(2, 'Malaka oshirish');
 
 -- --------------------------------------------------------
 
@@ -258,6 +277,7 @@ CREATE TABLE `person` (
   `pnfl` varchar(255) DEFAULT NULL,
   `inn` varchar(255) DEFAULT NULL,
   `birthday` varchar(255) DEFAULT NULL,
+  `gender` int(1) NOT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `phone_parent` varchar(255) DEFAULT NULL,
   `created` datetime DEFAULT current_timestamp(),
@@ -269,11 +289,9 @@ CREATE TABLE `person` (
 -- Дамп данных таблицы `person`
 --
 
-INSERT INTO `person` (`id`, `name`, `pnfl`, `inn`, `birthday`, `phone`, `phone_parent`, `created`, `updated`, `branch_id`) VALUES
-(5, 'Shohruh', '', '', '2022-11-10', '34', '234', '2022-11-19 19:37:53', '2022-11-23 19:23:22', 1),
-(6, 'Abdullayev Suxrob', '', '', '2022-11-26', '345', '345', '2022-11-20 16:50:59', '2022-11-23 19:23:11', 1),
-(7, 'Allabergenov Dilmurod', '', '', '2022-11-18', 'sdf', 'sdf', '2022-11-20 18:27:57', '2022-11-23 19:22:52', 1),
-(8, 'Umidbek Jumaniyazov', '', '', '2022-11-20', 'sdf', 'sdf', '2022-11-20 19:29:52', '2022-11-23 19:22:43', 1);
+INSERT INTO `person` (`id`, `name`, `pnfl`, `inn`, `birthday`, `gender`, `phone`, `phone_parent`, `created`, `updated`, `branch_id`) VALUES
+(9, 'Jumaniyozov Umidbek', NULL, NULL, '1995-12-28', 1, '+998911347773', '+998911347773', '2022-12-01 15:26:08', '2022-12-01 15:26:08', 3),
+(10, 'Allabergenov DIlmurod Yuldash o\'g\'li', NULL, NULL, '1995-03-10', 1, '+998999670395', '-', '2022-12-02 18:47:29', '2022-12-02 18:47:29', 3);
 
 -- --------------------------------------------------------
 
@@ -313,6 +331,13 @@ CREATE TABLE `person_wish` (
   `branch_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Дамп данных таблицы `person_wish`
+--
+
+INSERT INTO `person_wish` (`person_id`, `course_id`, `day_id`, `time`, `created`, `branch_id`) VALUES
+(9, 4, 2, '16:00 - 18:00', '2022-12-01 15:26:08', 3);
+
 -- --------------------------------------------------------
 
 --
@@ -340,15 +365,18 @@ CREATE TABLE `person_wish_history` (
 CREATE TABLE `project` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `status` int(11) DEFAULT 1
+  `status` int(11) DEFAULT 1,
+  `persent` int(11) DEFAULT 0,
+  `other_company` int(11) DEFAULT 0,
+  `company_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Loyihalar';
 
 --
 -- Дамп данных таблицы `project`
 --
 
-INSERT INTO `project` (`id`, `name`, `status`) VALUES
-(1, 'Yo\'q', 1);
+INSERT INTO `project` (`id`, `name`, `status`, `persent`, `other_company`, `company_id`) VALUES
+(1, 'Yo\'q', 1, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -367,7 +395,9 @@ CREATE TABLE `room` (
 --
 
 INSERT INTO `room` (`id`, `branch_id`, `name`) VALUES
-(1, 1, '103 xona');
+(1, 1, '103 xona'),
+(2, 3, '101'),
+(3, 3, '102');
 
 -- --------------------------------------------------------
 
@@ -385,20 +415,30 @@ CREATE TABLE `student` (
   `project_id` int(11) NOT NULL,
   `created` datetime DEFAULT current_timestamp(),
   `updated` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `end_date` date DEFAULT NULL,
   `creator_id` int(11) NOT NULL,
   `branch_id` int(11) NOT NULL,
-  `status` int(11) DEFAULT 0
+  `status` int(11) DEFAULT 0,
+  `type_id` int(11) DEFAULT 1,
+  `student_social_id` int(11) DEFAULT 1,
+  `is_full_paid` int(11) DEFAULT 0,
+  `other_company` int(11) DEFAULT 0,
+  `company_id` bigint(20) DEFAULT NULL,
+  `has_discount` int(11) DEFAULT 0,
+  `discount` int(11) DEFAULT 0,
+  `sert_code` varchar(255) DEFAULT NULL,
+  `sert_number` int(11) DEFAULT NULL,
+  `is_send_sert` int(11) NOT NULL DEFAULT 0,
+  `is_sert_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Дамп данных таблицы `student`
 --
 
-INSERT INTO `student` (`id`, `code`, `code_id`, `group_id`, `person_id`, `social_id`, `project_id`, `created`, `updated`, `creator_id`, `branch_id`, `status`) VALUES
-(21, '22/100-1', 1, 1, 5, 1, 1, '2022-11-23 19:42:59', '2022-11-23 19:45:59', 2, 1, 1),
-(22, '22/100-2', 2, 1, 6, 1, 1, '2022-11-23 19:43:01', '2022-11-23 19:45:59', 2, 1, 1),
-(23, '22/100-3', 3, 1, 7, 1, 1, '2022-11-23 19:43:02', '2022-11-23 19:45:59', 2, 1, 1),
-(24, '22/100-4', 4, 1, 8, 1, 1, '2022-11-23 19:43:04', '2022-11-23 19:45:59', 2, 1, 1);
+INSERT INTO `student` (`id`, `code`, `code_id`, `group_id`, `person_id`, `social_id`, `project_id`, `created`, `updated`, `end_date`, `creator_id`, `branch_id`, `status`, `type_id`, `student_social_id`, `is_full_paid`, `other_company`, `company_id`, `has_discount`, `discount`, `sert_code`, `sert_number`, `is_send_sert`, `is_sert_date`) VALUES
+(26, '22/100-1', 1, 4, 10, 1, 1, '2022-12-02 18:47:49', '2022-12-02 18:57:17', '2022-12-02', 6, 3, 3, 1, 4, 1, 0, NULL, 0, 0, NULL, NULL, 0, NULL),
+(27, '22/100-2', 2, 4, 9, 1, 1, '2022-12-02 18:47:52', '2022-12-02 18:57:17', '2022-12-02', 6, 3, 3, 1, 4, 0, 0, NULL, 0, 0, NULL, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -429,18 +469,8 @@ CREATE TABLE `student_pay` (
 --
 
 INSERT INTO `student_pay` (`student_id`, `id`, `code`, `pay_date`, `price`, `paid_date`, `payment_id`, `branch_id`, `user_id`, `consept_id`, `check_file`, `ads`, `status_id`, `created`, `updated`) VALUES
-(21, 0, '22/100-1', '2022-11-22', 200000, '2022-11-23', 1, 1, 2, 5, '1669218606.343.pdf', 'asdasd', 3, '2022-11-23 19:47:41', '2022-11-23 22:00:37'),
-(21, 1, '22/100-1', '2022-12-22', 200000, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, '2022-11-23 19:47:41', '2022-11-23 19:47:41'),
-(21, 2, '22/100-1', '2023-01-22', 200000, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, '2022-11-23 19:47:41', '2022-11-23 19:47:41'),
-(22, 0, '22/100-2', '2022-11-22', 200000, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, '2022-11-23 19:47:41', '2022-11-23 19:47:41'),
-(22, 1, '22/100-2', '2022-12-22', 200000, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, '2022-11-23 19:47:41', '2022-11-23 19:47:41'),
-(22, 2, '22/100-2', '2023-01-22', 200000, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, '2022-11-23 19:47:41', '2022-11-23 19:47:41'),
-(23, 0, '22/100-3', '2022-11-22', 200000, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, '2022-11-23 19:47:41', '2022-11-23 19:47:41'),
-(23, 1, '22/100-3', '2022-12-22', 200000, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, '2022-11-23 19:47:41', '2022-11-23 19:47:41'),
-(23, 2, '22/100-3', '2023-01-22', 200000, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, '2022-11-23 19:47:41', '2022-11-23 19:47:41'),
-(24, 0, '22/100-4', '2022-11-22', 200000, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, '2022-11-23 19:47:41', '2022-11-23 19:47:41'),
-(24, 1, '22/100-4', '2022-12-22', 200000, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, '2022-11-23 19:47:41', '2022-11-23 19:47:41'),
-(24, 2, '22/100-4', '2023-01-22', 200000, NULL, NULL, 1, NULL, NULL, NULL, NULL, 1, '2022-11-23 19:47:41', '2022-11-23 19:47:41');
+(26, 0, '22/100-1', '2022-12-06', 25000, '2022-12-07', 1, 3, 6, 10, '1669988983.1805.pdf', 'sd', 3, '2022-12-02 18:47:49', '2022-12-02 18:55:56'),
+(27, 0, '22/100-2', '2022-12-06', 25000, '2022-12-02', 1, 3, 6, NULL, '1669989002.8542.pdf', 'asd', 2, '2022-12-02 18:47:52', '2022-12-02 18:50:02');
 
 -- --------------------------------------------------------
 
@@ -468,6 +498,48 @@ INSERT INTO `student_pay_status` (`id`, `name`, `class`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `student_social`
+--
+
+CREATE TABLE `student_social` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `student_social`
+--
+
+INSERT INTO `student_social` (`id`, `name`) VALUES
+(1, 'Maktab o`quvchisi'),
+(2, 'Kollej/Litsey'),
+(3, 'Talaba'),
+(4, 'Ishchi hodim'),
+(5, 'Ishsiz fuqaro');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `student_type`
+--
+
+CREATE TABLE `student_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `student_type`
+--
+
+INSERT INTO `student_type` (`id`, `name`) VALUES
+(1, 'Yo\'q'),
+(2, 'Davlat tashikiloti'),
+(3, 'Xo\'jalik tashkiloti');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `user`
 --
 
@@ -489,10 +561,11 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `name`, `username`, `password`, `branch_id`, `role_id`, `status`, `state`, `type_id`) VALUES
 (1, 'Umidbek Jumaniyazov', 'umidbek', '$2y$13$4u.r5VAziP98/.6U2SN4eueEXa/jbPz1kDjnalh3TcGM6mPQiTeVq', NULL, 7, 1, 1, 2),
-(2, 'Urganch shahar', 'urganchsh', '$2y$13$4NbAU/.5EvUzDrziG/BtL.fV/wXBjZkSuU2JjYJ4l3miCIzPbiWKO', 1, 5, 1, 1, 2),
-(3, 'O\'qituvchi', 'teacher', '$2y$13$LqYmPTIkI7QSU5gnGnFMQuT.42w9VJFABNqeldFfifhEbM2Rz4Z/.', 1, 1, 0, 0, 1),
-(4, 'xonqa', 'xonqa', '$2y$13$OwtnxlL8HAP9XhBIMOn.EOBybhIEVaEtXyvf/ZfQXKRRA.e7fc4f.', 2, 5, 1, 1, 2),
-(5, 'Buxgalter', 'bux', '$2y$13$5q9882OHPBIGWn31pIRDVuCXA93u/yZtTvdO6SbfMTSjL57bGF4qm', NULL, 3, 1, 1, 2);
+(6, 'Polvonov Xudayshukur', 'xivash', '$2y$13$Y2ib8NoOTKo49WXnlTb9b.VX6Qj6pZHYLsmtnDXRNj8TqTdweIrNm', 3, 2, 1, 1, 2),
+(7, 'Satimov Mansur', 'bogott', '$2y$13$ArHXBUwREvremquEmSqBiOwG0B6Xi5Wz/l8PqVK1QzH5odIqtHde2', 5, 2, 1, 1, 2),
+(8, 'Samandarov Doston', 'xonqat', '$2y$13$cXOyik2hWOhH2z5Rs1W1A.nDXbFvJH8Zw20Ywc1scvS0l48nkfQKG', 4, 2, 1, 1, 2),
+(9, 'Otaboyev Ibrat', 'yangiariqt', '$2y$13$3ibejT0uHyHfoZANeflQUu1jZloW.KYEqD1GxIJYw5Wzy5AhikJfm', 6, 2, 1, 1, 2),
+(10, 'bux', 'bux', '$2y$13$Chswyd1zbYmef8Kl6MMm/.rnclx2bgKpEjgofUGQfwfp3BRu/ltyC', NULL, 3, 1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -513,10 +586,10 @@ CREATE TABLE `user_role` (
 
 INSERT INTO `user_role` (`id`, `name`, `url`, `status`) VALUES
 (1, 'O\'qituvchi', '/teacher/', 1),
-(2, 'Filial menejeri', '/bmanager/', 1),
+(2, 'Filial menejeri', '/manager/', 1),
 (3, 'Buxgalter', '/bux/', 1),
 (4, 'Direktor', '/director/', 1),
-(5, 'Menejer', '/manager/', 1),
+(5, 'Menejer', '/bmanager/', 1),
 (6, 'Marketing', '/marketing/', 1),
 (7, 'Admin', '/cp/', 1);
 
@@ -561,6 +634,26 @@ CREATE TABLE `view_student` (
 ,`branch_id` int(11)
 ,`status` int(11)
 );
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `work_type`
+--
+
+CREATE TABLE `work_type` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Дамп данных таблицы `work_type`
+--
+
+INSERT INTO `work_type` (`id`, `name`) VALUES
+(1, 'Yo\'q'),
+(2, 'Davlat boshqaruv organi'),
+(3, 'Xo\'jalik yurutuvchi subyekt');
 
 -- --------------------------------------------------------
 
@@ -706,7 +799,9 @@ ALTER TABLE `student`
   ADD KEY `FK_student_social_id` (`social_id`),
   ADD KEY `FK_student_project_id` (`project_id`),
   ADD KEY `FK_student_creator_id` (`creator_id`),
-  ADD KEY `FK_student_branch_id` (`branch_id`);
+  ADD KEY `FK_student_branch_id` (`branch_id`),
+  ADD KEY `FK_student_student_social_id` (`student_social_id`),
+  ADD KEY `FK_student_type_id` (`type_id`);
 
 --
 -- Индексы таблицы `student_pay`
@@ -723,6 +818,18 @@ ALTER TABLE `student_pay`
 -- Индексы таблицы `student_pay_status`
 --
 ALTER TABLE `student_pay_status`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `student_social`
+--
+ALTER TABLE `student_social`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `student_type`
+--
+ALTER TABLE `student_type`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -747,6 +854,12 @@ ALTER TABLE `user_type`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `work_type`
+--
+ALTER TABLE `work_type`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -760,19 +873,19 @@ ALTER TABLE `analytics_type`
 -- AUTO_INCREMENT для таблицы `branch`
 --
 ALTER TABLE `branch`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `cource`
 --
 ALTER TABLE `cource`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `group_day`
@@ -802,7 +915,7 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT для таблицы `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `person_social`
@@ -826,13 +939,13 @@ ALTER TABLE `project`
 -- AUTO_INCREMENT для таблицы `room`
 --
 ALTER TABLE `room`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT для таблицы `student_pay_status`
@@ -841,10 +954,22 @@ ALTER TABLE `student_pay_status`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT для таблицы `student_social`
+--
+ALTER TABLE `student_social`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT для таблицы `student_type`
+--
+ALTER TABLE `student_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `user_role`
@@ -857,6 +982,12 @@ ALTER TABLE `user_role`
 --
 ALTER TABLE `user_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT для таблицы `work_type`
+--
+ALTER TABLE `work_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -929,7 +1060,9 @@ ALTER TABLE `student`
   ADD CONSTRAINT `FK_student_group_id` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_student_person_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_student_project_id` FOREIGN KEY (`project_id`) REFERENCES `project` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_student_social_id` FOREIGN KEY (`social_id`) REFERENCES `person_social` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_student_social_id` FOREIGN KEY (`social_id`) REFERENCES `person_social` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_student_student_social_id` FOREIGN KEY (`student_social_id`) REFERENCES `student_social` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_student_type_id` FOREIGN KEY (`type_id`) REFERENCES `work_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Ограничения внешнего ключа таблицы `student_pay`

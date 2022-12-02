@@ -160,15 +160,28 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <td><?= $item->social->name ?></td>
                                     <td><?= $item->project->name ?></td>
                                     <td><?= $item->created ?></td>
-                                    <?php if($model->status_id != 1){
-                                        if($item->status == 3){
-
+                                    <?php if($model->status_id != 1){?>
+                                        <td>
+                                            <?php
+                                                if($model->status_id == 3){
+                                                    if($item->is_full_paid == 1){
+                                                        if($item->is_send_sert == 1){
+                                                            $url = Yii::$app->urlManager->createUrl(['/manager/groups/acceptsert','id'=>$item->id]);
+                                                            echo "<button value='{$url}' class='btn btn-link sertnum'>Sertifkatni topshirish</button>";
+                                                        }elseif($item->is_send_sert == 2){
+                                                            echo @$item->sert_number;
+                                                        }else{
+                                                            echo "Sertifikat ro`yhati shakllantirilmoqda";
+                                                        }
+                                                    }else{
+                                                        echo Yii::$app->params['status_student'][$item->status];
+                                                    }
+                                                }else{
+                                                    echo Yii::$app->params['status_student'][$item->status];
+                                                }
                                             ?>
-                                            <td><?= Yii::$app->params['status_student'][$item->status] ?></td>
-                                        <?php } else{ ?>
-
-                                        <td><?= Yii::$app->params['status_student'][$item->status] ?></td>
-                                    <?php } }?>
+                                        </td>
+                                    <?php  }?>
                                 </tr>
                             <?php endforeach;?>
                             </tbody>
@@ -225,6 +238,21 @@ $this->params['breadcrumbs'][] = $this->title;
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+
+    <div class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog" id="sertnum" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sertifikat topshirildi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body sertnum-modal">
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 <?php
 
 $this->registerJs("
@@ -244,6 +272,11 @@ $this->registerJs("
      $('.paying').click(function(){
         var url = this.value;
         $('#paying').modal('show').find('.paying-modal.modal-body').load(url); 
+    });
+    
+    $('.sertnum').click(function(){
+        var url = this.value;
+        $('#sertnum').modal('show').find('.sertnum-modal.modal-body').load(url); 
     });
     
 ")
