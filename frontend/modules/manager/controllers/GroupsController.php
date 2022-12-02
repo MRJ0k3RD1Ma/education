@@ -120,7 +120,6 @@ class GroupsController extends Controller
                 $model->status_id = 1;
                 $model->creator_id = Yii::$app->user->id;
                 $model->branch_id = Yii::$app->user->identity->branch_id;
-                $model->price = $model->course->price;
                 $model->duration = $model->course->duration;
                 $code = Groups::find()->where(['branch_id'=>Yii::$app->user->identity->branch_id])->andFilterWhere(['like','created',date('Y')])->max('code_id');
                 $code=$code+1;

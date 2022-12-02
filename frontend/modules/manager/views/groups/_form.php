@@ -13,9 +13,10 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(['action'=>Yii::$app->urlManager->createUrl(['/manager/groups/create'])]); ?>
 
-    <?php $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'course_id')->dropDownList(ArrayHelper::map(\common\models\Cource::find()->where(['status'=>1])->all(),'id','name')) ?>
+
+    <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'day_id')->dropDownList(ArrayHelper::map(\common\models\GroupDay::find()->all(),'id','name')) ?>
 
