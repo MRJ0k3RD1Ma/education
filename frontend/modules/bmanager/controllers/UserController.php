@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\manager\controllers;
+namespace frontend\modules\bmanager\controllers;
 use Yii;
 use common\models\User;
 use common\models\search\UserSearch;
@@ -39,7 +39,7 @@ class UserController extends Controller
     public function actionIndex()
     {
         $searchModel = new UserSearch();
-        $dataProvider = $searchModel->searchTeacher($this->request->queryParams);
+        $dataProvider = $searchModel->searchBman($this->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -72,11 +72,11 @@ class UserController extends Controller
         $model->scenario = 'teacher';
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                $model->role_id = 1;
-                $model->branch_id = Yii::$app->user->identity->branch_id;
-                $model->setPassword($model->password);
-                if($model->save()){
-                    return $this->redirect(['view', 'id' => $model->id]);
+                if($model->role_id < 5){
+                    $model->setPassword($model->password);
+                    if($model->save()){
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
                 }
             }
         } else {

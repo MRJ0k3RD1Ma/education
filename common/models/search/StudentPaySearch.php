@@ -82,7 +82,7 @@ class StudentPaySearch extends StudentPay
 
     public function searchBux($params)
     {
-        $query = StudentPay::find()->where('status_id in (2,3,5)')->orderBy(['status'=>SORT_ASC]);
+        $query = StudentPay::find()->where('status_id in (2,3,5)')->orderBy(['status_id'=>SORT_ASC]);
 
         // add conditions that should always apply here
 

@@ -52,5 +52,20 @@ use yii\widgets\ActiveForm;
     </div>
 
 
+    <!-- right offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCreate"
+         aria-labelledby="offcanvasCreateLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasCreateLabel">Qidiruv</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+
+            <?= $this->render('_form',['model'=>new \common\models\User()])?>
+
+        </div>
+    </div>
+
 
 </div>

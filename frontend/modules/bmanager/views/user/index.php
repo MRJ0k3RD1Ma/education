@@ -24,6 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <p style="text-align: right">
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasCreate" aria-controls="offcanvasCreate"><span class="fa fa-plus"></span> Qo'shish</button>
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span class="fa fa-search"></span> Qidiruv</button>
             </p>
 

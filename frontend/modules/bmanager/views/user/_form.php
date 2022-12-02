@@ -27,6 +27,11 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'state')->dropDownList(Yii::$app->params['state']) ?>
 
     <?= $form->field($model, 'type_id')->dropDownList(ArrayHelper::map(UserType::find()->all(),'id','name')) ?>
+
+    <?= $form->field($model, 'role_id')->dropDownList(ArrayHelper::map(UserRole::find()->where(['<','id',5])->all(),'id','name')) ?>
+
+    <?= $form->field($model, 'branch_id')->dropDownList(ArrayHelper::map(Branch::find()->all(),'id','name'),['prompt'=>'Filialni tanlang']) ?>
+
     <br>
     <div class="form-group">
         <?= Html::submitButton('Saqlash', ['class' => 'btn btn-success']) ?>

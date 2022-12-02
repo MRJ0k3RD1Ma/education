@@ -20,9 +20,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'duration')->textInput() ?>
 
-    <?= $form->field($model, 'created')->textInput() ?>
+    <?= $form->field($model, 'duration_type')->dropDownList(Yii::$app->params['duration_type']) ?>
 
-    <?= $form->field($model, 'updated')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

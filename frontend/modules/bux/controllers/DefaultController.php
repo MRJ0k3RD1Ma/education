@@ -3,6 +3,7 @@
 namespace frontend\modules\bux\controllers;
 
 use common\models\search\StudentPaySearch;
+use common\models\Student;
 use common\models\StudentPay;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -60,7 +61,14 @@ class DefaultController extends Controller
         if($model = StudentPay::findOne(['student_id'=>$student_id,'id'=>$id,'status_id'=>2])){
             $model->status_id = 3;
             $model->consept_id = \Yii::$app->user->id;
-            $model->save();
+            if($model->save()){
+                // personni to'lovlari to'liq o'tgan o'tmaganini aniqlab is_full_paid ni 1 yoki 0 qilish kerak.
+                if(0 == StudentPay::find()->where(['student_id'=>$student_id])->andWhere(['<>','status_id',3])->count('*')){
+                    $student = Student::findOne($student_id);
+                    $student->is_full_paid = 1;
+                    $student->save(false);
+                }
+            }
             return $this->redirect(['view','id'=>$id,'student_id'=>$student_id]);
         }else{
             throw new NotFoundHttpException('The requested page does not exist.');
