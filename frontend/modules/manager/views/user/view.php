@@ -15,21 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="card">
         <div class="card-body">
-            <p>
-                <?= Html::a('O`zgartirish', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                <?= Html::a('O`chirish', ['delete', 'id' => $model->id], [
-                    'class' => 'btn btn-danger',
-                    'data' => [
-                        'confirm' => 'Are you sure you want to delete this item?',
-                        'method' => 'post',
-                    ],
-                ]) ?>
-            </p>
 
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
-                    'id',
+//                    'id',
                     'name',
                     'username',
 //                    'password',

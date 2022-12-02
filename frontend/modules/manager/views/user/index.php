@@ -36,7 +36,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'yii\grid\SerialColumn'],
 
 //                    'id',
-                    'name',
+//                    'name',
+                    [
+                        'attribute'=>'name',
+                        'value'=>function($d){
+                            $url = Yii::$app->urlManager->createUrl(['/manager/user/view','id'=>$d->id]);
+                            return "<a href='{$url}'>{$d->name}</a>";
+                        },
+                        'format'=>'raw'
+                    ],
                     'username',
 //                    'password',
 //                    'branch_id',
