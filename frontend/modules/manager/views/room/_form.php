@@ -10,7 +10,8 @@ use yii\widgets\ActiveForm;
 
 <div class="room-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['action'=>Yii::$app->urlManager->createUrl(['/manager/room/create'])]); ?>
+
 
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>

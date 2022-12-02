@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 
 <div class="groups-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['action'=>Yii::$app->urlManager->createUrl(['/manager/groups/create'])]); ?>
 
     <?php $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

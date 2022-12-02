@@ -14,7 +14,7 @@ use yii\widgets\ActiveForm;
 
 <div class="user-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['action'=>Yii::$app->urlManager->createUrl(['/manager/user/create'])]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

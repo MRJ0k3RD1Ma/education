@@ -20,9 +20,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
             <p style="text-align: right">
-                <?= Html::a('Guruh qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasCreate" aria-controls="offcanvasCreate"><span class="fa fa-plus"></span> Qo'shish</button>
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span class="fa fa-search"></span> Qidiruv</button>
+
             </p>
 
             <?php  echo $this->render('_search', ['model' => $searchModel]); ?>

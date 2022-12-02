@@ -23,7 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
             <p style="text-align: right">
-                <?= Html::a('Foydalanuvchi qo`shish', ['create'], ['class' => 'btn btn-success']) ?>
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span class="fa fa-search"></span> Qidiruv</button>
             </p>
@@ -76,12 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'filter'=> Yii::$app->params['state']
                     ],
-                    [
-                        'class' => ActionColumn::className(),
-                        'urlCreator' => function ($action, User $model, $key, $index, $column) {
-                            return Url::toRoute([$action, 'id' => $model->id]);
-                        }
-                    ],
+
                 ],
             ]); ?>
         </div>

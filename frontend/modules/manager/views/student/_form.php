@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="student-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['action'=>Yii::$app->urlManager->createUrl(['/manager/student/create'])]); ?>
 
     <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
