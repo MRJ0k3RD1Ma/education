@@ -51,9 +51,10 @@ class Student extends \yii\db\ActiveRecord
     {
         return [
             [['code', 'code_id', 'group_id', 'person_id', 'social_id', 'project_id', 'creator_id', 'branch_id'], 'required'],
-            [['code_id', 'group_id', 'person_id', 'social_id','type_id', 'project_id', 'creator_id','is_full_paid', 'branch_id', 'status','student_social_id'], 'integer'],
+            [['code_id', 'group_id', 'person_id', 'social_id','discount','type_id', 'project_id', 'creator_id','is_full_paid','has_discount', 'branch_id', 'status','student_social_id'], 'integer'],
             [['created', 'updated','end_date'], 'safe'],
-            [['code'], 'string', 'max' => 255],
+            [['code','discount_file'], 'string', 'max' => 255],
+            ['discount_file','file','extensions'=>['pdf']],
             [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branch::class, 'targetAttribute' => ['branch_id' => 'id']],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['creator_id' => 'id']],
             [['group_id'], 'exist', 'skipOnError' => true, 'targetClass' => Groups::class, 'targetAttribute' => ['group_id' => 'id']],
@@ -82,6 +83,9 @@ class Student extends \yii\db\ActiveRecord
             'updated' => 'O`zgartirildi',
             'creator_id' => 'Yaratuvchi',
             'end_date' => 'Tugatgan sanasi',
+            'has_discount' => 'Imtiyoz',
+            'discount' => 'Imtiyoz foizi',
+            'discount_file' => 'Imtiyoz fayli',
             'status' => 'Status',
             'is_full_paid' => 'Status',
             'student_social_id' => 'Ijtimoiy status',

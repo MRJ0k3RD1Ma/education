@@ -38,6 +38,12 @@ return [
         11=>'Noyabr',
         12=>'Dekabr',
     ],
+    'discount'=>[
+        20=>20,
+        30=>30,
+        50=>50,
+        100=>100,
+    ],
     'duration_type'=>[
         2=>'Oy',
         1=>'Hafta',

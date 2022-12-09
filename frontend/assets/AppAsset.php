@@ -12,6 +12,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web/design';
     public $css = [
+        'assets/libs/sweetalert2/sweetalert2.min.css',
         'assets/css/bootstrap.min.css',
         'assets/css/icons.min.css',
         'assets/css/app.min.css',
@@ -22,6 +23,7 @@ class AppAsset extends AssetBundle
         'assets/libs/metismenu/metisMenu.min.js',
         'assets/libs/simplebar/simplebar.min.js',
         'assets/libs/node-waves/waves.min.js',
+        'assets/libs/sweetalert2/sweetalert2.min.js',
         'assets/js/app.js',
     ];
     public $depends = [

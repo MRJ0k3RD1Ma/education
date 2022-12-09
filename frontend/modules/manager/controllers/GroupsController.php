@@ -185,6 +185,19 @@ class GroupsController extends Controller
                 }else{
                     $model->type_id = 1;
                 }
+                if($model->has_discount == 1){
+                    if($model->discount_file = UploadedFile::getInstance($model,'discount_file')){
+                        $name = microtime(true).'.'.$model->discount_file->extension;
+                        $model->discount_file->saveAs(Yii::$app->basePath.'/web/uploads/discount/'.$name);
+                        $model->discount_file = $name;
+                    }else{
+                        Yii::$app->session->setFlash('error','Imtiyoz fayli kiritilmagan.');
+                        return $this->redirect(['view', 'id' => $id]);
+                    }
+                }else{
+                    $model->discount = 0;
+                    $model->discount_file = "";
+                }
                 if ($model->save()) {
                     // pay generate
                     for ($i = 0; $i < $wish->course->duration; $i++) {
@@ -223,6 +236,7 @@ class GroupsController extends Controller
                     $item->save(false);
                 }
             }
+            Yii::$app->session->setFlash('success','Guruh o`qishni tugatganligi muvoffaqiyatli saqlandi.');
             return $this->redirect(['view','id'=>$id]);
         }else{
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -234,44 +248,53 @@ class GroupsController extends Controller
         if ($model = Groups::findOne(['id' => $id, 'branch_id' => Yii::$app->user->identity->branch_id])) {
 
             if ($model->load($this->request->post())) {
-                $model->status_id = 2;
-                if ($model->save()) {
-                    $student = Student::find()->where(['group_id' => $model->id])->all();
-                    $date = [];
-                    $time = $model->start_date;
-                    $time = date("Y-m-d", strtotime($time . "+4 days"));
-                    for ($i = 0; $i < $model->duration; $i++) {
-                        $final = date("Y-m-d", strtotime($time . "+{$i} month"));
-                        $date[$i] = $final;
-                    }
-
-                    foreach ($student as $item) {
-                        $pay = StudentPay::find()->where(['student_id' => $item->id])->all();
-                        foreach ($pay as $i) {
-                            $i->pay_date = null;
-                            $i->save();
-                        }
-                        $item->status = 1;
-                        $item->save(false);
+                if(count($model->students)>2){
+                    $model->status_id = 2;
+                    if ($model->save()) {
+                        $student = Student::find()->where(['group_id' => $model->id])->all();
+                        $date = [];
+                        $time = $model->start_date;
+                        $time = date("Y-m-d", strtotime($time . "+4 days"));
                         for ($i = 0; $i < $model->duration; $i++) {
-                            if ($pay = StudentPay::find()->where(['student_id' => $item->id])->andWhere(['id' => $i])->one()) {
-                                $pay->pay_date = $date[$i];
-                                $pay->save();
-                            } else {
-                                $pay = new StudentPay();
-                                $pay->student_id = $item->id;
-                                $pay->status_id = 1;
-                                $pay->code = $item->code;
-                                $pay->price = $model->price;
-                                $pay->branch_id = Yii::$app->user->identity->branch_id;
-                                $pay->id = $i;
-                                $pay->pay_date = $date[$i];
-                                $pay->save();
+                            $final = date("Y-m-d", strtotime($time . "+{$i} month"));
+                            $date[$i] = $final;
+                        }
+
+                        foreach ($student as $item) {
+                            $pay = StudentPay::find()->where(['student_id' => $item->id])->all();
+                            foreach ($pay as $i) {
+                                $i->pay_date = null;
+                                $i->save();
+                            }
+                            $item->status = 1;
+                            $item->save(false);
+                            for ($i = 0; $i < $model->duration; $i++) {
+                                if ($pay = StudentPay::find()->where(['student_id' => $item->id])->andWhere(['id' => $i])->one()) {
+                                    $pay->pay_date = $date[$i];
+                                    $pay->save();
+                                } else {
+                                    $pay = new StudentPay();
+                                    $pay->student_id = $item->id;
+                                    $pay->status_id = 1;
+                                    $pay->code = $item->code;
+                                    $pay->price = $model->price;
+                                    $pay->branch_id = Yii::$app->user->identity->branch_id;
+                                    $pay->id = $i;
+                                    $pay->pay_date = $date[$i];
+                                    $pay->save();
+                                }
                             }
                         }
+                        Yii::$app->session->setFlash('success','Guruhga muvoffaqiyatli start berildi');
+
+                    }else{
+                        Yii::$app->session->setFlash('error','Ma`lumotlarni saqlashda xatolik');
                     }
-                    return $this->redirect(['view', 'id' => $id]);
+                }else{
+                    Yii::$app->session->setFlash('error','Guruhdagi bolalar soni 3 dan kamligi sababli darslarni boshlay olmaysiz.');
                 }
+                return $this->redirect(['view', 'id' => $id]);
+
             }
 
             return $this->renderAjax('_start', ['model' => $model]);

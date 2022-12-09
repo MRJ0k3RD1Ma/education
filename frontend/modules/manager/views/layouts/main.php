@@ -53,10 +53,7 @@ AppAsset::register($this);
                                 <?= Breadcrumbs::widget([
                                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                                 ]) ?>
-                                <?= Alert::widget() ?>
                             </div>
-
-
 
                         </div>
                     </div>
@@ -91,7 +88,32 @@ AppAsset::register($this);
 </div>
 <!-- END layout-wrapper -->
 
+<?php
+    if(Yii::$app->session->hasFlash('error')){
+        $text = Yii::$app->session->getFlash('error');
+        $this->registerJs("
+            Swal.fire({
+              icon: 'error',
+              title: 'Xatolik mavjud',
+              text: '{$text}',
+            })
+        ");
+    }
 
+if(Yii::$app->session->hasFlash('success')){
+    $text = Yii::$app->session->getFlash('success');
+    $this->registerJs("
+            Swal.fire({
+              icon: 'success',
+              title: 'Muvoffaqiyatli bajarildi',
+              text: '{$text}',
+            })
+        ");
+}
+
+
+
+?>
 
 
 <?php $this->endBody() ?>

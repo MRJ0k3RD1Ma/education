@@ -196,19 +196,25 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
-    <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"  id="add" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">O`quvchini kursga qo`shish</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body add">
 
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+
+
+    <!-- right offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="add"
+         aria-labelledby="offcanvasCreateLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel">O'quvchini kursga qo'shish</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body add">
+
+
+        </div>
+    </div>
+
+
+
 
     <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" id="start" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -259,7 +265,7 @@ $this->registerJs("
 
     $('.add').click(function(){
         var url = this.value;
-        $('#add').modal('show').find('.add.modal-body').load(url); 
+        $('#add').offcanvas('show').find('.add.offcanvas-body').load(url); 
     });
     
     

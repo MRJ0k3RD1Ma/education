@@ -13,6 +13,8 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <h4 class="text text-primary"><?= $model->person->name; ?></h4>
+    <hr>
     <?= $form->field($model, 'project_id')->dropDownList(ArrayHelper::map(\common\models\Project::find()->where(['status'=>1])->all(),'id','name')) ?>
 
     <?php if($model->group->type_id == 2){?>
@@ -26,7 +28,14 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model, 'student_social_id')->dropDownList(ArrayHelper::map(\common\models\StudentSocial::find()->all(),'id','name')) ?>
 
     <?php } ?>
+    <br>
+    <?= $form->field($model,'has_discount')->checkbox(['value'=>'1'])?>
 
+    <div id="discount" style="display: none">
+        <?= $form->field($model,'discount')->dropDownList(Yii::$app->params['discount'])?>
+        <br>
+        <?= $form->field($model,'discount_file')->fileInput()?>
+    </div>
 
     <br>
     <div class="form-group">
@@ -36,3 +45,16 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+
+<?php
+    $this->registerJs("
+        $('#student-has_discount').change(function(){
+            if($('#student-has_discount').is(':checked')){
+                $('#discount').css('display','block');
+            }else{
+                $('#discount').css('display','none');                
+            }
+        })
+    ")
+?>
