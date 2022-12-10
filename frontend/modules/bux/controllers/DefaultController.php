@@ -2,6 +2,8 @@
 
 namespace frontend\modules\bux\controllers;
 
+use common\models\Branch;
+use common\models\Payment;
 use common\models\search\StudentPaySearch;
 use common\models\Student;
 use common\models\StudentPay;
@@ -33,9 +35,39 @@ class DefaultController extends Controller
      * Renders the index view for the module
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($date = null)
     {
-        return $this->render('index');
+
+        $model = Payment::find()->all();
+        $branch = Branch::find()->all();
+        if(!$date){
+            $date = date('m');
+        }
+        if($date < 10){
+            $date = '0'.$date;
+        }
+        $pay = [];
+        foreach ($model as $i){
+            $price = StudentPay::find()
+                ->andFilterWhere(['like','paid_date',date('Y').'-'.$date])
+                ->andWhere(['payment_id'=>$i->id,'status_id'=>3])->sum('price');
+            $pay[0][$i->id] = $price ? $price : 0;
+        }
+        foreach ($branch as $item){
+
+            foreach ($model as $i){
+                $price = StudentPay::find()
+                    ->andFilterWhere(['like','paid_date',date('Y').'-'.$date])
+                    ->andWhere(['branch_id'=>$item->id,'payment_id'=>$i->id,'status_id'=>3])->sum('price');
+                $pay[$item->id][$i->id] = $price ? $price : 0;
+            }
+        }
+
+        return $this->render('index',[
+            'model'=>$model,
+            'branch'=>$branch,
+            'pay'=>$pay
+        ]);
     }
 
     public function actionPay(){
