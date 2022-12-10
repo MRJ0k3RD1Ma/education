@@ -39,6 +39,7 @@ class Person extends \yii\db\ActiveRecord
     {
         return [
             [['created', 'updated'], 'safe'],
+            [['name','phone','gender','birthday'],'required'],
             [['name'], 'string', 'max' => 50],
             [['pnfl', 'inn', 'birthday', 'phone', 'phone_parent'], 'string', 'max' => 255],
             ['pnfl','string','length'=>14],
