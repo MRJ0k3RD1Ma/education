@@ -21,15 +21,15 @@
                             <?php $cnt = 0; foreach ($model as $i): $cnt += $pay[$item->id][$i->id];?>
                                 <td><a href="<?= Yii::$app->urlManager->createUrl(['/bux/default/pay','StudentPaySearch[branch_id]'=>$item->id,'StudentPaySearch[payment_id]'=>$i->id])?>"><?= \frontend\components\General::PrettyNumber($pay[$item->id][$i->id]).' so`m' ?></a></td>
                             <?php endforeach;?>
-                            <td><a href="<?= Yii::$app->urlManager->createUrl(['/bux/default/pay','StudentPaySearch[branch_id]'=>$item->id])?>"><?= \frontend\components\General::PrettyNumber($cnt)?> so'm</a></td>
+                            <th><a href="<?= Yii::$app->urlManager->createUrl(['/bux/default/pay','StudentPaySearch[branch_id]'=>$item->id])?>"><?= \frontend\components\General::PrettyNumber($cnt)?> so'm</a></th>
                         </tr>
                     <?php endforeach; ?>
                     <tr>
                         <th colspan="2" style="text-align: right">Jami</th>
                         <?php $cnt = 0; foreach ($model as $i): $cnt += $pay[0][$i->id]?>
-                            <td><a href="<?= Yii::$app->urlManager->createUrl(['/bux/default/pay','StudentPaySearch[payment_id]'=>$i->id])?>"><?= \frontend\components\General::PrettyNumber($pay[0][$i->id]).' so`m' ?></a></td>
+                            <th><a href="<?= Yii::$app->urlManager->createUrl(['/bux/default/pay','StudentPaySearch[payment_id]'=>$i->id])?>"><?= \frontend\components\General::PrettyNumber($pay[0][$i->id]).' so`m' ?></a></th>
                         <?php endforeach;?>
-                        <td><a href="<?= Yii::$app->urlManager->createUrl(['/bux/default/pay'])?>"><?= \frontend\components\General::PrettyNumber($cnt)?> so'm</a></td>
+                        <th><a href="<?= Yii::$app->urlManager->createUrl(['/bux/default/pay'])?>"><?= \frontend\components\General::PrettyNumber($cnt)?> so'm</a></th>
                     </tr>
                 </tbody>
             </table>
