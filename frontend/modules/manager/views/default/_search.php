@@ -16,8 +16,11 @@ use yii\widgets\ActiveForm;
             <h4><?= $this->title?></h4>
         </div>
         <div class="col-md-6" style="text-align: right">
+            <?php
+            $char = (count(Yii::$app->request->queryParams) > 0) ? "&" : "?";
+            ?>
 
-            <a href="#" class="btn btn-info"><span class="fa fa-file-excel"></span> Export</a>
+            <a href="<?= Yii::$app->request->url . $char . 'export=1' ?>" class="btn btn-info"><span class="fa fa-file-excel"></span> Export</a>
 
             <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span class="fa fa-search"></span> Qidiruv</button>

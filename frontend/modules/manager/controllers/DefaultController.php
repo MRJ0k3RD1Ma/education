@@ -83,7 +83,7 @@ class DefaultController extends Controller
             if($t<10){$t = '0'.$i;}
             $students[$i] = Student::find()->where(['>=','status','3'])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
         }
-
+        $std = Student::find()->where(['=','status','1'])->groupBy($order)->count('*');
         $student_type = [];
         $student_types = StudentType::find()->all();
         foreach ($student_types as $item){
@@ -93,6 +93,7 @@ class DefaultController extends Controller
                 $student_type[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['type_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
             }
         }
+        $std_type = Student::find()->where(['=','status','1'])->andWhere(['type_id'=>$item->id])->groupBy($order)->count('*');
         $projects = Project::find()->all();
         $project_cnt = [];
         foreach ($projects as $item){
@@ -102,7 +103,7 @@ class DefaultController extends Controller
                 $project_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['project_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
             }
         }
-
+        $std_project = Student::find()->where(['=','status','1'])->andWhere(['project_id'=>$item->id])->groupBy($order)->count('*');
         $socials = PersonSocial::find()->all();
         $social_cnt = [];
         foreach ($socials as $item){
@@ -112,7 +113,7 @@ class DefaultController extends Controller
                 $social_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['social_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
             }
         }
-
+        $std_social = Student::find()->where(['=','status','1'])->andWhere(['social_id'=>$item->id])->groupBy($order)->count('*');
         $old_to_12 = [];
         for($i=1; $i<=12; $i++){
             $t = $i;
@@ -121,7 +122,9 @@ class DefaultController extends Controller
                 ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)<12')
                 ->andFilterWhere(['like','student.end_date',date('Y-').$t])->groupBy($order)->count('*');
         }
-
+        $std_old_to_12 = Student::find()->where(['=','student.status','1'])
+            ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)<12')
+            ->groupBy($order)->count('*');
         $old_12_30 = [];
         for($i=1; $i<=12; $i++){
             $t = $i;
@@ -130,7 +133,9 @@ class DefaultController extends Controller
                 ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=12 and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)<30')
                 ->andFilterWhere(['like','student.end_date',date('Y-').$t])->groupBy($order)->count('*');
         }
-
+        $std_old_12_30 = Student::find()->where(['=','student.status','1'])
+            ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=12 and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)<30')
+            ->groupBy($order)->count('*');
         $old_30_to = [];
         for($i=1; $i<=12; $i++){
             $t = $i;
@@ -139,7 +144,9 @@ class DefaultController extends Controller
                 ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=30')
                 ->andFilterWhere(['like','student.end_date',date('Y-').$t])->groupBy($order)->count('*');
         }
-
+        $std_old_30_to = Student::find()->where(['=','student.status','1'])
+            ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=30')
+            ->groupBy($order)->count('*');
 
         return $this->render('index',[
             'monthly_person'=>$monthly_person,
@@ -161,14 +168,25 @@ class DefaultController extends Controller
             'old_to_12'=>$old_to_12,
             'old_12_30'=>$old_12_30,
             'old_30_to'=>$old_30_to,
-            'type'=>$type
+            'type'=>$type,
+            'std_old_30_to'=>$std_old_30_to,
+            'std_old_12_30'=>$std_old_12_30,
+            'std_old_to_12'=>$std_old_to_12,
+            'std_social'=>$std_social,
+            'std_project'=>$std_project,
+            'std_type'=>$std_type,
+            'std'=>$std,
         ]);
     }
 
-    public function actionPay(){
+    public function actionPay($export = null){
 
         $searchModel = new StudentPaySearch();
         $dataProvider = $searchModel->searchManager($this->request->queryParams);
+        if($export == 1){
+            $searchModel->exportToExcel($dataProvider->query);
+        }
+
 
         return $this->render('pay', [
             'searchModel' => $searchModel,

@@ -2,8 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\models\Student;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
+use kartik\mpdf\Pdf;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
@@ -257,4 +259,41 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+
+
+    public function actionContract($code,$type=1){
+        $student = Student::findOne(['code'=>$code]);
+        if($type == 1){
+            $ren = "contract";
+        }else{
+            $ren = "contract_with_other";
+        }
+
+        $content = $this->renderPartial('contract/'.$ren,[
+            'student'=>$student
+        ]);
+
+        $pdf = new Pdf([
+            'defaultFont' => 'times new roman',
+            'defaultFontSize' => 12,
+            'mode' => Pdf::MODE_UTF8, // leaner size using standard fonts
+            'destination' => Pdf::DEST_BROWSER,
+            'content' => $content,
+            'options' => [
+                 'ignore_invalid_utf8'=> true,
+
+            ],
+            'methods' => [
+                'SetTitle' => $student->code."-raqamli shartnoma",
+                'SetHeader' => [' ' . '|| ' . date("r")],
+                'SetFooter' => ['| {PAGENO} |'],
+                'SetAuthor' => '@umdsoft',
+                'SetCreator' => '@umdsoft',
+            ]
+        ]);
+
+        return $pdf->render();
+    }
+
+
 }

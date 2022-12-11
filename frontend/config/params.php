@@ -1,5 +1,6 @@
 <?php
 return [
+    'code'=>'contract_encrypt_decrypt_code',
     'adminEmail' => 'admin@example.com',
     'status'=>[
         1=>'Aktiv',

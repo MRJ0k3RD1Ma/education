@@ -228,6 +228,7 @@ use frontend\components\General;
                             <th>Oktabr</th>
                             <th>Noyabar</th>
                             <th>Dekabr</th>
+                            <th>O`qimoqda</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -236,36 +237,40 @@ use frontend\components\General;
                             <?php foreach ($students as $item): ?>
                                 <th><?= $item ?></th>
                             <?php endforeach; ?>
+                            <th><?= $std ?></th>
                         </tr>
-                        <tr><th colspan="13">Shundan budjet va budjetdan tashqari tashkilot hodimlari kesimida:</th></tr>
+                        <tr><th colspan="14">Shundan budjet va budjetdan tashqari tashkilot hodimlari kesimida:</th></tr>
                         <?php foreach ($student_types as $item):?>
                             <tr>
                                 <th><?= $item->name ?></th>
                                 <?php foreach ($student_type[$item->id] as $i):?>
                                     <td><?= $i?></td>
                                 <?php endforeach;?>
+                                <td><?= $std_type?></td>
                             </tr>
                         <?php endforeach;?>
-                        <tr><th colspan="13">Shundan Loyihalar kesimida:</th></tr>
+                        <tr><th colspan="14">Shundan Loyihalar kesimida:</th></tr>
                         <?php foreach ($projects as $item):?>
                             <tr>
                                 <th><?= $item->name ?></th>
                                 <?php foreach ($project_cnt[$item->id] as $i):?>
                                     <td><?= $i?></td>
                                 <?php endforeach;?>
+                                <td><?= $std_project?></td>
                             </tr>
                         <?php endforeach;?>
 
-                        <tr><th colspan="13">Shundan ijtimoiy statuslar kesimida:</th></tr>
+                        <tr><th colspan="14">Shundan ijtimoiy statuslar kesimida:</th></tr>
                         <?php foreach ($socials as $item):?>
                             <tr>
                                 <th><?= $item->name ?></th>
                                 <?php foreach ($social_cnt[$item->id] as $i):?>
                                     <td><?= $i?></td>
                                 <?php endforeach;?>
+                                <td><?= $std_social?></td>
                             </tr>
                         <?php endforeach;?>
-                        <tr><th colspan="13">Shundan yosh kesimida kesimida:</th></tr>
+                        <tr><th colspan="14">Shundan yosh kesimida kesimida:</th></tr>
                         <tr>
                             <th>12 yoshgacha</th>
                             <?php foreach ($old_to_12 as $item):?>
@@ -273,6 +278,7 @@ use frontend\components\General;
                                 <td><?= $item ?></td>
 
                             <?php endforeach;?>
+                            <td><?= $std_old_to_12 ?></td>
                         </tr>
                         <tr>
                             <th>12 yoshdan 30 yoshgacha</th>
@@ -281,6 +287,7 @@ use frontend\components\General;
                                 <td><?= $item ?></td>
 
                             <?php endforeach;?>
+                            <td><?= $std_old_12_30 ?></td>
                         </tr>
                         <tr>
                             <th>30 yoshdan yuqori</th>
@@ -289,6 +296,7 @@ use frontend\components\General;
                                 <td><?= $item ?></td>
 
                             <?php endforeach;?>
+                            <td><?= $std_old_30_to ?></td>
                         </tr>
                         </tbody>
                     </table>

@@ -2,9 +2,15 @@
 
 namespace common\models\search;
 
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\StudentPay;
+use yii\db\QueryInterface;
+use Yii;
+use yii\helpers\FileHelper;
 
 /**
  * StudentPaySearch represents the model behind the search form of `common\models\StudentPay`.
@@ -170,4 +176,46 @@ class StudentPaySearch extends StudentPay
 
         return $dataProvider;
     }
+
+// data to excel converter
+    public function exportToExcel(?QueryInterface $query)
+    {
+        $speadsheet = new Spreadsheet();
+        $sheet = $speadsheet->getActiveSheet();
+        $title = "To`lovlar ro`yhati";
+        $sheet->setTitle(substr($title, 0, 31));
+        $row = 1;
+        $col = 1;
+        $sheet->setCellValueExplicitByColumnAndRow($col++, $row, "#", DataType::TYPE_STRING);
+        $sheet->setCellValueExplicitByColumnAndRow($col++, $row, "Kod", DataType::TYPE_STRING);
+        $sheet->setCellValueExplicitByColumnAndRow($col++, $row, "FIO", DataType::TYPE_STRING);
+        $sheet->setCellValueExplicitByColumnAndRow($col++, $row, "To`lov holati", DataType::TYPE_STRING);
+        $sheet->setCellValueExplicitByColumnAndRow($col++, $row, "To`lov summasi", DataType::TYPE_STRING);
+        $sheet->setCellValueExplicitByColumnAndRow($col++, $row, "Kurs", DataType::TYPE_STRING);
+        $key = 0;
+        $models = $query->all();
+        foreach ($models as $item) {
+            $st = $item->student;
+            $row++;
+            $col = 1;
+            $key++;
+            $sheet->setCellValueExplicitByColumnAndRow($col++, $row, $key, DataType::TYPE_NUMERIC);
+            $sheet->setCellValueExplicitByColumnAndRow($col++, $row, $item->code, DataType::TYPE_STRING);
+            $sheet->setCellValueExplicitByColumnAndRow($col++, $row, $st->person->name, DataType::TYPE_STRING);
+            $sheet->setCellValueExplicitByColumnAndRow($col++, $row, $item->status->name, DataType::TYPE_STRING);
+            $sheet->setCellValueExplicitByColumnAndRow($col++, $row, $item->price, DataType::TYPE_STRING);
+            $sheet->setCellValueExplicitByColumnAndRow($col++, $row, $st->group->course->name, DataType::TYPE_STRING);
+        }
+        $name = 'ExcelReport.xlsx';
+        $writer = new Xlsx($speadsheet);
+        $dir = Yii::$app->basePath.'/web/tmp/excel';
+        if (!is_dir($dir)) {
+            FileHelper::createDirectory($dir, 0777);
+        }
+        $fileName = $dir . DIRECTORY_SEPARATOR . $name;
+        $writer->save($fileName);
+        return Yii::$app->response->sendFile($fileName);
+    }
+
+
 }
