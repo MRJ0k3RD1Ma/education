@@ -15,6 +15,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'start_date')->textInput(['type'=>'date']) ?>
 
+    <?= $form->field($model,'teacher_id')->dropDownList(ArrayHelper::map(\common\models\User::find()->where(['role_id'=>1])->andWhere(['branch_id'=>Yii::$app->user->identity->branch_id])->all(),'id','name'))?>
+
     <br>
     <div class="form-group">
         <?= Html::submitButton('Start', ['class' => 'btn btn-success']) ?>

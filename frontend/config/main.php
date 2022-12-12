@@ -24,6 +24,9 @@ return [
         'bmanager' => [
             'class' => 'frontend\modules\bmanager\Module',
         ],
+        'teacher' => [
+            'class' => 'frontend\modules\teacher\Module',
+        ],
     ],
     'language'=>'uz',
     'components' => [

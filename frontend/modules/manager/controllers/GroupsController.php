@@ -3,6 +3,7 @@
 namespace frontend\modules\manager\controllers;
 
 use common\models\Groups;
+use common\models\GroupTeacher;
 use common\models\Person;
 use common\models\PersonWish;
 use common\models\PersonWishHistory;
@@ -249,8 +250,16 @@ class GroupsController extends Controller
 
             if ($model->load($this->request->post())) {
                 if(count($model->students)>2){
+
                     $model->status_id = 2;
-                    if ($model->save()) {
+
+                    $teacher = new GroupTeacher();
+                    $teacher->teacher_id = $model->teacher_id;
+                    $teacher->group_id = $model->id;
+                    $teacher->status = 1;
+
+
+                    if ($model->save() and $teacher->save()) {
                         $student = Student::find()->where(['group_id' => $model->id])->all();
                         $date = [];
                         $time = $model->start_date;

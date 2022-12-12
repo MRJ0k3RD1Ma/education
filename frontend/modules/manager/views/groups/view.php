@@ -88,6 +88,12 @@ $this->params['breadcrumbs'][] = $this->title;
 //                    'price',
                             'created',
                             'updated',
+                            [
+                                'attribute'=>'teacher_id',
+                                'value'=>function($d){
+                                    return @\common\models\GroupTeacher::findOne(['group_id'=>$d->id,'status'=>1])->teacher->name;
+                                }
+                            ],
 //                    'creator_id',
                             [
                                 'attribute'=>'creator_id',

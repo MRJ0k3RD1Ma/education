@@ -18,7 +18,11 @@ use yii\widgets\ActiveForm;
 
 <div class="person-form">
 
-    <?php $form = ActiveForm::begin(['action'=>Yii::$app->urlManager->createUrl(['/manager/person/create'])]); ?>
+    <?php if($model->isNewRecord){
+        $form = ActiveForm::begin(['action'=>Yii::$app->urlManager->createUrl(['/manager/person/create'])]);
+    }else{
+        $form = ActiveForm::begin();
+    } ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

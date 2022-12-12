@@ -37,6 +37,7 @@ use Yii;
  */
 class Groups extends \yii\db\ActiveRecord
 {
+    public $teacher_id;
     /**
      * {@inheritdoc}
      */
@@ -52,7 +53,7 @@ class Groups extends \yii\db\ActiveRecord
     {
         return [
             [['branch_id', 'course_id', 'type_id', 'creator_id'], 'required'],
-            [['branch_id', 'course_id', 'status_id', 'day_id', 'type_id', 'price', 'creator_id', 'room_id','duration','is_full_paid','is_send_sert'], 'integer'],
+            [['branch_id', 'course_id', 'status_id', 'teacher_id','day_id', 'type_id', 'price', 'creator_id', 'room_id','duration','is_full_paid','is_send_sert'], 'integer'],
             [['start_date', 'created', 'updated','is_send_date'], 'safe'],
             [['name'], 'string', 'max' => 255],
             [['time'], 'string', 'max' => 20],
@@ -87,6 +88,7 @@ class Groups extends \yii\db\ActiveRecord
             'creator_id' => 'Yaratuvchi',
             'room_id' => 'Xona raqami',
             'code_id' => 'Kod',
+            'teacher_id' => 'O`qituvchi',
         ];
     }
 
