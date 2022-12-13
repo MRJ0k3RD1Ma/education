@@ -1,12 +1,24 @@
-<div class="teacher-default-index">
-    <h1><?= $this->context->action->uniqueId ?></h1>
-    <p>
-        This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.
-    </p>
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
-    </p>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                Dars jadvali
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        Bu oydagi kutilayotgan tushim
+                    </div>
+                    <div class="col-md-12">
+                        O'qituvchiga chiqadigan oylik
+                    </div>
+                    <div class="col-md-12">
+                        O'quvchilar to'lagan pul
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
