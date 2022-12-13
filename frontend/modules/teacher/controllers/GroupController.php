@@ -109,5 +109,9 @@ class GroupController extends Controller
         }
     }
 
+    public function actionAtt($date,$group_id){
+        $model = Attendance::find()->where(['date_class'=>$date,'group_id'=>$group_id])->all();
+        return $this->renderAjax('_att',['model'=>$model,'date'=>$date]);
+    }
 
 }

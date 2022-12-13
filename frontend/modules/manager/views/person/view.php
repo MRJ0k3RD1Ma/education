@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $this->registerJs("
         $('.deletewish').click(function(){
             var url = this.value;
-          
+     
             $('#deletewish').modal('show').find('.modal-body').load(url);
         })
     ")
