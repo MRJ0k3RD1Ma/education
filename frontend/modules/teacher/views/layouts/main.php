@@ -117,6 +117,7 @@ if(Yii::$app->session->hasFlash('success')){
 
 
 <?php $this->endBody() ?>
+
 </body>
 </html>
 <?php $this->endPage();
