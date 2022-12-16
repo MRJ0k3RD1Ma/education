@@ -17,7 +17,9 @@ use Yii;
  * @property string|null $updated
  * @property int|null $status_id
  * @property string|null $deadline
+ * @property int|null $state
  * @property int|null $user_id
+ * @property int|null $is_user
  *
  * @property User $creator
  * @property TaskStatus $status
@@ -29,6 +31,7 @@ use Yii;
  */
 class Task extends \yii\db\ActiveRecord
 {
+    public $time,$files;
     /**
      * {@inheritdoc}
      */
@@ -43,10 +46,10 @@ class Task extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code_id', 'creator_id', 'status_id', 'user_id'], 'integer'],
-            [['detail'], 'string'],
+            [['code_id', 'creator_id', 'status_id', 'state', 'user_id', 'is_user'], 'integer'],
+            [['detail','files'], 'string'],
             [['created', 'updated', 'deadline'], 'safe'],
-            [['code', 'name'], 'string', 'max' => 255],
+            [['code', 'name','time'], 'string', 'max' => 255],
             [['code'], 'unique'],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['creator_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => TaskStatus::class, 'targetAttribute' => ['status_id' => 'id']],
@@ -61,16 +64,19 @@ class Task extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'code' => 'Code',
-            'code_id' => 'Code ID',
-            'name' => 'Name',
-            'detail' => 'Detail',
-            'creator_id' => 'Creator ID',
-            'created' => 'Created',
-            'updated' => 'Updated',
-            'status_id' => 'Status ID',
-            'deadline' => 'Deadline',
-            'user_id' => 'User ID',
+            'code' => 'Raqami',
+            'code_id' => 'Raqam',
+            'name' => 'Topshiriq',
+            'detail' => 'Batafsil',
+            'creator_id' => 'Kirituvchi',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
+            'status_id' => 'Status',
+            'deadline' => 'Muddat',
+            'files' => 'Fayl',
+            'state' => 'State',
+            'user_id' => 'Rahbar',
+            'is_user' => 'Is User',
         ];
     }
 

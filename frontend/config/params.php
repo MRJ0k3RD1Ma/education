@@ -48,5 +48,5 @@ return [
     'duration_type'=>[
         2=>'Oy',
         1=>'Hafta',
-    ]
+    ],
 ];

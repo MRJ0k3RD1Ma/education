@@ -57,15 +57,15 @@ class TaskUser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'task_id' => 'Task ID',
-            'user_id' => 'User ID',
-            'type_id' => 'Type ID',
-            'exec_id' => 'Exec ID',
-            'created' => 'Created',
-            'updated' => 'Updated',
-            'status_id' => 'Status ID',
+            'task_id' => 'Topshiriq',
+            'user_id' => 'Yuboruvchi',
+            'type_id' => 'Turi',
+            'exec_id' => 'Bajaruvchi',
+            'created' => 'Yuborildi',
+            'updated' => 'O`zgartirildi',
+            'status_id' => 'Status',
             'sms_status' => 'Sms Status',
-            'deadline' => 'Deadline',
+            'deadline' => 'Muddat',
         ];
     }
 
