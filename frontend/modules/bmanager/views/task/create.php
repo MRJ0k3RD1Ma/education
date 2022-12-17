@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="task-form">
 
 
-            <?php $form = ActiveForm::begin(); ?>
+            <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
 
             <div class="row">
                 <div class="col-md-6">
@@ -28,7 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'deadline')->textInput(['type'=>'date']) ?>
 
                     <br>
-                    <?= $form->field($model,'files')->fileInput() ?>
+                    <div id="file" class="row">
+
+                    </div>
+
+                            <br>
+                            <button type="button" class="btn btn-primary" id="fileadd"><span class="fa fa-plus"></span>Fayl qo`shish</button>
+
                 </div>
             </div>
                 </div>
@@ -40,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             </div>
                             <br>
-                            <button class="btn btn-primary" id="addmore" type="button"><span class="fa fa-plus"></span> Yana qo`shish</button>
+                            <button class="btn btn-primary" id="addmore" value="1" type="button"><span class="fa fa-plus"></span> Yana qo`shish</button>
                         </div>
                     </div>
                 </div>
@@ -60,9 +66,17 @@ $this->params['breadcrumbs'][] = $this->title;
     $url = Yii::$app->urlManager->createUrl(['/bmanager/task/getexec']);
     $this->registerJs("
         $('#addmore').click(function(){
-            $.get('{$url}').done(function(data){
+            $.get('{$url}?key='+$('#addmore').val()).done(function(data){
+                var val = $('#addmore').val();
+                val ++;
+                $('#addmore').val(val)
                 $('#executors').append(data);
             })
+        })
+        
+        $('#fileadd').click(function(){
+            var str = '<div class=\"col-md-6\"><br><div class=\"form-group field-task-files has-success\"><label class=\"control-label\" for=\"task-files\">Fayl</label><input type=\"file\" id=\"task-files\" name=\"Task[files][]\" aria-invalid=\"false\"></div></div>'
+            $('#file').append(str);
         })
     ")
 

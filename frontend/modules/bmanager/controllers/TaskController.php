@@ -8,10 +8,12 @@ use common\models\TaskUser;
 use Yii;
 use common\models\User;
 use common\models\search\UserSearch;
+use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -72,11 +74,69 @@ class TaskController extends Controller
         $exec = new TaskUser();
         $files = new TaskFile();
         if($post = Yii::$app->request->post()){
+
             if($model->load($this->request->post())){
+
                 $model->status_id = 1;
                 $model->creator_id = Yii::$app->user->id;
                 $model->user_id = $model->creator_id;
                 $cid = Task::find()->max('code_id');
+                if(!$cid){
+                    $cid = 0;
+                }
+                $cid = $cid + 1;
+                $model->code_id = $cid;
+                $model->code = $cid.'-'.date('Y');
+
+                $fls = UploadedFile::getInstances($model,'files');
+
+                $model->files = null;
+
+                if($model->save()){
+
+
+                    //file save
+
+                    foreach ($fls as $item){
+                        $id = TaskFile::find()->where(['task_id'=>$model->id])->max('id');
+                        if(!$id){
+                            $id = 0;
+                        }
+                        $id++;
+                        $name = microtime(true).$id.'.'.$item->extension;
+                        $item->saveAs(Yii::$app->basePath.'/web/uploads/task/'.$name);
+
+                        $tf = new TaskFile();
+                        $tf->user_id = $model->user_id;
+                        $tf->file = $name;
+                        $tf->id = $id;
+                        $tf->task_id = $model->id;
+                        $tf->save();
+
+                    }
+
+                    //Send tasks to users
+                    if(key_exists('TaskUser',$post)){
+                        foreach ($post['TaskUser'] as $key => $item){
+                            $tuser = new TaskUser();
+                            if($item['exec_id']){
+                                $tuser->exec_id = $item['exec_id'];
+                                $tuser->deadline = $item['deadline'] ? $item['deadline'] : $model->deadline;
+                                $tuser->type_id = $item['type_id'] ? $item['type_id'] : 1;
+                                $tuser->user_id = $model->user_id;
+                                $tuser->task_id = $model->id;
+                                $tuser->status_id = 1;
+                                $tuser->sms_status = 0;
+                                $tuser->save();
+                            }
+                        }
+                    }
+                }else{
+                    echo "<pre>";
+                    var_dump($model);
+                    exit;
+                }
+                return $this->refresh();
             }
         }
         return $this->render('create',[
@@ -87,8 +147,8 @@ class TaskController extends Controller
         ]);
     }
 
-    public function actionGetexec(){
-        return $this->renderAjax('_getexec');
+    public function actionGetexec($key){
+        return $this->renderAjax('_getexec',['key'=>$key]);
     }
 
     /**
