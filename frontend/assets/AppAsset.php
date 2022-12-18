@@ -15,7 +15,7 @@ class AppAsset extends AssetBundle
         'assets/libs/sweetalert2/sweetalert2.min.css',
         'assets/css/bootstrap.min.css',
         'assets/css/icons.min.css',
-        'assets/css/app.min.css',
+        'assets/css/app.css',
     ];
     public $js = [
 //        'assets/libs/jquery/jquery.min.js',

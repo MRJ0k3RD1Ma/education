@@ -136,7 +136,7 @@ class TaskController extends Controller
                     var_dump($model);
                     exit;
                 }
-                return $this->refresh();
+                return $this->redirect(['view','id'=>$model->id]);
             }
         }
         return $this->render('create',[
@@ -177,7 +177,7 @@ class TaskController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = User::find()->where(['role_id'=>1,'branch_id'=>Yii::$app->user->identity->branch_id])->andWhere(['id'=>$id])->one()) !== null) {
+        if (($model = Task::findOne($id)) !== null) {
             return $model;
         }
 
