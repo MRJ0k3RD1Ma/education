@@ -8,6 +8,7 @@ use yii\widgets\ActiveForm;
 /** @var yii\widgets\ActiveForm $form */
 
 $this->title = 'Topshiriq kiritish';
+$this->params['breadcrumbs'][] = ['label' => 'Topshiriqlar', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

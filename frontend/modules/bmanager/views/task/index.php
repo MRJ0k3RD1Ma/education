@@ -4,6 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\LinkPager;
 use yii\widgets\ListView;
 
+/** @var yii\web\View $this */
+/** @var common\models\Task $model */
+/** @var yii\widgets\ActiveForm $form */
+
+$this->title = 'Topshiriqlar ro`yhati';
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="row">
     <div class="col-xl-3">
@@ -108,10 +115,15 @@ use yii\widgets\ListView;
             </div>
         </div>
 
-            <?php echo LinkPager::widget([
-                'pagination' => $dataProvider->getPagination(),
-            ]); ?>
+
         <!-- end card -->
     </div>
+        <br>
+        <?php echo LinkPager::widget([
+            'pagination' => $dataProvider->getPagination(),
+        ]); ?>
 </div>
 <!-- end row -->
+    <div class="row">
+        <br><br>
+    </div>
