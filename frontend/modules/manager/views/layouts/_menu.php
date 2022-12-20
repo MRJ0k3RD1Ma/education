@@ -75,6 +75,13 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a href="<?= Yii::$app->urlManager->createUrl(['/manager/task/'])?>" class="waves-effect">
+                        <i class="mdi mdi-account-multiple"></i>
+                        <span>Topshiriqlar</span>
+                    </a>
+                </li>
+
 
             </ul>
         </div>

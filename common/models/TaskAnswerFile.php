@@ -10,6 +10,7 @@ use Yii;
  * @property int $task_id
  * @property int $user_id
  * @property int $id
+ * @property int $ans_id
  * @property string|null $created
  * @property string|null $updated
  * @property string $file
@@ -33,8 +34,8 @@ class TaskAnswerFile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['task_id', 'user_id', 'id'], 'required'],
-            [['task_id', 'user_id', 'id'], 'integer'],
+            [['task_id', 'user_id','ans_id', 'id'], 'required'],
+            [['task_id', 'user_id','ans_id', 'id'], 'integer'],
             [['created', 'updated'], 'safe'],
             [['file'], 'string', 'max' => 255],
             [['task_id', 'user_id', 'id'], 'unique', 'targetAttribute' => ['task_id', 'user_id', 'id']],

@@ -3,6 +3,7 @@
 namespace frontend\modules\bmanager\controllers;
 use common\models\search\TaskSearch;
 use common\models\Task;
+use common\models\TaskAnswer;
 use common\models\TaskFile;
 use common\models\TaskUser;
 use Yii;
@@ -149,6 +150,10 @@ class TaskController extends Controller
 
     public function actionGetexec($key){
         return $this->renderAjax('_getexec',['key'=>$key]);
+    }
+
+    public function actionAnswers(){
+        $model = TaskAnswer::find();
     }
 
     /**

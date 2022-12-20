@@ -24,6 +24,7 @@ use Yii;
  */
 class TaskAnswer extends \yii\db\ActiveRecord
 {
+    public $files;
     /**
      * {@inheritdoc}
      */
@@ -40,7 +41,7 @@ class TaskAnswer extends \yii\db\ActiveRecord
         return [
             [['task_id', 'user_id', 'id'], 'required'],
             [['task_id', 'user_id', 'id', 'status_id', 'confirm_id'], 'integer'],
-            [['detail', 'comment'], 'string'],
+            [['detail', 'comment','files'], 'string'],
             [['created', 'updated'], 'safe'],
             [['task_id', 'user_id', 'id'], 'unique', 'targetAttribute' => ['task_id', 'user_id', 'id']],
             [['confirm_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['confirm_id' => 'id']],
@@ -56,15 +57,16 @@ class TaskAnswer extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'task_id' => 'Task ID',
-            'user_id' => 'User ID',
-            'detail' => 'Detail',
+            'task_id' => 'Topshiriq',
+            'user_id' => 'Foydalanuvchi',
+            'detail' => 'Batafsil',
             'id' => 'ID',
-            'created' => 'Created',
-            'updated' => 'Updated',
-            'status_id' => 'Status ID',
-            'comment' => 'Comment',
-            'confirm_id' => 'Confirm ID',
+            'files' => 'Fayl',
+            'created' => 'Yaratildi',
+            'updated' => 'O`zgartirildi',
+            'status_id' => 'Status',
+            'comment' => 'Izoh',
+            'confirm_id' => 'Tasdiqladi',
         ];
     }
 
@@ -107,4 +109,5 @@ class TaskAnswer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
 }
