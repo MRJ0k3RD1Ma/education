@@ -8,14 +8,14 @@ use yii\widgets\ListView;
 /** @var common\models\Task $model */
 /** @var yii\widgets\ActiveForm $form */
 
-$this->title = 'Topshiriqlar ro`yhati';
+$this->title = 'Yangi javoblar ro`yhati';
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
+
 <div class="row">
 
-
-    <div class="col-xl-9">
+    <div class="col-xl-12">
         <div class="row">
             <div class="col-md-7">
                 <div class="btn-toolbar" role="toolbar">
@@ -94,40 +94,22 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'dataProvider' => $dataProvider,
                                 'layout'=>'{summary} {items}',
                                 'itemOptions' => ['class' => 'item'],
-                                'itemView' => '_list',
+                                'itemView' => '_list_answer',
                             ]) ?>
                         </ul>
                     </div>
 
 
+                </div>
             </div>
+
+
+            <!-- end card -->
         </div>
-
-
-        <!-- end card -->
-    </div>
         <br>
         <?php echo LinkPager::widget([
             'pagination' => $dataProvider->getPagination(),
         ]); ?>
-</div>
-
-    <div class="col-xl-3">
-        <div class="card h-100">
-            <div class="card-body email-leftbar">
-                <div class="d-grid">
-                    <a href="email-compose.html" class="btn btn-danger btn-rounded waves-effect waves-light"><i class="mdi mdi-plus me-1"></i> Compose</a>
-                </div>
-
-
-                <?= $this->render('_search',['model'=>$searchModel])?>
-
-            </div>
-        </div>
-    </div>
-<!-- end row -->
-    <div class="row">
-        <br><br>
     </div>
 
 </div>

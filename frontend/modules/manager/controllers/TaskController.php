@@ -65,6 +65,11 @@ class TaskController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+        $task = TaskUser::find()->where(['exec_id'=>Yii::$app->user->id,'task_id'=>$id])->andWhere('(user_id='.$model->user_id.' or user_id='.$model->creator_id.')')->one();
+        if($task->status_id == 1){
+            $task->status_id = 2;
+            $task->save();
+        }
         return $this->render('view', [
             'model' => $model,
         ]);
@@ -91,6 +96,11 @@ class TaskController extends Controller
             $model->status_id = 1;
             if($model->save()) {
                 //file save
+
+                $tk = TaskUser::find()->where(['exec_id'=>Yii::$app->user->id,'task_id'=>$task->id])->andWhere('(user_id='.$task->user_id.' or user_id='.$task->creator_id.')')->one();
+                $tk->status_id = 4;
+                $tk->save();
+
                 foreach ($fls as $item) {
                     $id = TaskAnswerFile::find()->where(['task_id' => $task->id,'user_id'=>Yii::$app->user->id,'ans_id'=>$model->id])->max('id');
                     if (!$id) {

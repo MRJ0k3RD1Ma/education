@@ -3,17 +3,6 @@
 ?>
 
 <div class="row mb-4">
-    <div class="col-xl-3">
-        <div class="card h-100">
-            <div class="card-body email-leftbar">
-                <div class="d-grid">
-                    <a href="email-compose.html" class="btn btn-danger btn-rounded waves-effect waves-light"><i
-                                class="mdi mdi-plus me-1"></i> Compose</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
 
     <div class="col-xl-9">
         <div class="row">
@@ -144,6 +133,51 @@
         </div>
 
     </div>
+
+    <div class="col-xl-3">
+        <div class="card h-100">
+            <div class="card-body email-leftbar">
+                <div class="d-grid">
+                    <?php if($model->status_id < 3){?>
+                        <a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/task/send','id'=>$model->id])?>" data-method="post" class="btn btn-primary btn-rounded waves-effect waves-light"><i
+                                    class="mdi mdi-reply me-1"></i> Topshiriqni yuborish</a>
+                    <?php }else{?>
+                        <a class="answer btn btn-success btn-rounded waves-effect waves-light"><i
+                                    class="mdi mdi-check-all me-1"></i> Topshiriqni tugatish</a>
+                    <?php }?>
+                </div>
+                <div class="p-3">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="m-0"> Berilgan javoblar </h6>
+                        </div>
+                    </div>
+                </div>
+
+                <?php foreach (\common\models\TaskAnswer::find()->where(['task_id'=>$model->id])->orderBy(['status_id'=>SORT_ASC,'id'=>SORT_DESC])->all() as $item):?>
+                    <a class="text-reset notification-item answer_list" data-url="<?= Yii::$app->urlManager->createUrl(['/bmanager/task/viewanswer','user_id'=>$item->user_id,'id'=>$item->id,'task_id'=>$model->id])?>">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-xs">
+                                    <span class="avatar-title rounded-circle font-size-16">
+                                        <?= $item->status->icon ?>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1"><?= mb_substr($item->user->name,0,26)?>...</h6>
+                                <div class="font-size-12 text-muted">
+                                    <p class="mb-1"><?= mb_substr($item->detail,0,100)?>...</p>
+                                    <p class="mb-0"><i class="mdi mdi-clock-outline"></i> <?= $item->created ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                <?php endforeach;?>
+            </div>
+        </div>
+    </div>
+
 </div>
 <!-- end row -->
 
@@ -186,3 +220,45 @@
         margin-left: 3px;
     }
 </style>
+
+<!-- right offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="answeroff"
+     aria-labelledby="offcanvasCreateLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Topshiriqga javob yuborish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body answeroff">
+
+
+    </div>
+</div>
+
+<!-- right offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="viewanswer"
+     aria-labelledby="offcanvasCreateLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Javob ma`lumotlari</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body viewanswer">
+
+
+    </div>
+</div>
+
+<?php
+$this->registerJs("
+    $('.answer').click(function(){
+        var url = this.value;
+        $('#answeroff').offcanvas('show').find('.answeroff.offcanvas-body').load(url); 
+    });
+    
+    $('.answer_list').click(function(){
+        var url = $(this).attr('data-url');
+        $('#viewanswer').offcanvas('show').find('.viewanswer.offcanvas-body').load(url); 
+    })
+")
+?>

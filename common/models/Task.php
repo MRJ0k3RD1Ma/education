@@ -31,7 +31,7 @@ use Yii;
  */
 class Task extends \yii\db\ActiveRecord
 {
-    public $time,$files;
+    public $time,$files,$task_status;
     /**
      * {@inheritdoc}
      */

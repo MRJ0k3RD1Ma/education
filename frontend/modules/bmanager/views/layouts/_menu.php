@@ -31,6 +31,7 @@
                         <span>Topshiriqlar</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/task/answers'])?>">Javoblar</a></li>
                         <li><a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/task'])?>">Topshiriqlar</a></li>
                         <li><a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/task/create'])?>">Yangi topshiriq</a></li>
                         <li><a href="<?= Yii::$app->urlManager->createUrl(['#'])?>">Nazorat</a></li>

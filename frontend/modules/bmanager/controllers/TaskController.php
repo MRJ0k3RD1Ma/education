@@ -1,6 +1,7 @@
 <?php
 
 namespace frontend\modules\bmanager\controllers;
+use common\models\search\TaskAnswerSearch;
 use common\models\search\TaskSearch;
 use common\models\Task;
 use common\models\TaskAnswer;
@@ -33,6 +34,8 @@ class TaskController extends Controller
                     'class' => VerbFilter::className(),
                     'actions' => [
                         'delete' => ['POST'],
+                        'accept' => ['POST'],
+                        'send' => ['POST'],
                     ],
                 ],
             ]
@@ -153,7 +156,45 @@ class TaskController extends Controller
     }
 
     public function actionAnswers(){
-        $model = TaskAnswer::find();
+        $searchModel = new TaskAnswerSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        return $this->render('answers', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
+    }
+
+    public function actionSend($id){
+        $model = $this->findModel($id);
+        $model->status_id = 3;
+        $model->save();
+        return $this->redirect(['view','id'=>$id]);
+    }
+
+    public function actionViewanswer($id,$task_id,$user_id){
+        if($model = TaskAnswer::findOne(['user_id'=>$user_id,'id'=>$id,'task_id'=>$task_id])){
+            if($model->status_id == 1){
+                $model->status_id = 2;
+                $model->save();
+            }
+            return $this->renderAjax('_viewanswer',['model'=>$model]);
+        }else{
+            return "Bunday javob topilmadi";
+        }
+    }
+
+    public function actionAccept($id,$task_id,$user_id){
+        $model = TaskAnswer::findOne(['id'=>$id,'task_id'=>$task_id,'user_id'=>$user_id]);
+        $model->status_id = 3;
+        $model->save();
+        $model = TaskUser::find()->where(['task_id'=>$task_id,'exec_id'=>$user_id])->all();
+        foreach ($model as $item){
+            $item->status_id = 5;
+            $item->save();
+        }
+        return $this->redirect(['view','id'=>$task_id]);
     }
 
     /**

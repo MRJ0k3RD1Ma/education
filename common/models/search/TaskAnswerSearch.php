@@ -4,12 +4,12 @@ namespace common\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Task;
+use common\models\TaskAnswer;
 use Yii;
 /**
- * TaskSearch represents the model behind the search form of `common\models\Task`.
+ * TaskAnswerSearch represents the model behind the search form of `common\models\TaskAnswer`.
  */
-class TaskSearch extends Task
+class TaskAnswerSearch extends TaskAnswer
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class TaskSearch extends Task
     public function rules()
     {
         return [
-            [['id', 'code_id', 'creator_id', 'status_id', 'state', 'user_id', 'is_user'], 'integer'],
-            [['code', 'name', 'detail', 'created', 'updated', 'deadline'], 'safe'],
+            [['task_id', 'user_id', 'id', 'status_id', 'confirm_id'], 'integer'],
+            [['detail', 'created', 'updated', 'comment'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class TaskSearch extends Task
      */
     public function search($params)
     {
-        $query = Task::find()->orderBy(['id'=>SORT_DESC]);
+        $query = TaskAnswer::find();
 
         // add conditions that should always apply here
 
@@ -58,33 +58,25 @@ class TaskSearch extends Task
 
         // grid filtering conditions
         $query->andFilterWhere([
+            'task_id' => $this->task_id,
+            'user_id' => $this->user_id,
             'id' => $this->id,
-            'code_id' => $this->code_id,
-            'creator_id' => $this->creator_id,
             'created' => $this->created,
             'updated' => $this->updated,
             'status_id' => $this->status_id,
-            'deadline' => $this->deadline,
-            'state' => $this->state,
-            'user_id' => $this->user_id,
-            'is_user' => $this->is_user,
+            'confirm_id' => $this->confirm_id,
         ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'detail', $this->detail]);
+        $query->andFilterWhere(['like', 'detail', $this->detail])
+            ->andFilterWhere(['like', 'comment', $this->comment]);
 
         return $dataProvider;
     }
 
-    public function searchManager($params)
+     public function searchCreator($params)
     {
-        $query = Task::find()
-            ->select(['task.*','task_user.status_id as task_status'])
-            ->innerJoin('task_user','task_user.task_id = task.id')
-            ->where(['task_user.exec_id'=>Yii::$app->user->id])
-            ->andWhere(['>','task.status_id',2])
-            ->orderBy(['task.id'=>SORT_DESC]);
+        $query = TaskAnswer::find()->select(['task_answer.*'])->innerJoin('task','task.id task_answer.id')->where('(task.user_id = '.Yii::$app->user->id.' or task.creator_id='.Yii::$app->user->id.')')
+            ->andWhere(['task_answer.status_id'=>1])->orderBy(['task_answer.updated'=>SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -102,22 +94,22 @@ class TaskSearch extends Task
 
         // grid filtering conditions
         $query->andFilterWhere([
+            'task_id' => $this->task_id,
+            'user_id' => $this->user_id,
             'id' => $this->id,
-            'code_id' => $this->code_id,
-            'creator_id' => $this->creator_id,
             'created' => $this->created,
             'updated' => $this->updated,
             'status_id' => $this->status_id,
-            'deadline' => $this->deadline,
-            'state' => $this->state,
-            'user_id' => $this->user_id,
-            'is_user' => $this->is_user,
+            'confirm_id' => $this->confirm_id,
         ]);
 
-        $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'detail', $this->detail]);
+        $query->andFilterWhere(['like', 'detail', $this->detail])
+            ->andFilterWhere(['like', 'comment', $this->comment]);
 
         return $dataProvider;
     }
+
+
+
+
 }
