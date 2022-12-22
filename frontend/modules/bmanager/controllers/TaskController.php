@@ -98,7 +98,6 @@ class TaskController extends Controller
 
                 if($model->save()){
 
-
                     //file save
 
                     foreach ($fls as $item){
@@ -117,6 +116,21 @@ class TaskController extends Controller
                         $tf->task_id = $model->id;
                         $tf->save();
 
+                    }
+
+                    if($model->role){
+                        $us = User::find()->where(['role_id'=>$model->role])->all();
+                        foreach ($us as $item){
+                            $tuser = new TaskUser();
+                            $tuser->exec_id = $item->id;
+                            $tuser->deadline = $model->deadline;
+                            $tuser->type_id = 1;
+                            $tuser->user_id = $model->user_id;
+                            $tuser->task_id = $model->id;
+                            $tuser->status_id = 1;
+                            $tuser->sms_status = 0;
+                            $tuser->save();
+                        }
                     }
 
                     //Send tasks to users
@@ -213,6 +227,28 @@ class TaskController extends Controller
 
         return $this->redirect(['index']);
     }
+
+    public function actionAddtask($id){
+        $model = new TaskUser();
+        $task = Task::findOne($id);
+        if($model->load($this->request->post())){
+            $model->task_id = $task->id;
+            $model->status_id = 1;
+            $model->user_id = $task->creator_id;
+            $model->sms_status = 0;
+            if(!$model->deadline){
+                $model->deadline = $task->deadline;
+            }
+            if($model->save()){
+                Yii::$app->session->setFlash('success','Topshiriq yuborildi');
+            }else{
+                Yii::$app->session->setFlash('error','Topshiriqni yuborishda xatolik');
+            }
+        }
+
+        return $this->redirect(['view','id'=>$task->id]);
+    }
+
 
     /**
      * Finds the User model based on its primary key value.

@@ -31,7 +31,7 @@ use Yii;
  */
 class Task extends \yii\db\ActiveRecord
 {
-    public $time,$files,$task_status;
+    public $time,$files,$task_status,$role;
     /**
      * {@inheritdoc}
      */
@@ -46,7 +46,7 @@ class Task extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code_id', 'creator_id', 'status_id', 'state', 'user_id', 'is_user'], 'integer'],
+            [['code_id', 'creator_id', 'status_id', 'state','role', 'user_id', 'is_user'], 'integer'],
             [['detail','files'], 'string'],
             [['created', 'updated', 'deadline'], 'safe'],
             [['code', 'name','time'], 'string', 'max' => 255],
@@ -74,6 +74,7 @@ class Task extends \yii\db\ActiveRecord
             'status_id' => 'Status',
             'deadline' => 'Muddat',
             'files' => 'Fayl',
+            'role' => 'Rolini tanlang',
             'state' => 'State',
             'user_id' => 'Rahbar',
             'is_user' => 'Is User',

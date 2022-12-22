@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="card-body">
                             <h4>Topshiriqni qabul qiluvchilar</h4>
                             <div id="executors">
-
+                                <?= $form->field($model,'role')->dropDownList(\yii\helpers\ArrayHelper::map(\common\models\UserRole::find()->where(['<>','id',1])->all(),'id','name'),['prompt'=>'Rolni tanlang'])?>
                             </div>
                             <br>
                             <button class="btn btn-primary" id="addmore" value="1" type="button"><span class="fa fa-plus"></span> Yana qo`shish</button>

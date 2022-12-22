@@ -86,7 +86,6 @@
                     <?php endforeach; ?>
                 </div>
 
-                <a href="#" class="btn btn-secondary waves-effect mt-4"><i class="mdi mdi-reply"></i> Topshiriqni tugatish</a>
             </div>
         </div>
         <!-- end card -->
@@ -97,7 +96,9 @@
                     <div class="d-flex justify-content-between align-items-center activity">
                         <div><i class="fa fa-clock-o"></i><span class="ml-2"><?= $model->created ?></span></div>
                         <div><span class="activity-done">Bajarilganlari soni(<?= \common\models\TaskUser::find()->where(['task_id'=>$model->id])->andWhere(['status_id'=>5])->count('*') ?>)</span></div>
-                        <div class="icons"><i class="fa fa-search"></i><i class="fa fa-ellipsis-h"></i></div>
+                        <div class="icons">
+                            <a class="btn btn-success addtask"><span class="fa fa-plus"></span></a>
+                        </div>
                     </div>
                     <div class="mt-3">
                         <ul class="list list-inline">
@@ -118,10 +119,11 @@
                                     <div class="d-flex flex-row align-items-center">
                                         <div class="d-flex flex-column mr-2">
                                             <div class="profile-image">
-                                                <a href="#"><span class="fa fa-check"></span></a>
+                                                <a href="#" class="btn btn-primary"><span class="fa fa-check"></span></a>
+                                                <a href="#" class="btn btn-danger"><span class="fa fa-trash"></span></a>
                                             </div>
-                                            <span class="date-time"><?= $item->deadline?></span></div>
-                                        <i class="fa fa-ellipsis-h"></i>
+                                            <span class="date-time"><?= date('Y-m-d',strtotime($item->deadline))?></span>
+                                        </div>
                                     </div>
                                 </li>
                             <?php endforeach;?>
@@ -249,6 +251,21 @@
     </div>
 </div>
 
+<!-- right offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="addtask"
+     aria-labelledby="offcanvasCreateLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Topshiriq qo'shish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body addtask-body">
+
+        <?= $this->render('_addtask',['model'=>$model])?>
+
+    </div>
+</div>
+
 <?php
 $this->registerJs("
     $('.answer').click(function(){
@@ -259,6 +276,10 @@ $this->registerJs("
     $('.answer_list').click(function(){
         var url = $(this).attr('data-url');
         $('#viewanswer').offcanvas('show').find('.viewanswer.offcanvas-body').load(url); 
+    })
+    $('.addtask').click(function(){
+        var url = $(this).attr('data-url');
+        $('#addtask').offcanvas('show').find('.addtask-body.offcanvas-body').load(url); 
     })
 ")
 ?>
