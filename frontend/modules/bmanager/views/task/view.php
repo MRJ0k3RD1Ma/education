@@ -119,8 +119,8 @@
                                     <div class="d-flex flex-row align-items-center">
                                         <div class="d-flex flex-column mr-2">
                                             <div class="profile-image">
-                                                <a href="#" class="btn btn-primary"><span class="fa fa-check"></span></a>
-                                                <a href="#" class="btn btn-danger"><span class="fa fa-trash"></span></a>
+                                                <a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/task/accepttask','id'=>$model->id,'exec_id'=>$item->exec_id])?>" data-method="post" class="btn btn-primary"><span class="fa fa-check"></span></a>
+                                                <a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/task/deletetask','id'=>$model->id,'exec_id'=>$item->exec_id])?>" data-method="post" class="btn btn-danger"><span class="fa fa-trash"></span></a>
                                             </div>
                                             <span class="date-time"><?= date('Y-m-d',strtotime($item->deadline))?></span>
                                         </div>

@@ -35,6 +35,8 @@ class TaskController extends Controller
                     'actions' => [
                         'delete' => ['POST'],
                         'accept' => ['POST'],
+                        'accepttask' => ['POST'],
+                        'deletetask' => ['POST'],
                         'send' => ['POST'],
                     ],
                 ],
@@ -248,6 +250,22 @@ class TaskController extends Controller
 
         return $this->redirect(['view','id'=>$task->id]);
     }
+
+    public function actionAccepttask($id,$exec_id){
+        $task = TaskUser::findOne(['task_id'=>$id,'exec_id'=>$exec_id,'user_id'=>Yii::$app->user->id]);
+        $task->status_id = 5;
+        $task->save();
+        return $this->redirect(['view','id'=>$id]);
+    }
+
+    public function actionDeletetask($id,$exec_id){
+        $task = TaskUser::findOne(['task_id'=>$id,'exec_id'=>$exec_id,'user_id'=>Yii::$app->user->id]);
+        if($task->status_id < 5){
+            $task->delete();
+        }
+        return $this->redirect(['view','id'=>$id]);
+    }
+
 
 
     /**
