@@ -37,6 +37,7 @@ class TaskController extends Controller
                         'accept' => ['POST'],
                         'accepttask' => ['POST'],
                         'deletetask' => ['POST'],
+                        'close' => ['POST'],
                         'send' => ['POST'],
                     ],
                 ],
@@ -58,6 +59,18 @@ class TaskController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionClose($id){
+        $task = Task::findOne($id);
+        $task->status_id = 4;
+        if($task->save()){
+            $tuser = TaskUser::find()->where(['task_id'=>$task->id])->all();
+            foreach ($tuser as $item){
+                $item->status_id = 5;
+                $item->save();
+            }
+        }
     }
 
     /**

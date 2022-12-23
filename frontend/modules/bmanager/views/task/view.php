@@ -144,7 +144,7 @@
                         <a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/task/send','id'=>$model->id])?>" data-method="post" class="btn btn-primary btn-rounded waves-effect waves-light"><i
                                     class="mdi mdi-reply me-1"></i> Topshiriqni yuborish</a>
                     <?php }else{?>
-                        <a class="answer btn btn-success btn-rounded waves-effect waves-light"><i
+                        <a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/task/close','id'=>$model->id]) ?>" data-method="post" class="answer btn btn-success btn-rounded waves-effect waves-light"><i
                                     class="mdi mdi-check-all me-1"></i> Topshiriqni tugatish</a>
                     <?php }?>
                 </div>
