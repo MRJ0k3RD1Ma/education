@@ -200,13 +200,25 @@ use frontend\components\General;
                             <div class="col-md-6">
                                 <h3 class="card-title"><?= date('Y')?> yil statistikasi(oylar kesimida).</h3>
                             </div>
-                            <div class="col-md-4" style="text-align: right">
+
+                            <div class="col-md-2" style="text-align: right">
                                 <label for="type">Statistika turi:</label>
                             </div>
                             <div class="col-md-2">
                                 <select name="type" id="type" class="form-control">
                                     <option value="0" <?= $type == 0 ? 'selected' : ''?>>Bitiruvchilar</option>
                                     <option value="1" <?= $type == 1 ? 'selected' : ''?>>Qamrov</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select name="branch" id="branch" class="form-control">
+                                    <option value="0">Barchasi</option>
+                                    <?php
+                                        $br = \common\models\Branch::find()->all();
+                                        foreach ($br as $item):
+                                    ?>
+                                            <option value="<?= $item->id?>" <?php if($item->id == $b_id)echo "selected"?>><?= $item->name ?></option>
+                                        <?php endforeach;?>
                                 </select>
                             </div>
                         </div>
@@ -314,7 +326,7 @@ foreach ($date as $key => $item) {
     $dates .= '"' . $item . '",';
 }
 
-$url = Yii::$app->urlManager->createUrl(['/manager/default/index']);
+$url = Yii::$app->urlManager->createUrl(['/bmanager/default/index']);
 $dates = substr($dates, 0, strlen($dates) - 1);
 $dates .= ']';
 
@@ -355,9 +367,16 @@ $this->registerJs("
     chart.render();
     
     $('#type').change(function(){
-        var val = this.value;
-        window.location.href='{$url}?type='+val;
-    })
+        var val = $('#type').val();
+        var b = $('#branch').val()
+        window.location.href='{$url}?type='+val+'&b_id='+b;
+    });
+    $('#branch').change(function(){
+        var val = $('#type').val();
+        var b = $('#branch').val()
+        window.location.href='{$url}?type='+val+'&b_id='+b;
+    });
+    
     ")
 
 ?>

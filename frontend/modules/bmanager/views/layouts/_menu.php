@@ -55,21 +55,6 @@
 
 
                 <li>
-                    <a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/room'])?>" class="waves-effect">
-                        <i class="mdi mdi-door fs-3"></i>
-                        <span>Xonalar ro`yhati</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/user'])?>" class="waves-effect">
-                        <i class="mdi mdi-account-multiple fs-3"></i>
-                        <span>O'qituvchilar</span>
-                    </a>
-                </li>
-
-
-                <li>
                     <a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/user'])?>" class="waves-effect">
                         <i class="mdi mdi-account-multiple fs-3"></i>
                         <span>O'qituvchilar</span>
