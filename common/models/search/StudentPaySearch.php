@@ -127,6 +127,47 @@ class StudentPaySearch extends StudentPay
         return $dataProvider;
     }
 
+    public function searchNotaccept($params)
+    {
+        $query = StudentPay::find()->where('status_id = 2')->orderBy(['status_id'=>SORT_ASC]);
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'student_id' => $this->student_id,
+            'id' => $this->id,
+            'pay_date' => $this->pay_date,
+            'price' => $this->price,
+            'paid_date' => $this->paid_date,
+            'payment_id' => $this->payment_id,
+            'branch_id' => $this->branch_id,
+            'user_id' => $this->user_id,
+            'consept_id' => $this->consept_id,
+            'status_id' => $this->status_id,
+            'created' => $this->created,
+            'updated' => $this->updated,
+        ]);
+
+        $query->andFilterWhere(['like', 'code', $this->code])
+            ->andFilterWhere(['like', 'check_file', $this->check_file])
+            ->andFilterWhere(['like', 'ads', $this->ads]);
+
+        return $dataProvider;
+    }
+
     public function searchManager($params)
     {
         $query = StudentPay::find()->andWhere(['student_pay.branch_id'=>\Yii::$app->user->identity->branch_id])

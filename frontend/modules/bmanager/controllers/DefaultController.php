@@ -34,6 +34,7 @@ class DefaultController extends Controller
         $monthly_price = StudentPay::find()->where(['status_id'=>3])->andFilterWhere(['like','created',date('Y-m')])->sum('price');
 
         $monthly_price_5 = StudentPay::find()->where(['status_id'=>2])->sum('price');
+        $credit = StudentPay::find()->where(['<>','status_id',3])->andWhere(['<','pay_date',date('Y-m-d')])->sum('price');
 
         $tasdiqlangan = '';
         for($i=1; $i<=12; $i++){
@@ -189,6 +190,7 @@ class DefaultController extends Controller
                 ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=30')
                 ->groupBy($order)->count('*');
 
+
         return $this->render('index',[
             'monthly_person'=>$monthly_person,
             'monthly_price'=>$monthly_price,
@@ -217,14 +219,15 @@ class DefaultController extends Controller
             'std_project'=>$std_project,
             'std_type'=>$std_type,
             'std'=>$std,
-            'b_id'=>$b_id
+            'b_id'=>$b_id,
+            'credit'=>$credit
         ]);
     }
 
     public function actionPay(){
 
         $searchModel = new StudentPaySearch();
-        $dataProvider = $searchModel->searchBux($this->request->queryParams);
+        $dataProvider = $searchModel->searchNotaccept($this->request->queryParams);
 
         return $this->render('pay', [
             'searchModel' => $searchModel,
