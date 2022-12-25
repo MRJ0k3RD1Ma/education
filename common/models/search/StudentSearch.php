@@ -80,12 +80,94 @@ class StudentSearch extends Student
 
         return $dataProvider;
     }
-
-    public function searchDone($params)
+    public function searchBman($params)
     {
         $query = Student::find()->select('student.*')
             ->innerJoin('person','person.id = student.person_id')
-            ->where(['student.branch_id'=>\Yii::$app->user->identity->branch_id])
+            ->andWhere(['<>','student.status',1])
+        ;
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'student.id' => $this->id,
+            'student.code_id' => $this->code_id,
+            'student.group_id' => $this->group_id,
+            'student.person_id' => $this->person_id,
+            'student.social_id' => $this->social_id,
+            'student.project_id' => $this->project_id,
+            'student.created' => $this->created,
+            'student.updated' => $this->updated,
+            'student.creator_id' => $this->creator_id,
+            'student.branch_id' => $this->branch_id,
+            'student.status' => $this->status,
+        ]);
+
+        $query->andFilterWhere(['like', 'student.code', $this->code])
+            ->andFilterWhere(['like','person.name',$this->per]);
+
+        return $dataProvider;
+    }
+
+    public function searchDone($params)
+{
+    $query = Student::find()->select('student.*')
+        ->innerJoin('person','person.id = student.person_id')
+        ->where(['student.branch_id'=>\Yii::$app->user->identity->branch_id])
+        ->andWhere(['=','student.status',3])
+        ->andWhere('0 = (select count(student_pay.id) from student_pay where student.id=student_pay.student_id and student_pay.status_id <> 3)')
+    ;
+
+    // add conditions that should always apply here
+
+    $dataProvider = new ActiveDataProvider([
+        'query' => $query,
+    ]);
+
+    $this->load($params);
+
+    if (!$this->validate()) {
+        // uncomment the following line if you do not want to return any records when validation fails
+        // $query->where('0=1');
+        return $dataProvider;
+    }
+    // grid filtering conditions
+    $query->andFilterWhere([
+        'student.id' => $this->id,
+        'student.code_id' => $this->code_id,
+        'student.group_id' => $this->group_id,
+        'student.person_id' => $this->person_id,
+        'student.social_id' => $this->social_id,
+        'student.project_id' => $this->project_id,
+        'student.created' => $this->created,
+        'student.updated' => $this->updated,
+        'student.creator_id' => $this->creator_id,
+        'student.branch_id' => $this->branch_id,
+        'student.status' => $this->status,
+    ]);
+
+    $query->andFilterWhere(['like', 'student.code', $this->code])
+        ->andFilterWhere(['like','person.name',$this->per]);
+
+    return $dataProvider;
+}
+
+    public function searchDoneBman($params)
+    {
+        $query = Student::find()->select('student.*')
+            ->innerJoin('person','person.id = student.person_id')
             ->andWhere(['=','student.status',3])
             ->andWhere('0 = (select count(student_pay.id) from student_pay where student.id=student_pay.student_id and student_pay.status_id <> 3)')
         ;

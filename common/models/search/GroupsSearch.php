@@ -79,6 +79,47 @@ class GroupsSearch extends Groups
         return $dataProvider;
     }
 
+    public function searchBman($params)
+    {
+        $query = Groups::find()
+            ->orderBy(['status_id'=>SORT_ASC,'id'=>SORT_DESC]);
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'branch_id' => $this->branch_id,
+            'course_id' => $this->course_id,
+            'status_id' => $this->status_id,
+            'start_date' => $this->start_date,
+            'day_id' => $this->day_id,
+            'type_id' => $this->type_id,
+            'price' => $this->price,
+            'created' => $this->created,
+            'updated' => $this->updated,
+            'creator_id' => $this->creator_id,
+            'room_id' => $this->room_id,
+        ]);
+
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'time', $this->time]);
+
+        return $dataProvider;
+    }
+
     public function searchTeacher($params)
     {
         $query = Groups::find()
