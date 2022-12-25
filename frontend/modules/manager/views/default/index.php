@@ -148,42 +148,31 @@ use frontend\components\General;
     </div>
     <!-- end col -->
 
-    <div class="col-lg-4 col-md-8 m-10">
-        <div class="card" style="margin-left: 15px;">
-
+    <div class="col-lg-4 col-md-8 m-10" style="margin-left:10px;">
+        <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Statistika <?= date('Y')?></h4>
-
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-
-                                <th>Nomi</th>
-                                <th>O'qiyotganlar</th>
-                                <th>Bitiruvchilar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-
-                            <tr>
-                                <td>Loyihalar</td>
-                                <td><?= $project?></td>
-                                <td><?= $project_finish?></td>
-                            </tr>
-                            <tr>
-                                <td>Ijtimoiy status</td>
-                                <td><?= $social?></td>
-                                <td><?= $social_finish?></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="d-flex text-muted">
+                    <div class="flex-shrink-0  me-3 align-self-center">
+                        <div class="avatar-sm">
+                            <div class="avatar-title bg-light rounded-circle text-warning font-size-20">
+                                <i class="ri-alert-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 me-3 align-self-center">
+                        <div id="radialchart-3" class="apex-charts" dir="ltr"></div>
+                    </div>
+                    <div class="flex-grow-1 overflow-hidden">
+                        <h5 class="mb-3">
+                            <?= General::PrettyNumber($credit) ?> so'm
+                        </h5>
+                        <p class="text-truncate mb-0"> Muddati o'tgan to'lovlar</p>
+                    </div>
                 </div>
-
             </div>
+            <!-- end card-body -->
         </div>
-
+        <!-- end card -->
     </div>
 
 </div>

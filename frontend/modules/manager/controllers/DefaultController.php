@@ -147,6 +147,7 @@ class DefaultController extends Controller
         $std_old_30_to = Student::find()->where(['=','student.status','1'])->andWhere(['student.branch_id'=>$branch_id])
             ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=30')
             ->groupBy($order)->count('*');
+        $credit = StudentPay::find()->where(['<>','status_id',3])->andWhere(['branch_id'=>$branch_id])->andWhere(['<','pay_date',date('Y-m-d')])->sum('price');
 
         return $this->render('index',[
             'monthly_person'=>$monthly_person,
@@ -176,6 +177,7 @@ class DefaultController extends Controller
             'std_project'=>$std_project,
             'std_type'=>$std_type,
             'std'=>$std,
+            'credit'=>$credit
         ]);
     }
 
