@@ -177,6 +177,56 @@ class StudentPaySearch extends StudentPay
         return $dataProvider;
     }
 
+    public function searchBManager($params)
+    {
+        $query = StudentPay::find()
+            ->innerJoin('student','student_pay.student_id = student.id')
+            ->innerJoin('groups','student.group_id = groups.id')
+
+            ->orderBy(['student_pay.pay_date'=>SORT_ASC]);
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        if(!$this->status_id){
+            $query->andWhere('student_pay.status_id not in (2,3,4)');
+        }
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'student_pay.student_id' => $this->student_id,
+            'student_pay.id' => $this->id,
+            'student_pay.pay_date' => $this->pay_date,
+            'student_pay.price' => $this->price,
+            'student_pay.paid_date' => $this->paid_date,
+            'student_pay.payment_id' => $this->payment_id,
+            'student_pay.branch_id' => $this->branch_id,
+            'student_pay.user_id' => $this->user_id,
+            'student_pay.consept_id' => $this->consept_id,
+            'student_pay.status_id' => $this->status_id,
+            'student_pay.created' => $this->created,
+            'student_pay.updated' => $this->updated,
+            'groups.course_id' => $this->course,
+            'groups.id' => $this->group,
+        ]);
+
+        $query->andFilterWhere(['like', 'student_pay.code', $this->code])
+            ->andFilterWhere(['like', 'student_pay.check_file', $this->check_file])
+            ->andFilterWhere(['like', 'student_pay.ads', $this->ads]);
+
+        return $dataProvider;
+    }
+
 // data to excel converter
     public function exportToExcel(?QueryInterface $query)
     {

@@ -35,12 +35,15 @@
                     </ul>
                 </li>
 
-
                 <li>
-                    <a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/default/pay'])?>" class="waves-effect">
-                        <i class="mdi mdi-account-multiple"></i>
-                        <span>To'lovlar</span>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-gradient"></i>
+                        <span>To`lovlar</span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/default/pay'])?>">Tasdiqlanishi kutilayotgan</a></li>
+                        <li><a href="<?= Yii::$app->urlManager->createUrl(['/bmanager/default/allpay'])?>">Barcha to`lovlar</a></li>
+                    </ul>
                 </li>
 
                 <li>
