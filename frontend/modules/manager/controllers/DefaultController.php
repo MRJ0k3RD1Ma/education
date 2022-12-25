@@ -71,80 +71,80 @@ class DefaultController extends Controller
         $kutilyotgan = substr($kutilyotgan,0,strlen($kutilyotgan)-1);
 
 
-        $project = Student::find()->where(['<>','project_id',1])->andWhere(['status'=>1])->andFilterWhere(['like','created',date('Y')])->count('id');
-        $project_finish = Student::find()->where(['<>','project_id',1])->andWhere('status = 3 or status=4')->andFilterWhere(['like','created',date('Y')])->count('id');
+        $project = Student::find()->where(['<>','project_id',1])->andWhere(['branch_id'=>$branch_id])->andWhere(['status'=>1])->andFilterWhere(['like','created',date('Y')])->count('id');
+        $project_finish = Student::find()->where(['<>','project_id',1])->andWhere(['branch_id'=>$branch_id])->andWhere('status = 3 or status=4')->andFilterWhere(['like','created',date('Y')])->count('id');
 
-        $social = Student::find()->where(['<>','social_id',1])->andWhere(['status'=>1])->andFilterWhere(['like','created',date('Y')])->count('id');
-        $social_finish = Student::find()->where(['<>','social_id',1])->andWhere('status = 3 or status=4')->andFilterWhere(['like','created',date('Y')])->count('id');
+        $social = Student::find()->where(['<>','social_id',1])->andWhere(['branch_id'=>$branch_id])->andWhere(['status'=>1])->andFilterWhere(['like','created',date('Y')])->count('id');
+        $social_finish = Student::find()->where(['<>','social_id',1])->andWhere(['branch_id'=>$branch_id])->andWhere('status = 3 or status=4')->andFilterWhere(['like','created',date('Y')])->count('id');
 
         $students = [];
         for($i=1; $i<=12; $i++){
             $t = $i;
             if($t<10){$t = '0'.$i;}
-            $students[$i] = Student::find()->where(['>=','status','3'])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
+            $students[$i] = Student::find()->where(['>=','status','3'])->andWhere(['branch_id'=>$branch_id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
         }
-        $std = Student::find()->where(['=','status','1'])->groupBy($order)->count('*');
+        $std = Student::find()->where(['=','status','1'])->andWhere(['branch_id'=>$branch_id])->groupBy($order)->count('*');
         $student_type = [];
         $student_types = StudentType::find()->all();
         foreach ($student_types as $item){
             for($i=1; $i<=12; $i++){
                 $t = $i;
                 if($t<10){$t = '0'.$i;}
-                $student_type[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['type_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
+                $student_type[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['branch_id'=>$branch_id])->andWhere(['type_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
             }
         }
-        $std_type = Student::find()->where(['=','status','1'])->andWhere(['type_id'=>$item->id])->groupBy($order)->count('*');
+        $std_type = Student::find()->where(['=','status','1'])->andWhere(['type_id'=>$item->id])->andWhere(['branch_id'=>$branch_id])->groupBy($order)->count('*');
         $projects = Project::find()->all();
         $project_cnt = [];
         foreach ($projects as $item){
             for($i=1; $i<=12; $i++){
                 $t = $i;
                 if($t<10){$t = '0'.$i;}
-                $project_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['project_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
+                $project_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['branch_id'=>$branch_id])->andWhere(['project_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
             }
         }
-        $std_project = Student::find()->where(['=','status','1'])->andWhere(['project_id'=>$item->id])->groupBy($order)->count('*');
+        $std_project = Student::find()->where(['=','status','1'])->andWhere(['branch_id'=>$branch_id])->andWhere(['project_id'=>$item->id])->groupBy($order)->count('*');
         $socials = PersonSocial::find()->all();
         $social_cnt = [];
         foreach ($socials as $item){
             for($i=1; $i<=12; $i++){
                 $t = $i;
                 if($t<10){$t = '0'.$i;}
-                $social_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['social_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
+                $social_cnt[$item->id][$i] = Student::find()->where(['>=','status','3'])->andWhere(['branch_id'=>$branch_id])->andWhere(['social_id'=>$item->id])->andFilterWhere(['like','end_date',date('Y-').$t])->groupBy($order)->count('*');
             }
         }
-        $std_social = Student::find()->where(['=','status','1'])->andWhere(['social_id'=>$item->id])->groupBy($order)->count('*');
+        $std_social = Student::find()->where(['=','status','1'])->andWhere(['social_id'=>$item->id])->andWhere(['branch_id'=>$branch_id])->groupBy($order)->count('*');
         $old_to_12 = [];
         for($i=1; $i<=12; $i++){
             $t = $i;
             if($t<10){$t = '0'.$i;}
-            $old_to_12[$i] = Student::find()->where(['>=','student.status','3'])
+            $old_to_12[$i] = Student::find()->where(['>=','student.status','3'])->andWhere(['student.branch_id'=>$branch_id])
                 ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)<12')
                 ->andFilterWhere(['like','student.end_date',date('Y-').$t])->groupBy($order)->count('*');
         }
-        $std_old_to_12 = Student::find()->where(['=','student.status','1'])
+        $std_old_to_12 = Student::find()->where(['=','student.status','1'])->andWhere(['student.branch_id'=>$branch_id])
             ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)<12')
             ->groupBy($order)->count('*');
         $old_12_30 = [];
         for($i=1; $i<=12; $i++){
             $t = $i;
             if($t<10){$t = '0'.$i;}
-            $old_12_30[$i] = Student::find()->where(['>=','student.status','3'])
+            $old_12_30[$i] = Student::find()->where(['>=','student.status','3'])->andWhere(['student.branch_id'=>$branch_id])
                 ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=12 and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)<30')
                 ->andFilterWhere(['like','student.end_date',date('Y-').$t])->groupBy($order)->count('*');
         }
-        $std_old_12_30 = Student::find()->where(['=','student.status','1'])
+        $std_old_12_30 = Student::find()->where(['=','student.status','1'])->andWhere(['student.branch_id'=>$branch_id])
             ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=12 and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)<30')
             ->groupBy($order)->count('*');
         $old_30_to = [];
         for($i=1; $i<=12; $i++){
             $t = $i;
             if($t<10){$t = '0'.$i;}
-            $old_30_to[$i] = Student::find()->where(['>=','student.status','3'])
+            $old_30_to[$i] = Student::find()->where(['>=','student.status','3'])->andWhere(['student.branch_id'=>$branch_id])
                 ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=30')
                 ->andFilterWhere(['like','student.end_date',date('Y-').$t])->groupBy($order)->count('*');
         }
-        $std_old_30_to = Student::find()->where(['=','student.status','1'])
+        $std_old_30_to = Student::find()->where(['=','student.status','1'])->andWhere(['student.branch_id'=>$branch_id])
             ->innerJoin('person','student.person_id = person.id and TIMESTAMPDIFF(YEAR, person.birthday, student.end_date)>=30')
             ->groupBy($order)->count('*');
 
