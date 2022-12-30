@@ -49,4 +49,8 @@ return [
         2=>'Oy',
         1=>'Hafta',
     ],
+    'status_tax'=>[
+        0=>'Tasdiqlanishi kutilmoqda',
+        1=>'Tasdiqlangan'
+    ]
 ];

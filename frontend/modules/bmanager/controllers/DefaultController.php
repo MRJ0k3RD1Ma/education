@@ -191,6 +191,7 @@ class DefaultController extends Controller
                 ->groupBy($order)->count('*');
 
 
+
         return $this->render('index',[
             'monthly_person'=>$monthly_person,
             'monthly_price'=>$monthly_price,

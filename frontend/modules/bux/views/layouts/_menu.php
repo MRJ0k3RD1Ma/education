@@ -24,7 +24,17 @@
                 </li>
 
 
-
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-gradient"></i>
+                        <span>Harajatlar</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="<?= Yii::$app->urlManager->createUrl(['/bux/tax'])?>">Harajatlar</a></li>
+                        <li><a href="<?= Yii::$app->urlManager->createUrl(['/bux/tax-usual'])?>">Doimiy harajatlar</a></li>
+                        <li><a href="<?= Yii::$app->urlManager->createUrl(['/bux/tax-type'])?>">Harajat turlari</a></li>
+                    </ul>
+                </li>
 
             </ul>
         </div>
