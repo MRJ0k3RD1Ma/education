@@ -15,37 +15,49 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tax-usual-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Tax Usual', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="card">
+        <div class="card-body">
+            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'type_id',
-            'price',
-            'tax',
-            'tax_bank',
-            //'ads',
-            //'creator_id',
-            //'created',
-            //'updated',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, TaxUsual $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-            ],
-        ],
-    ]); ?>
+//            'id',
+//            'type_id',
+                    [
+                        'attribute'=>'type_id',
+                        'value'=>function($d){
+                            return $d->type->name;
+                        }
+                    ],
+                    'price',
+                    'tax',
+                    'tax_bank',
+                    //'file',
+
+                    'ads:ntext',
+//            'creator_id',
+                    [
+                        'attribute'=>'creator_id',
+                        'value'=>function($d){return $d->creator->name;}
+                    ],
+                    'updated',
+                    [
+                        'class' => ActionColumn::className(),
+                        'urlCreator' => function ($action, TaxUsual $model, $key, $index, $column) {
+                            return Url::toRoute([$action, 'id' => $model->id]);
+                        }
+                    ],
+                ],
+            ]); ?>
+        </div>
+    </div>
+
 
 
 </div>

@@ -17,6 +17,7 @@ use Yii;
  * @property string|null $created
  * @property string|null $updated
  *
+ * @property User $creator
  * @property TaxType $type
  */
 class TaxUsual extends \yii\db\ActiveRecord
@@ -38,6 +39,7 @@ class TaxUsual extends \yii\db\ActiveRecord
             [['type_id', 'creator_id'], 'integer'],
             [['created', 'updated'], 'safe'],
             [['price', 'tax', 'tax_bank', 'ads'], 'string', 'max' => 255],
+            [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['creator_id' => 'id']],
             [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => TaxType::class, 'targetAttribute' => ['type_id' => 'id']],
         ];
     }
@@ -58,6 +60,16 @@ class TaxUsual extends \yii\db\ActiveRecord
             'created' => 'Created',
             'updated' => 'Updated',
         ];
+    }
+
+    /**
+     * Gets query for [[Creator]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCreator()
+    {
+        return $this->hasOne(User::class, ['id' => 'creator_id']);
     }
 
     /**
