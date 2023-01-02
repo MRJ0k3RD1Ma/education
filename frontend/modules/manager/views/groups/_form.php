@@ -17,6 +17,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'course_id')->dropDownList(ArrayHelper::map(\common\models\Cource::find()->where(['status'=>1])->all(),'id','name')) ?>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'duration')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'duration_type')->dropDownList(Yii::$app->params['duration_type']) ?>
 
     <?= $form->field($model, 'day_id')->dropDownList(ArrayHelper::map(\common\models\GroupDay::find()->all(),'id','name')) ?>
 

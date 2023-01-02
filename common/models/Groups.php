@@ -37,7 +37,7 @@ use Yii;
  */
 class Groups extends \yii\db\ActiveRecord
 {
-    public $teacher_id,$student_id;
+    public $teacher_id,$student_id,$status_class;
     /**
      * {@inheritdoc}
      */
@@ -89,6 +89,8 @@ class Groups extends \yii\db\ActiveRecord
             'room_id' => 'Xona raqami',
             'code_id' => 'Kod',
             'student_id' => '',
+            'duration' => 'Kurs davomiyligi',
+            'duration_type' => 'Davomiylik turi',
             'teacher_id' => 'O`qituvchi',
         ];
     }
